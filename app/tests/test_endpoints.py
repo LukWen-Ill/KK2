@@ -1,4 +1,5 @@
 import io
+import json
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
@@ -77,7 +78,6 @@ def test_stats_after_upload():
     assert "temp_c" in body
     assert "mean" in body["temp_c"]
     # Verify all values are JSON-native (no numpy types)
-    import json
     json.dumps(body)  # raises TypeError if numpy types sneak through
 
 
