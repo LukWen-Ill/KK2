@@ -126,7 +126,186 @@ Det svåraste var att förstå SmolLM2:s chat-format. Initialt anropades modelle
 
 ---
 
-## 5. Åtgärdsbacklogg
+## 5. Nästa steg – meningsfullt LLM-användande
+
+### Problemet med nuvarande design
+
+Under implementationen kördes en live-diagnos av modellens faktiska output. Resultatet var tydligt: SmolLM2-135M genererade en loop av statistikrader istället för coachingrådgivning. Rotorsaken är inte enbart modellstorlek – problemet är att uppgiften (jämföra fyra siffror mot PGA-snitt och peka ut den sämsta) är deterministisk och inte kräver språkförståelse. En regelbaserad if-sats slår modellen på alla punkter för den uppgiften.
+
+Det leder till en principiell fråga: **används LLM för att lösa ett problem som faktiskt kräver LLM?** Svaret är nej. Modellen trycktes in utan genuint syfte.
+
+### Det meningsfulla användningsområdet
+
+Det finns en uppgift i detta flöde där LLM faktiskt tillför något som inte går att lösa programmatiskt: **parsing av fri naturlig text till strukturerad golfstatistik**.
+
+Scenariot: spelaren tar upp mobilen vid hålet och talar eller skriver fritt om vad som hände.
+
+> "Bra drive ner höger sida och landade i ruffen, linje mot den lilla busken"
+
+Modellen ska tolka detta och extrahera:
+
+```json
+{ "shot": 1, "club": "driver", "fairway_hit": 0, "lie": "rough_right", "marker": "lilla busken" }
+```
+
+Det kräver inferens som inte är regelbaserad:
+- `"drive"` → första slag från tee → `strokes: 1`
+- `"höger sida"` + `"ruffen"` → `fairway_hit: 0`
+- `"lilla busken"` → bollmarkering (navigation, inte statistik)
+
+Spelaren fortsätter hålet ut:
+
+> "Lågchip mot flaggan, studsade förbi, ungefär en meter"
+> "Nära men missade, rullade in nästa"
+
+Varje yttrande adderar till hålbilden. Aggregerat ger det `{ strokes: 4, fairway_hit: 0, gir: 0, putts: 2 }` – samma schemastruktur som CSV-uploaden, men genererad ur fri text.
+
+### Arbetsdelning
+
+Det naturliga flödet med denna design:
+
+| Lager | Ansvar |
+|---|---|
+| LLM | Förstår fri text, extraherar struktur per slag |
+| Programmatisk kod | Aggregerar slag till hålstatistik, beräknar GIR/fairway/putts |
+| Befintlig analyskedja | Jämför mot PGA-snitt, identifierar svaga områden |
+
+LLM hanterar språklagret. Koden hanterar matematiken. Det är en tydlig arbetsdelning där varje del gör vad den är bra på.
+
+### Potentiella problem
+
+**Hålkontext mellan yttranden.** Modellen måste veta att slag 2 hänger på vad slag 1 var – att "chippade" förutsätter att bollen redan ligger utanför greenen. Om varje yttrande behandlas isolerat tappas den kontexten. Lösning: skicka hela hålhistoriken som kontext vid varje anrop, och hålla en shot counter server-side per aktivt hål. När spelaren trycker "Nästa hål" aggregeras alla slag till hålstatistik (`strokes`, `gir`, `putts`, `fairway_hit`), hålet sparas, och shot countern nollställs inför nästa hål.
+
+**Implicit slagrakning.** "Drive, chip, två putts" är fyra slag – men spelaren säger aldrig siffran. Modellen måste räkna implicit. En liten modell kan tappa räkningen vid längre berättelser.
+
+**Ambiguitet i svenska golfjargong.** "Landade i sand" kan vara bunker vid greenen (påverkar GIR) eller fairwaybunker (påverkar fairway). Utan explicit kontext om hålkartan är det omöjligt att skilja. Modellen kan behöva fråga tillbaka, eller systemet acceptera osäkerhet i det fältet.
+
+**Modellstorlek kontra inferensdjup.** SmolLM2-135M klarar enkel extraktion men kan misslyckas med längre kedjor av golf-specifik inferens på svenska. Det kan kräva att uppgiften delas upp: ett anrop per slag istället för ett anrop per hål.
+
+**Felaktig extraktion ger tyst fel.** Om modellen tolkar "tre putts" som `putts: 2` märks det inte förrän statistiken ser konstig ut. Lösningen är att behandla LLM-output som opålitlig indata – samma princip som för CSV-uppladdning. Ett valideringslager i backend kontrollerar rimlighet (`putts` 0–6, `strokes` 1–15, `gir` 0 eller 1) innan något skrivs till databasen. Ogiltiga värden avvisas och spelaren får chansen att korrigera.
+
+### Arbetsflöde under en runda
+
+Det slutliga flödet ser ut så här:
+
+1. **Under rundan** — spelaren talar in ett fritt hål-memo per hål (speech-to-text, ingen LLM-inferens)
+2. **Knappkorrigering** — app visar extraherade värden, spelaren justerar med +/−-knappar; LLM-output är ett förslag, knappar är sanningens källa
+3. **Valideringslager** — backend kontrollerar rimlighet (`putts` 0–6, `strokes` 1–15) innan något sparas; LLM-output behandlas som opålitlig indata
+4. **"Nästa hål"** — aggregerar slag till hålstatistik, nollställer shot counter
+5. **Post-runda** — en tyngre modell (API-baserad) parsar alla 18 hål-memon och berikar statistiken
+
+SmolLM2-135M (lokal, cachad) används fritt under rundan — kostnaden är bara latens, inte pengar. Den tyngre modellen anropas en gång per runda.
+
+### Latens-benchmarking
+
+Innan arkitekturen låses behöver vi veta hur SmolLM2-135M presterar i praktiken. Notebooken `notebooks/llm_latency_benchmark.ipynb` mäter svarstid mot `max_new_tokens` med en fast prompt och 5 körningar per konfiguration. Resultatet avgör om per-slag-anrop är rimligt eller om vi måste batchat per hål.
+
+### Experiment 1 — Batch inference (utfört)
+
+Skickade 5, 10, 15 prompts via `pipeline([p1..pN], batch_size=N)` och mätte genomströmning. Baseline: 4.19s/prompt sekventiellt (max_new_tokens=60).
+
+| batch_size | per prompt | speedup |
+|---|---|---|
+| 5 | 2.29s | 1.83x |
+| 10 | 2.25s | 1.87x |
+| 15 | 2.21s | 1.90x |
+
+Hypotesen bekräftades delvis: batch ger ~1.85x speedup, men vinsten platnar ut redan vid n=5. Att gå från 5 till 15 prompts i samma batch ger knappt mätbar förbättring per prompt men tredubblar total väntetid. Slutsats: **batch_size=2–3 är optimalt** — man får nästan hela speedupen med minimal total latens.
+
+### Experiment 2 — Async parallella anrop (utfört)
+
+Skickade 5, 10, 15 anrop parallellt via `ThreadPoolExecutor` + `asyncio.gather`.
+
+| n | per prompt | speedup |
+|---|---|---|
+| 5 | 3.45s | 1.21x |
+| 10 | 4.50s | **0.93x** |
+| 15 | 4.39s | **0.96x** |
+
+Hypotesen bekräftades: vid n≥10 är async *sämre* än sekventiellt. Python GIL serialiserar CPU-inferensen och tråd-overhead äter upp potentiell vinst. Async ska aldrig användas för lokal modell — använd batch istället.
+
+### Etablerat scope för modellens kapacitet
+
+Experimenten kartlade modellens kapacitet längs tre dimensioner:
+
+**Vertikal — optimal token-längd (max_new_tokens)**
+Baseline-benchmarken körde max_new_tokens 30–130 med 5 körningar per konfiguration. Latensen ökar linjärt (~0.04s/token), men faktiskt genererade tokens platnar ut runt 25–45 oavsett tillåtet maximum — modellen stoppar själv när den är klar. Kvalitetsgranskningen visade att 60 tokens gav bäst balans: tillräckligt utrymme för ett strukturerat svar utan onödig väntetid. Under 30 tokens kapas svaret mitt i meningen; över 90 tokens ökar looping-risken utan kvalitetsvinst.
+
+**Horisontell — optimal batch-storlek**
+Batch inference (Exp 1) gav ~1.85x speedup som planar ut redan vid n=5 — n=15 ger bara marginellt bättre genomströmning per prompt men tredubblar total väntetid. Async (Exp 2) är sämre än sekventiellt vid n≥10 på grund av GIL-serialisering. Slutsats: **batch_size=2–3** är optimalt för detta system.
+
+**Token-effektivitet**
+Modellen genererar i snitt 30–45 tokens när max_new_tokens=60, vilket ger en utnyttjandegrad på ~50–75 %. Det bekräftar att taket kan sättas lågt utan att svaren kapas — och att prompten inte ska be om mer text än vad uppgiften kräver.
+
+**Konsekvens för promptdesign:** Vi kan inte kompensera dåliga prompts med fler parallella anrop. Varje prompt måste vara välformad och begränsad till exakt den information modellen behöver — nästa steg är att bestämma vad det är.
+
+### Prompt-evalueringen — resultat och slutsatser
+
+Tre prompt-varianter testades mot 10 golfyttranden i `notebooks/prompt_eval.ipynb`. Varje svar poängsattes på parse_rate, field_accuracy och hallucination_rate.
+
+| Variant | Parse-rate | Field accuracy | Hallucination/svar |
+|---|---|---|---|
+| minimal | ~44% | **0%** | Egna nycklar från prompten |
+| schema | ~44% | **0%** | Template-kopiering (`'0/1'` som värde) |
+| context | ~50% | **0%** | Ekar kontextraden, förkortar nyckelnamn |
+
+**Field accuracy är 0% för alla tre varianter.** Det är inte ett prompt-problem — det är ett kapacitetsproblem.
+
+Modellen förstår att den ska producera JSON men vet inte vad fältvärdena ska vara. Istället ekar den promptens ord (`'fairway_hit': 'sida'`), kopierar typannotationer (`'0/1'` som värde), eller konstruerar generiska objekt (`type/text/name/description`). Semantisk förståelse — att `"landade i ruffen"` ska ge `fairway_hit: 0` — kräver golf-domänkunskap och svenska instruktionsföljning som inte ryms i 135M parametrar.
+
+**Svar på de öppna designfrågorna:**
+
+1. **Hur mycket systeminstruktion?** — spelar ingen roll, modellen ignorerar den.
+2. **JSON eller naturlig text?** — JSON ger parsebar struktur men fel innehåll.
+3. **Hur mycket hålkontext?** — hjälper inte field accuracy alls.
+
+**Slutsats:** SmolLM2-135M är fel verktyg för strukturerad extraktion ur svensk fri text. Uppgiften kräver antingen en större modell eller ett helt annat angreppssätt — t.ex. nyckelordsbaserad extraktion för det deterministiska (siffror, kända klubbnamn) och LLM endast för genuint tvetydiga fall.
+
+### Arbetsdelning: semantisk kod vs LLM
+
+Genomgång av varje fält visar att de flesta kan lösas deterministiskt:
+
+| Fält | Metod |
+|---|---|
+| `putts` | Regex: `"tre puttar"` → `3`, ord-till-tal-mapping |
+| `fairway_hit` | Nyckelord: `ruffen/rough` → `0`, `fairway` → `1` |
+| `lie` | Nyckelord: ruffen, fairway, bunker, green |
+| `club` | Nyckelord: drive → driver, chip → wedge, järn → iron |
+| `gir` | Matematik: `(strokes - putts) <= (par - 2)` |
+| `strokes` | Räknas server-side per yttrande |
+
+Det som återstår för LLM är parafras och implicit mening utan nyckelord att matcha:
+- `"studsade förbi"` → missade greenen (`gir: 0`) — inget explicit ord
+- `"landade tre meter från flaggan"` → på greenen (`gir: 1`) — "flaggan" ≠ "green"
+- `"perfekt position"` → fairway (förmodligen) — sentiment utan faktaord
+
+Det är en smal uppgift. Och den kräver faktisk språkförståelse på svenska — vilket SmolLM2-135M saknar.
+
+**Slutsats om arbetsdelning:** För SmolLM2-135M finns inget den klarar som inte görs bättre med semantisk kod. LLM-värdet uppstår först med en modell som faktiskt förstår svenska — och då enbart för den smala parafras-uppgiften. Rätt arkitektur är därför: semantisk kod hanterar alla fält den kan, LLM anropas bara för yttranden där koden inte hittar ett matchande nyckelord.
+
+### Vad SmolLM2-135M faktiskt ska användas till
+
+En sökning på hur andra använder 135M-modeller bekräftar mönstret: de används för **klassificerings- och omformateringsproblem med känt utfallsrum** — inte för fri generering eller semantisk förståelse av domänspecifik text. Konkreta användningsområden som lyfts fram är FAQ-svar, innehållsfiltrering, språkdetektering och preprocessing-lager inför tyngre modeller. Gemensamt: utfallet är begränsat och förutsägbart.
+
+Det stämmer exakt med vad prompt-evalueringen visade: modellen klarar att producera JSON-struktur och välja bland alternativ, men inte att förstå vad fältvärdena ska vara.
+
+**Beslutet:** SmolLM2-135M används i detta system för **slagtypsklassificering** — en uppgift med tre alternativ och känt utfallsrum:
+
+> *"Är detta yttrande om ett putt, ett chip eller ett fullslag?"*
+
+```
+Yttrande: "Lågchip mot flaggan, stannade en meter bort."
+Slagtyp — välj ett: putt / chip / fullslag
+Svar:
+```
+
+Det är precis vad 135M är byggd för. Utfallet är binärt nog för att modellen ska lyckas, och klassificeringen är användbar — den styr vilket fält backend ska försöka extrahera härnäst (putts, lie, eller club+gir).
+
+Fri-text-extraktion och parafras-förståelse på svenska delegeras till en tyngre modell (API-baserad, anropas en gång post-runda) när precision faktiskt krävs.
+
+---
+
+## 6. Åtgärdsbacklogg
 
 Identifierade brister prioriterade efter viktighet för detta system:
 
