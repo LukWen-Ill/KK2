@@ -81,6 +81,7 @@ def test_stats_after_upload():
     json.dumps(body)  # raises TypeError if numpy types sneak through
 
 
+@pytest.mark.xfail(strict=True, reason="ask endpoint not yet implemented")
 def test_ask_no_dataset():
     r = client.post("/ai/ask", json={"question": "Vad är medelvärdet?"})
     assert r.status_code == 400

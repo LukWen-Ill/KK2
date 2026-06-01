@@ -23,9 +23,9 @@ def health() -> HealthResponse:
 @app.post("/data/upload", response_model=UploadResponse)
 async def upload(file: UploadFile) -> UploadResponse:
     logger.info(f"Upload request: {file.filename}")
-    contents = await file.read()
     if not file.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
+    contents = await file.read()
     try:
         df = data.validate_and_store(contents, file.filename)
     except data.FileTooLargeError as e:
