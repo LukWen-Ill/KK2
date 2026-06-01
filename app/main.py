@@ -42,8 +42,10 @@ async def upload(file: UploadFile) -> UploadResponse:
 @app.get("/data/stats")
 def stats() -> dict:
     logger.info("Stats request")
-    # TODO: return get_stats(), raise 404 if no dataset
-    raise HTTPException(status_code=501, detail="Not implemented")
+    try:
+        return data.get_stats()
+    except ValueError:
+        raise HTTPException(status_code=404, detail="No dataset loaded")
 
 
 @app.post("/ai/ask", response_model=AskResponse)

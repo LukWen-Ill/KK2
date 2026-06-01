@@ -68,6 +68,19 @@ def test_stats_no_dataset():
     assert r.status_code == 404
 
 
+def test_stats_after_upload():
+    csv = b"city,temp_c\nMalmoe,8.3\nStockholm,6.1\n"
+    client.post("/data/upload", files={"file": ("data.csv", io.BytesIO(csv), "text/csv")})
+    r = client.get("/data/stats")
+    assert r.status_code == 200
+    body = r.json()
+    assert "temp_c" in body
+    assert "mean" in body["temp_c"]
+    # Verify all values are JSON-native (no numpy types)
+    import json
+    json.dumps(body)  # raises TypeError if numpy types sneak through
+
+
 def test_ask_no_dataset():
     r = client.post("/ai/ask", json={"question": "Vad är medelvärdet?"})
     assert r.status_code == 400
