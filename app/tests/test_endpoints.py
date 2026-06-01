@@ -32,6 +32,7 @@ def test_upload_valid_csv():
 def test_upload_wrong_extension():
     r = client.post("/data/upload", files={"file": ("data.txt", io.BytesIO(b"a,b\n1,2"), "text/plain")})
     assert r.status_code == 400
+    assert "Only .csv" in r.json()["detail"]
 
 
 def test_upload_empty_file():
