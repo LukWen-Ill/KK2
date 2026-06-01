@@ -22,7 +22,7 @@ Swagger UI: http://localhost:8000/docs
 # Hälsokontroll
 curl http://localhost:8000/health
 
-# Ladda upp dataset
+# Ladda upp dataset (CSV med kolumner: date, course, score, fairways_hit, fairways_total, greens_in_regulation, putts)
 curl -X POST http://localhost:8000/data/upload \
   -F "file=@data.csv"
 
@@ -32,7 +32,7 @@ curl http://localhost:8000/data/stats
 # Ställ en fråga
 curl -X POST http://localhost:8000/ai/ask \
   -H "Content-Type: application/json" \
-  -d '{"question": "Vilken stad har högst medeltemperatur?"}'
+  -d '{"question": "Hur kan jag förbättra mitt GIR-värde?"}'
 ```
 
 ## Tester

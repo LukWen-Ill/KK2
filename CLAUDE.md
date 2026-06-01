@@ -17,22 +17,25 @@ Applikationen är ett FastAPI-API med tre lager:
 
 **`app/main.py`** — registrerar routes och inkluderar `MODEL_NAME`-konstanten (`HuggingFaceTB/SmolLM2-135M-Instruct`).
 
-**`app/data.py`** — globalt in-memory-state för det uppladdade datasetet. Tre funktioner: `store_dataset`, `get_dataset` (kastar `ValueError` om inget finns), `get_stats`. Testerna nollställer state via `clear_dataset()` i en `autouse`-fixture.
+**`app/data.py`** — globalt in-memory-state. Nyckelgrupper:
+- Dataset: `validate_and_store()` (CSV-validering + charsetdetektering), `store_dataset()`, `get_dataset()`, `clear_dataset()`, `get_stats()`
+- Användarstatistik: `store_user_stats()`, `get_user_stats()`, `_compute_user_stats()` (GIR%, fairway%, snittrundor)
+- PGA-benchmarks: `load_pga_benchmarks()`, `get_pga_benchmarks()` (laddar från CSV eller fallback)
+
+Testerna nollställer state via `clear_dataset()` i en `autouse`-fixture.
 
 **`app/chain/`** — Runnable-kedjan:
 - `runnable.py`: abstrakt `Runnable[I, O]` med `__or__`-operator och `RunnableSequence` för kedjning
-- `steps.py`: `PromptBuilder`, `LLMRunner` (lazy-laddar `transformers.pipeline`), `ResponseParser` — varje steg har egna Pydantic-modeller för in- och utdata
+- `steps.py`: `PromptBuilder` (bygger golfcoach-prompt med användarstatistik vs PGA-benchmarks), `LLMRunner` (lazy-laddar SmolLM2), `ResponseParser` (strippar "Svar:"-markör) — varje steg har egna Pydantic-modeller för in- och utdata
 - `pipeline.py`: `oraklet = PromptBuilder() | LLMRunner() | ResponseParser()`
 
 **`app/schemas.py`** — Pydantic-modeller för API-gränssnittet: `UploadResponse`, `AskRequest`, `AskResponse`, `HealthResponse`.
 
-## Implementationsstatus
+## Domän
 
-Flera delar är stubbar med `raise HTTPException(status_code=501)` och TODO-kommentarer:
-- `POST /data/upload` — filvalidering, CSV-inläsning, `store_dataset()`
-- `GET /data/stats` — anropa `get_stats()`, hantera `ValueError` → 404
-- `POST /ai/ask` — bygg `PromptBuilderInput`, anropa `oraklet.invoke()`, returnera `AskResponse`
-- `steps.py` — `PromptBuilder.invoke()` och `LLMRunner.invoke()` behöver fyllas i
+Appen är en golf-coaching-assistent. Användaren laddar upp en CSV med sina golfronder, och LLM-kedjan jämför statistiken mot PGA Tour-benchmarks och ger råd på svenska.
+
+Förväntade CSV-kolumner: `date`, `course`, `score`, `fairways_hit`, `fairways_total`, `greens_in_regulation`, `putts`.
 
 ## Miljövariabler
 
