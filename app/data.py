@@ -1,6 +1,10 @@
 import io
 import pandas as pd
 
+class FileTooLargeError(ValueError):
+    pass
+
+
 _dataset: pd.DataFrame | None = None
 MAX_SIZE = 10 * 1024 * 1024  # 10 MB
 
@@ -11,7 +15,7 @@ def validate_and_store(contents: bytes, filename: str) -> pd.DataFrame:
     if len(contents) == 0:
         raise ValueError("Uploaded file is empty")
     if len(contents) > MAX_SIZE:
-        raise ValueError("File exceeds 10 MB limit")
+        raise FileTooLargeError("File exceeds 10 MB limit")
 
     text: str | None = None
     for encoding in ("utf-8", "latin-1"):

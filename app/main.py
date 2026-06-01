@@ -24,11 +24,14 @@ def health() -> HealthResponse:
 async def upload(file: UploadFile) -> UploadResponse:
     logger.info(f"Upload request: {file.filename}")
     contents = await file.read()
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Filename is required")
     try:
-        df = data.validate_and_store(contents, file.filename or "")
+        df = data.validate_and_store(contents, file.filename)
+    except data.FileTooLargeError as e:
+        raise HTTPException(status_code=413, detail=str(e))
     except ValueError as e:
-        status_code = 413 if "10 MB" in str(e) else 400
-        raise HTTPException(status_code=status_code, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
     return UploadResponse(
         rows=len(df),
         columns=list(df.columns),
