@@ -79,6 +79,7 @@ class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput]):
             result = LLMRunner._pipeline(messages, **gen_kwargs)
             # Chat output: generated_text is a list of message dicts; last is the assistant reply
             raw_text: str = result[0]["generated_text"][-1]["content"]
+            logger.info("=== LLM RAW OUTPUT ===\n%s\n=== END ===", raw_text)
             return LLMRunnerOutput(raw_text=raw_text)
         except Exception as e:
             logger.error("LLM error: %s", e)
