@@ -484,60 +484,6 @@ Eval kördes med `run_semantic_eval.py` mot samma 10 svenska yttranden som Exp 3
 
 ### Experiment 7 — Few-shot prompting med Qwen3-0.6B (utfört)
 
-**Hypotes:** Att ge modellen tre konkreta exempel i prompten (ett per klass) förbättrar accuracy — modellen behöver inte gissa vad "fullslag" innebär om den ser att `"Drive langt ner mitten." → fullslag` direkt i frågan.
-
-**Vad är few-shot prompting?**
-"Few-shot" betyder att man visar ett fåtal (few) exempelsvar (shots) direkt i prompten. Istället för att bara beskriva uppgiften demonstrerar man den:
-
-```
-# Zero-shot (inga exempel):
-Yttrande: "Bra drive langt ner mitten."
-Slagtyp - valj ett: putt / chip / fullslag
-Svar:
-
-# Few-shot (tre exempel):
-Yttrande: "Kort putt, rullde in."       -> putt
-Yttrande: "Lagchip mot greenen."        -> chip
-Yttrande: "Drive langt ner mitten."     -> fullslag
-Yttrande: "Bra drive langt ner mitten."
-Slagtyp - valj ett: putt / chip / fullslag
-Svar:
-```
-
-Tanken är att modellen ser mönstret och kopierar det — precis som en människa förstår ett mönster efter att ha sett ett par exempel.
-
-**Resultat (3 runs × 10 yttranden, Qwen3-0.6B, svenska):**
-
-| Metod | Parse-rate | Accuracy |
-|---|---|---|
-| Zero-shot (Exp 5, historisk) | 100% | 24% ±6% |
-| Zero-shot (Exp 7) | 100% | 17% ±6% |
-| Few-shot (Exp 7) | 100% | 17% ±12% |
-| Semantisk kod (Exp 6) | 90% | 90% |
-
-Variansen för few-shot är *dubbelt så hög* som för zero-shot — modellen blev inte bättre, den blev mer instabil.
-
-**Diagnos — vad hände egentligen?**
-
-Råsvaren avslöjar mönstret: 7 av 10 svar är `"putt"`, oavsett yttrande. Modellen har fastnat i ett standardsvar istället för att klassificera. Exemplen i prompten förändrar ingenting.
-
-Det händer av en specifik anledning: **in-context learning kräver att modellen är tillräckligt stor för att faktiskt lära sig av exemplen i prompten**. Stora modeller (GPT-4, Claude, Llama 70B) är tränade på enorma mängder text och har lärt sig att *imitera mönster från prompten*. Qwen3-0.6B är för liten — den har inte den kapaciteten. Den ser exemplen men ignorerar dem och faller tillbaka på sin tränade default.
-
-Jämförelse: att ge few-shot-exempel till en liten modell är som att visa ett recept för någon som aldrig har lagat mat och hoppas att de kan koka mat på en campingkök. Receptet hjälper inte om grundkunskapen och utrustningen saknas.
-
-**Slutsats: prompting löser inte kunskapsproblemet**
-
-Accuracy-gapet (17% LLM vs 90% semantisk kod) är inte ett promptingproblem — det är ett *träningsdata*-problem. Modellen har inte exponeras för tillräckligt med golf-specifik svenska text under sin förträning.
-
-Vägarna framåt är:
-1. **Semantisk kod (Nivå 1)** — täcker redan 90% utan modell, räcker för de flesta fall
-2. **Fine-tuning** — träna om Qwen3 (eller Llama 3.2 1B) på golfdata; löser kunskapsproblemet i grunden
-3. **API-modell (Nivå 3)** — Haiku eller GPT-4o-mini har tillräckligt bred förträning för att klara svenska golfjargong utan fine-tuning
-
-Negativt resultat är ett bra resultat: det stänger en väg och motiverar nästa steg.
-
-### Experiment 7 — Few-shot prompting med Qwen3-0.6B (utfört)
-
 **Vad är few-shot prompting?**
 Istället för att bara beskriva uppgiften ("välj ett av tre") ger vi modellen konkreta exempel direkt i prompten — ett per klass — precis innan frågan ställs. Modellen ser mönstret och kan generalisera bättre utan att ha tränat på golfdata. Det kräver ingen träning och ingen modellnedladdning utöver det som redan finns.
 
@@ -596,6 +542,83 @@ Sista run (few-shot) per yttrande:
 *Modellen har ett putt-bias.* I zero-shot-körningen svarar modellen "putt" på 7 av 10 yttranden — det är standardgissningen när den är osäker. Few-shot minskar bias något men eliminerar det inte.
 
 **Slutsats:** Few-shot prompting ger en verklig förbättring (+20 pp) utan träning. Det är rätt teknik att använda i Nivå 2 (LLM-fallback) för de yttranden semantisk kod inte fångar. Men accuracy på 33% bekräftar att utan golf-domänkunskap på svenska — antingen via fine-tuning eller en mycket större förtränad modell — är taket lågt. Vägen till genuint hög accuracy för de tvetydiga fallen är fine-tuning, inte promptdesign.
+
+---
+
+### Experiment 8 — Fine-tuning med LoRA (planerat)
+
+#### Vad är fine-tuning?
+
+Hittills har vi arbetat med *prompting*: vi förändrar vad vi frågar, men modellens interna kunskaper (vikterna) förblir oförändrade. Fine-tuning är ett steg djupare — vi **tränar om modellen** på ny data så att den faktiskt lär sig golf-domänen.
+
+En bra analogi: prompting är som att ge en nyanställd ett laminerat instruktionskort. Fine-tuning är som att låta dem göra praktik i sex månader. Instruktionskortet hjälper lite; praktiken förändrar faktiskt vad de kan.
+
+Rent tekniskt: en transformer-modell är en samling siffror (vikter) som styr hur den tolkar text. Under förträning uppdaterades dessa vikter på miljarder textmeningar. Fine-tuning upprepar samma process, fast på vår lilla golf-dataset — vikterna justeras tills modellen konsekvent svarar rätt på svenska golfyttranden.
+
+#### Vad är LoRA?
+
+Att uppdatera *alla* vikter i en 0.6B-modell kräver mycket GPU-minne och tid. **LoRA (Low-Rank Adaptation)** löser det med en elegant genväg.
+
+Istället för att ändra de ursprungliga vikterna lägger LoRA till små extra *adaptermatriser* vid sidan om dem. Under träning uppdateras bara adaptermatriserna — de är 100–1000× mindre än originalvikterna. Basmodellen förblir fryst.
+
+```
+Utan LoRA:  träna 620 000 000 parametrar  → kräver 40+ GB GPU
+Med LoRA:   träna       2 000 000 parametrar  → kräver 4–8 GB GPU
+```
+
+Resultatet: en LoRA-adapter för Qwen3-0.6B är ~10–50 MB. Basmodellen (600 MB) laddas som vanligt; adaptern adderas ovanpå. Inferens fungerar identiskt med det tidigare skriptet.
+
+#### Träningsdata — vad behöver vi?
+
+Modellen behöver se *märkta exempel*: par av (yttrande → slagtyp). Varje exempel är en lärdom.
+
+**Hur många?** För en smal klassificeringsuppgift med tre klasser räcker ~100–300 exempel för mätbar förbättring; ~500 för stabil hög accuracy. Mer data ger marginalavkastning.
+
+**Hur skapar vi dem?** Vi kan inte använda de 10 testyttrandena till träning — då mäter vi ingenting. Tre källor:
+
+| Källa | Kostnad | Kvalitet |
+|---|---|---|
+| Manuell annotering | Hög tid, noll pengar | Bäst — riktig golfjargong |
+| GPT-4o syntetisk generering | Låg tid, låg kostnad (~0.50 kr/200 ex.) | Bra — begränsat till vad GPT-4o vet |
+| Befintliga golfkommentarer (scraping) | Medel tid, noll pengar | Variabel |
+
+Enklast: be GPT-4o generera 200 svenska golfyttranden fördelade på tre klasser, annotera dem automatiskt, granska 20% manuellt. Skriptet `generate_training_data.py` hanterar detta.
+
+**Format:** HuggingFace `datasets`-format, ett exempel per rad:
+
+```jsonl
+{"utterance": "Kort rullning, en meter, rakt i.", "label": "putt"}
+{"utterance": "Pitchade ur ruffen, landade halvmeter fran flaggan.", "label": "chip"}
+{"utterance": "Langt utslag fran tee, boll i fairway.", "label": "fullslag"}
+```
+
+#### Träningsprocess steg för steg
+
+```
+1. Generera träningsdata    generate_training_data.py  →  data/train.jsonl (~200 ex.)
+2. Fine-tuna med LoRA       run_finetune.py            →  models/qwen3-golf-lora/
+3. Utvärdera                run_shot_classifier_eval.py models/qwen3-golf-lora/
+4. Jämför med baselines     show_results.py
+```
+
+Verktyg: `transformers` + `peft` (LoRA) + `trl` (träningsloop) — alla redan tillgängliga via HuggingFace. Träning av en 0.6B-modell med LoRA tar ~10–30 minuter på Google Colab (gratis T4 GPU).
+
+#### Vad mäter vi?
+
+Samma eval som Exp 3–7: parse-rate och accuracy mot de 10 svenska testyttrandena. Hypotesen är att en fine-tunad Qwen3-0.6B når **70–90% accuracy** — ett genombrott jämfört med 33% (few-shot) och 24% (zero-shot).
+
+Om accuracy stannar under 60% trots fine-tuning är förklaringen antingen för lite träningsdata eller att den syntetiska datan inte representerar riktig golfjargong — och vi behöver manuellt annoterade exempel.
+
+#### Varför inte bara använda en större modell?
+
+En API-baserad modell (Claude Haiku, GPT-4o-mini) klarar slagtypsklassificering på svenska med hög precision *idag*, utan träning. Frågan är inte om det fungerar — det gör det. Frågan är om vi vill ha en modell som:
+
+- Kör lokalt, utan nätverksanrop
+- Kostar ingenting per anrop
+- Är deploybar på en telefon utan internetuppkoppling
+- Är < 1 GB
+
+Det är edge AI-argumentet från sektion 6. Fine-tuning är investeringen som gör Nivå 2 faktiskt användbar utan API-beroende.
 
 ---
 
