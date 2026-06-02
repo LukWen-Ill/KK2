@@ -1,21 +1,30 @@
+import json
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, UploadFile, HTTPException
-from app.schemas import UploadResponse, AskRequest, AskResponse, HealthResponse
-from app.chain.steps import PromptBuilderInput
-from app.chain.pipeline import oraklet
+from app.schemas import UploadResponse, AskRequest, AskResponse, HealthResponse, AnalyzeResponse
+from app.chain.steps import PromptBuilderInput, AnalyzeState, AskCoTState
+from app.chain.pipeline import oraklet, analyse_kedjan, ask_cot_kedjan, preload, CHAT_LORA_PATH
 import app.data as data
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-MODEL_NAME = "HuggingFaceTB/SmolLM2-135M-Instruct"
+_lora_cfg = Path(CHAT_LORA_PATH) / "adapter_config.json"
+if _lora_cfg.exists():
+    MODEL_NAME = json.loads(_lora_cfg.read_text()).get(
+        "base_model_name_or_path", "HuggingFaceTB/SmolLM2-135M-Instruct"
+    )
+else:
+    MODEL_NAME = "HuggingFaceTB/SmolLM2-135M-Instruct"
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     data.load_pga_benchmarks()
+    preload()
     yield
 
 
@@ -94,6 +103,22 @@ def stats(
     }
 
 
+@app.get("/ai/analyze", response_model=AnalyzeResponse)
+def analyze() -> AnalyzeResponse:
+    try:
+        user_stats = data.get_user_stats()
+    except ValueError:
+        raise HTTPException(status_code=404, detail="No dataset loaded — upload a scorecard first")
+    pga = data.get_pga_benchmarks()
+    state = AnalyzeState(user_stats=user_stats, pga_benchmarks=pga)
+    try:
+        result = analyse_kedjan.invoke(state)
+    except Exception as e:
+        logger.error("Analyze chain error: %s", e)
+        raise HTTPException(status_code=500, detail="Model error — try again")
+    return AnalyzeResponse(good=result.good, bad=result.bad, tip=result.tip, model=MODEL_NAME)
+
+
 @app.post("/ai/ask", response_model=AskResponse)
 def ask(req: AskRequest) -> AskResponse:
     logger.info("Ask request: %s", req.question)
@@ -109,8 +134,13 @@ def ask(req: AskRequest) -> AskResponse:
         pga_benchmarks=pga_benchmarks,
     )
 
+    cot_input = AskCoTState(
+        question=req.question,
+        user_stats=user_stats,
+        pga_benchmarks=pga_benchmarks,
+    )
     try:
-        result = oraklet.invoke(chain_input)
+        result = ask_cot_kedjan.invoke(cot_input)
     except Exception as e:
         logger.error("Chain error: %s", e)
         raise HTTPException(status_code=500, detail="Model error — try again")

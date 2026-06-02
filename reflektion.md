@@ -695,6 +695,123 @@ Det är edge AI-argumentet från sektion 6. Fine-tuning är investeringen som g�
 
 ---
 
+### Experiment 9 — Prompt engineering och CoT för /ai/ask
+
+#### Bakgrund
+
+Experimenten 1–8 fokuserade på slagtypsklassificering. Exp 9 riktar in sig på kärnfunktionen `/ai/ask` — att ge spelaren konkret coachingfeedback baserad på deras statistik. Insikten från Exp 3–8 tillämpas direkt: engelska prompts, deterministisk förberäkning av det svåra, och sekventiella LLM-anrop för det som faktiskt kräver språkgenerering.
+
+---
+
+#### Iteration 1 — Engelsk prompt, enkelt anrop (utfört)
+
+**Hypotes:** Svenska prompts är huvudproblemet. Modellen hallucinerar och blandar språk. Om vi byter till engelska prompt bör output bli koherent.
+
+**Förändring:** `PromptBuilder` skriver prompt på engelska. `max_new_tokens` sänkt från 300 till 80. Instruktionen "svara på svenska" togs bort.
+
+**Prompt-struktur:**
+```
+You are an experienced golf coach. Give short, concrete advice.
+Base your answer only on the stats below.
+
+Player stats vs PGA Tour averages:
+- GIR: 21.3% (PGA Tour avg: 66.7%)
+- Fairway: 64.3% (PGA Tour avg: 60.9%)
+- Avg putts/hole: 2.16 (PGA Tour avg: 1.73)
+- Scoring avg/hole: 5.19 (PGA Tour avg: 3.94)
+
+Question: {question}
+
+Answer:
+```
+
+**Resultat (20 frågor, SmolLM2-135M, ~12s/svar):**
+
+| Kategori | Antal | Exempel |
+|---|---|---|
+| Koherent engelska, stats korrekt | 3/20 | "Your scoring average per hole is 5.19" ✓ |
+| Koherent engelska, generisk | 10/20 | Golfråd utan koppling till stats |
+| Faktafel (hallucinerar) | 5/20 | "GIR stands for Golfing In America" |
+| Timeout / fel | 2/20 | Övriga fel |
+
+**Analys:**
+
+Bytet till engelska eliminerade all nonsens-svenska och mixade språk. Modellen producerar nu läsbar text i alla svar. Problemet är att den sällan *använder* statistiken — den ger generiska golfråd snarare än personaliserade svar baserade på 21.3% GIR vs 66.7% PGA-snitt.
+
+Grundorsaken: modellen ombeds göra för mycket på en gång — identifiera svagaste stat, resonera om gap, ge specifikt råd, koppla till frågan. SmolLM2-135M kan inte hålla alla dessa parallella uppgifter i "huvud" samtidigt.
+
+**Slutsats:** Iteration 1 löser *koherens*-problemet men inte *relevans*-problemet. Nästa steg är att bryta ner uppgiften i atomära steg.
+
+---
+
+#### Iteration 2 — 5-stegs CoT-pipeline (implementerat)
+
+**Hypotes:** Om vi förberäknar det deterministiska (vilken stat är sämst?) och ger modellen en serie mycket smala frågor, kan SmolLM2-135M producera relevanta svar även utan djup golf-domänkunskap.
+
+**Design — 5 sekventiella steg:**
+
+| Steg | Typ | Uppgift | max_new_tokens |
+|---|---|---|---|
+| 1. GapAnalyzerStep | Python (ingen LLM) | Beräkna relativt gap per stat, välj sämsta deterministiskt | — |
+| 2. WeaknessStep | LLM | "Low {stat} means the player..." (en fras) | 35 |
+| 3. DrillStep | LLM | "One specific drill to improve {stat}:" | 50 |
+| 4. ImpactStep | LLM | Koppla svagheten till användarens fråga (en mening) | 35 |
+| 5. AskAnswerComposerStep | LLM | Sätt ihop 2-meningssvar med hela kontexten | 80 |
+
+**Nyckelinsikten:** Steg 1 är deterministisk Python — det svåraste (att hitta sämsta stat) görs utan modell. LLM-stegen har var och ett en trivial uppgift: "beskriv vad låg X innebär", "nämn en övning", etc. Varje steg matar nästa med kontext, så det sista steget har all information redo.
+
+**Förväntad förbättring:** Svaret nämner spelarens faktiska siffror (förberäknat i steg 1), ger specifikt råd (steg 3), och kopplar till frågan (steg 4). Modellen behöver inte resonera — den fyller i mallar.
+
+**Förväntad svarstid:** ~4 LLM-anrop × ~8–12s/anrop = 32–48s. Trögare men mer relevant.
+
+---
+
+### Experiment 9 — Fine-tuning av chat-funktionen (planerat)
+
+#### Bakgrund och motivation
+
+Hittills har experimenten (1–8) fokuserat på *slagtypsklassificering* — en smal, väldefinierad uppgift med tre klasser. Det är ett bra testfall för att mäta modellkapacitet, men det är inte det användaren faktiskt möter.
+
+Kärnfunktionen i applikationen är `/ai/ask`: en coach som svarar på fri text om *din* data. Vi har nu utvärderat modellernas kapacitet (Exp 3–8) och sett att:
+
+- Promptdesign (Exp 3–7) hjälper marginellt — modellen saknar domänkunskap på svenska
+- Fine-tuning (Exp 8) gav +32 pp för klassificering — domänspecifik träning fungerar
+
+Nästa steg är att tillämpa samma insikt på chat-funktionen: fine-tuna en modell så att den faktiskt kan föra en meningsfull konversation om spelarens golfrundor på svenska.
+
+#### Vad är skillnaden mot Exp 8?
+
+Exp 8 tränade en *klassificerare* — input är ett yttrande, output är en av tre etiketter. Exp 9 tränar en *konversationsmodell* — input är statistik + fråga, output är ett sammanhängande svar på svenska.
+
+Det ställer högre krav på träningsdata: varje exempel måste vara ett par av (kontext med spelarstatistik + fråga → coachsvar). Svaret ska vara konkret, relevant och grundat i siffrorna — inte generisk golfrådgivning.
+
+#### Träningsdata
+
+Träningsparen genereras syntetiskt: vi skapar varierade spelarprofiler (GIR 10–70%, putts 1.5–3.0, scoring 3.5–6.5 slag/hål) och skriver coachsvar som explicit refererar till spelarens siffror och PGA Tour-snittet.
+
+Exempelformat:
+
+```jsonl
+{
+  "prompt": "Spelarens stats: GIR 18%, fairway 55%, avg putts 2.4, scoring 5.8/hål. PGA-snitt: GIR 65%, fairway 60%, putts 1.73, scoring 3.92/hål.\nFråga: Vad bör jag fokusera på?\nSvar:",
+  "completion": "Din GIR på 18% är det tydligaste förbättringsområdet — PGA Tour-snittet är 65%. Det betyder att du sällan når greenen i reglementerat antal slag, vilket tvingar fram svåra chippningar och räddar. Prioritera järnspelet på rangen: mål att nå greenen på var tredje hål som ett delmål."
+}
+```
+
+#### Förväntat utfall
+
+Nuvarande `/ai/ask` ger inkohärenta eller alltför generiska svar eftersom SmolLM2-135M saknar förmåga att följa instruktioner på svenska och resonera om siffror. En fine-tunad modell förväntas:
+
+- Nämna spelarens faktiska siffror i svaret
+- Jämföra mot PGA Tour-snittet explicit
+- Ge ett konkret råd grundat i statistiken, inte generell golfrådgivning
+
+#### Koppling till hela systemet
+
+Exp 9 är inte ett isolerat experiment — det är steget som gör att `/ai/ask`-endpointen faktiskt fungerar som avsett. Klassificeringen (Exp 1–8) var metodutveckling; chat-fine-tuningen är produktfunktionen.
+
+---
+
 ## 6. AI at the Edge — Lärdomar
 
 Projektet startade med att undersöka var LLM tillför värde i ett golfsystem. Det ledde till en hybridarkitektur som råkar vara exakt det mönster som edge AI-forskning och industri konvergerat mot 2025–2026.

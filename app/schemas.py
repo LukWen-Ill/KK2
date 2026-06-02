@@ -19,3 +19,10 @@ class AskResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str
+
+
+class AnalyzeResponse(BaseModel):
+    good: str
+    bad: str
+    tip: str
+    model: str
