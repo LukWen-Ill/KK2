@@ -545,7 +545,7 @@ Sista run (few-shot) per yttrande:
 
 ---
 
-### Experiment 8 — Fine-tuning med LoRA (planerat)
+### Experiment 8 — Fine-tuning med LoRA (pågår)
 
 #### Vad är fine-tuning?
 
@@ -608,6 +608,36 @@ Verktyg: `transformers` + `peft` (LoRA) + `trl` (träningsloop) — alla redan t
 Samma eval som Exp 3–7: parse-rate och accuracy mot de 10 svenska testyttrandena. Hypotesen är att en fine-tunad Qwen3-0.6B når **70–90% accuracy** — ett genombrott jämfört med 33% (few-shot) och 24% (zero-shot).
 
 Om accuracy stannar under 60% trots fine-tuning är förklaringen antingen för lite träningsdata eller att den syntetiska datan inte representerar riktig golfjargong — och vi behöver manuellt annoterade exempel.
+
+#### Träningsdata — utfört
+
+Träningsdata genererades med `generate_training_data.py`: 200 hårdkodade svenska golfyttranden fördelade på tre klasser med stratifierad 80/20-split.
+
+| Fil | Exempel | Putt | Chip | Fullslag |
+|---|---|---|---|---|
+| `data/train.jsonl` | 160 | 52 | 52 | 56 |
+| `data/val.jsonl` | 40 | 13 | 13 | 14 |
+
+Yttrandena täcker variation i ordval och situation (direktträff, miss, bunker, fairway, par 3 etc.) utan att innehålla de 10 testyttrandena från Exp 3–7. Ingen API-nyckel krävdes — syntetiska exempel skrevs manuellt för att kontrollera kvalitet och undvika nyckelordsläckage till testset.
+
+#### Implementationsbeslut
+
+**LoRA-konfiguration:** r=8, lora_alpha=16, target_modules="all-linear", lora_dropout=0.05. Det ger ~2M tränade parametrar av 620M — 0.3% av modellen. Basmodellen (Qwen3-0.6B) förblir fryst.
+
+**Hårdvarubegränsning:** Träning körs på CPU (ingen CUDA-enhet tillgänglig). Beräknad träningstid: 2–6 timmar. På Google Colab T4 tar samma träning 15–30 minuter. CPU-träning valde vi framför Colab för att hålla allt lokalt och reproducerbart utan externa konton.
+
+**Verktyg:** `transformers` + `peft` + `trl` (`SFTTrainer`). Samma HuggingFace-stack som industrin använder för instruction tuning av chat-modeller.
+
+#### Resultat
+
+> ⏳ **Pågår.** Träning körs lokalt på CPU. Resultaten fylls i när körningen är klar.
+
+| Mått | Värde |
+|---|---|
+| Träningstid | — |
+| Val accuracy (adapter) | — |
+| Accuracy vs. testset 10 ex. | — |
+| Jämfört med few-shot (33%) | — |
 
 #### Varför inte bara använda en större modell?
 
