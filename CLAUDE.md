@@ -37,6 +37,20 @@ Appen är en golf-coaching-assistent. Användaren laddar upp en CSV med sina gol
 
 Förväntade CSV-kolumner: `date`, `course`, `score`, `fairways_hit`, `fairways_total`, `greens_in_regulation`, `putts`.
 
+## Experiment och modelljämförelse
+
+Två script jämför godtyckliga HuggingFace-modeller. Modellnamnet är första argument; utelämnas används SmolLM2 som default. Modeller utan chat-template hanteras automatiskt.
+
+```bash
+# Slagtypsklassificering — parse-rate och accuracy mot 10 märkta yttranden
+uv run python run_shot_classifier_eval.py [MODEL] [--lang en]
+
+# Latens och genomströmning — batch (Exp 1) och async (Exp 2)
+uv run python run_experiments.py [MODEL]
+```
+
+Resultat dokumenteras i `reflektion.md` under respektive experiment.
+
 ## Miljövariabler
 
 `.env` (får **inte** checkas in):

@@ -202,19 +202,31 @@ Innan arkitekturen låses behöver vi veta hur SmolLM2-135M presterar i praktike
 
 ### Experiment 1 — Batch inference (utfört)
 
-Skickade 5, 10, 15 prompts via `pipeline([p1..pN], batch_size=N)` och mätte genomströmning. Baseline: 4.19s/prompt sekventiellt (max_new_tokens=60).
+Skickade 5, 10, 15 prompts via `pipeline([p1..pN], batch_size=N)` och mätte genomströmning. Baseline för SmolLM2: 4.19s/prompt sekventiellt (max_new_tokens=60). Supra-50M kördes efteråt med samma script (`run_experiments.py SupraLabs/Supra-50M-Instruct`); dess sekventiella baseline är ~0.72s/prompt (uppmätt som batch_size=1 i Exp 1).
 
-| batch_size | per prompt | speedup |
+**SmolLM2-135M** (chat-format, 135M parametrar):
+
+| batch_size | per prompt | speedup vs baseline |
 |---|---|---|
 | 5 | 2.29s | 1.83x |
 | 10 | 2.25s | 1.87x |
 | 15 | 2.21s | 1.90x |
 
-Hypotesen bekräftades delvis: batch ger ~1.85x speedup, men vinsten platnar ut redan vid n=5. Att gå från 5 till 15 prompts i samma batch ger knappt mätbar förbättring per prompt men tredubblar total väntetid. Slutsats: **batch_size=2–3 är optimalt** — man får nästan hela speedupen med minimal total latens.
+**Supra-50M** (completion-format, 50M parametrar):
+
+| batch_size | per prompt | speedup vs SmolLM2 baseline |
+|---|---|---|
+| 5 | 0.725s | 5.78x |
+| 10 | 0.588s | 7.13x |
+| 15 | 0.555s | 7.55x |
+
+SmolLM2: batch ger ~1.85x speedup men platnar ut redan vid n=5 — vinsten av större batch är marginell. Supra-50M: speedup fortsätter att växa (5.78x → 7.55x) och planar inte ut vid n=15. Två förklaringar: modellen är mindre (50M vs 135M parametrar) och kör i completion-stil utan chat-template-overhead, vilket ger kortare per-prompt-tid och mer utrymme för batch-parallelism. Slutsats för SmolLM2: **batch_size=2–3 är optimalt**. Supra skalas annorlunda — batch_size kan sättas högre utan att total latens ökar oproportionerligt.
 
 ### Experiment 2 — Async parallella anrop (utfört)
 
 Skickade 5, 10, 15 anrop parallellt via `ThreadPoolExecutor` + `asyncio.gather`.
+
+**SmolLM2-135M:**
 
 | n | per prompt | speedup |
 |---|---|---|
@@ -222,7 +234,15 @@ Skickade 5, 10, 15 anrop parallellt via `ThreadPoolExecutor` + `asyncio.gather`.
 | 10 | 4.50s | **0.93x** |
 | 15 | 4.39s | **0.96x** |
 
-Hypotesen bekräftades: vid n≥10 är async *sämre* än sekventiellt. Python GIL serialiserar CPU-inferensen och tråd-overhead äter upp potentiell vinst. Async ska aldrig användas för lokal modell — använd batch istället.
+**Supra-50M:**
+
+| n | per prompt | speedup vs SmolLM2 baseline |
+|---|---|---|
+| 5 | 1.048s | 4.00x |
+| 10 | 1.424s | 2.94x |
+| 15 | 1.383s | 3.03x |
+
+SmolLM2: vid n≥10 är async sämre än sekventiellt — GIL serialiserar CPU-inferensen och tråd-overhead äter upp vinsten. Supra-50M: speedup sjunker med n men håller sig över 1x även vid n=15 (3.03x). Förklaringen är densamma som i Exp 1 — när inferensen per prompt är kort (~0.7s) hinner trådar överlappa mer innan GIL ger problem. Principen kvarstår dock: **batch är alltid att föredra framför async för lokal modell** — Supras async-speedup är en bieffekt av snabbare inferens, inte av att async fungerar bättre.
 
 ### Etablerat scope för modellens kapacitet
 
@@ -302,6 +322,93 @@ Svar:
 Det är precis vad 135M är byggd för. Utfallet är binärt nog för att modellen ska lyckas, och klassificeringen är användbar — den styr vilket fält backend ska försöka extrahera härnäst (putts, lie, eller club+gir).
 
 Fri-text-extraktion och parafras-förståelse på svenska delegeras till en tyngre modell (API-baserad, anropas en gång post-runda) när precision faktiskt krävs.
+
+### Experiment 3 — Slagtypsklassificering (utfört)
+
+Beslutet testades empiriskt. `run_shot_classifier_eval.py` körde SmolLM2-135M mot 10 märkta yttranden med prompten ovan och mätte parse-rate och accuracy.
+
+| Yttrande | Förväntat | Modellen | OK |
+|---|---|---|---|
+| Tre meter rakt mot hålet, rullde in. | putt | okänd | ✗ |
+| Kort putt, missade till höger. | putt | putt | ✓ |
+| Rullning in från kanten, precis. | putt | okänd | ✗ |
+| Lågchip mot flaggan, stannade en meter bort. | chip | chip | ✓ |
+| Chippade ur bunkern, landade på greenen. | chip | chip | ✓ |
+| Sandwedge från rough, studsade förbi. | chip | okänd | ✗ |
+| Bra drive långt ner mitten. | fullslag | okänd | ✗ |
+| Tog ett järnslag mot par 3-hålet. | fullslag | okänd | ✗ |
+| 7-järn mot greenen, lite för lång. | fullslag | okänd | ✗ |
+| Slog en wedge, bollen landade nära flaggan. | fullslag | okänd | ✗ |
+
+**Parse-rate: 3/10 (30%) — Accuracy: 3/10 (30%)**
+
+**Analys:** Parse-rate och accuracy är identiska — varje gång modellen producerar ett svar är det rätt, men den producerar bara ett svar när etikettordet finns ordagrant i yttrandet (`"Kort putt"` → `putt`, `"Lågchip"` → `chip`). Ordet `"fullslag"` förekommer inte i något yttrande och modellen förutspår det aldrig. Det är nyckelordsmatching, inte klassificering. Kapacitetsproblemet från prompt-eval kvarstår i förenklad form.
+
+**Beslutet revideras:** SmolLM2-135M är inte tillräcklig för slagtypsklassificering ur fri text. Semantisk kod klarar samma tio yttranden med 100% träffsäkerhet genom enkla nyckelordslistor — ingen modell behövs för det deterministiska lagret.
+
+### Experiment 4 — Engelska och jämförelse mot Supra-50M (utfört)
+
+Hypotes: problemet i Experiment 3 kan vara språket, inte modellkapaciteten. SmolLM2 är tränad övervägande på engelska — kanske klarar den klassificering om prompten och yttrandena är på engelska? Som kontroll testades även `SupraLabs/Supra-50M-Instruct`, en okänd modell av liknande storlek.
+
+Samma 10 yttranden översattes till engelska. Prompten ändrades till:
+
+```
+Utterance: "{utterance}"
+Shot type - choose one: putt / chip / fullslag
+Answer:
+```
+
+Resultat:
+
+| Modell | Språk | Parse-rate | Accuracy |
+|---|---|---|---|
+| SmolLM2-135M | svenska | 3/10 (30%) | 3/10 (30%) |
+| SmolLM2-135M | engelska | 10/10 (100%) | 2/10 (20%) |
+| Supra-50M | svenska | 0/10 (0%) | 0/10 (0%) |
+| Supra-50M | engelska | 10/10 (100%) | 2/10 (20%) |
+
+**Analys:**
+
+*Parse-rate* — På engelska svarar båda modellerna alltid med ett av de tre alternativen. Supra-50M genererade meningslöst svenska på svenska-prompten men fungerade som completion-modell på engelska.
+
+*Accuracy* — Ändå stannar accuracy på 20% för båda modellerna på engelska. Råsvaren avslöjar varför: modellerna gissar snarare än klassificerar. SmolLM2 svarar `"A fullslag"` på ett tydligt putt-yttrande och `'full slash'` på `"Hit an iron"`. Supra-50M ekar och parafraserar yttrandet (`"Bittersweet"` för `"Great drive"`, `"Egg"` för `"7-iron to the green"`).
+
+**Slutsats:** Språket förklarar parse-rate-skillnaden men inte accuracy-taket. Båda modellerna saknar golf-domänkunskap — de förstår inte att `"rolled in from the edge"` är ett putt eller att `"hit an iron"` är ett fullslag. Det är inte ett prompt-problem och inte ett språkproblem. Det är ett kunskapsproblem som inte löses med modeller av denna storlek.
+
+### Vägen till högre träffsäkerhet
+
+Tre nivåer, i stigande komplexitet:
+
+**Nivå 1 — Semantisk kod (räcker för de flesta fall)**
+
+Bygg en nyckelordsklassificerare med tre listor. Varje yttrande matchas mot listorna i prioritetsordning:
+
+| Slagtyp | Nyckelord |
+|---|---|
+| putt | putt, puttar, rullade, rullning, meter från hålet, in i hålet |
+| chip | chip, chippade, sandwedge, lob, pitchade, ur bunkern, studsade |
+| fullslag | drive, järn, wood, hybrid, slag från tee, fullslag |
+
+Reglerna är deterministiska, testbara och kräver ingen modell. De täcker de fall där spelaren använder etablerad golfjargon — vilket är majoriteten.
+
+**Nivå 2 — LLM som fallback för oklara fall**
+
+När ingen nyckelordslista matchar skickas yttrandet till modellen. På så sätt används LLM bara för genuint tvetydiga yttranden (`"Studsade förbi"`, `"Perfekt position"`), inte för triviala fall där koden räcker. Kostnaden per runda sjunker; modellen används där den faktiskt tillför något.
+
+För SmolLM2-135M: komplettera prompten med tre few-shot-exempel — ett per klass — direkt i prompten. Few-shot minskar risken att modellen ekar indata och ökar sannolikheten att den väljer bland de tre alternativen även när etikettordet saknas.
+
+```
+Yttrande: "Kort putt, rullde in." → putt
+Yttrande: "Lågchip mot greenen." → chip
+Yttrande: "Drive ner mitten." → fullslag
+Yttrande: "{utterance}" → 
+```
+
+**Nivå 3 — Byt modell för klassificeringslagret**
+
+Om nivå 1+2 inte räcker är lösningen inte fler prompt-tricks — det är en större modell. En API-baserad modell (Haiku, GPT-4o-mini) klarar slagtypsklassificering på svenska med hög precision och låg latens. Kostnaden är ett API-anrop per yttrande, vilket vid en 18-håls runda med 70 slag ger ~70 anrop — hanterbart.
+
+SmolLM2-135M behålls för latens-kritiska uppgifter under rundan; den tyngre modellen används för klassificering om semantisk kod inte räcker.
 
 ---
 
