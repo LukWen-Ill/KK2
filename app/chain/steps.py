@@ -101,7 +101,7 @@ class ResponseParser(Runnable[LLMRunnerOutput, ResponseParserOutput]):
 
 # --- Shot classifier ---
 
-SHOT_TYPES = ("putt", "chip", "fullslag")
+SHOT_TYPES = ("putt", "chip", "fullslag", "utslag")
 
 
 class ShotClassifierInput(BaseModel):
@@ -116,7 +116,7 @@ class ShotClassifierPrompt(Runnable[ShotClassifierInput, PromptBuilderOutput]):
     def invoke(self, input: ShotClassifierInput) -> PromptBuilderOutput:
         prompt = (
             f'Yttrande: "{input.utterance}"\n'
-            "Slagtyp — välj ett: putt / chip / fullslag\n"
+            "Slagtyp — välj ett: putt / chip / fullslag / utslag\n"
             "Svar:"
         )
         return PromptBuilderOutput(prompt=prompt)
@@ -139,7 +139,8 @@ class SemanticShotClassifier(Runnable[ShotClassifierInput, ShotClassifierOutput]
 
     _PUTT = ["putt", "rullade", "rullde", "rullning", "in i hål", "in i hal"]
     _CHIP = ["chip", "sandwedge", "sand wedge", "studsade", "ur bunker", "pitchade", "lobba"]
-    _FULLSLAG = ["drive", "järn", "jarn", "wood", "hybrid", "fullslag", "jarnslag", "järnslag"]
+    _UTSLAG = ["drive", "utslag"]
+    _FULLSLAG = ["järn", "jarn", "wood", "hybrid", "fullslag", "jarnslag", "järnslag"]
 
     def invoke(self, input: ShotClassifierInput) -> ShotClassifierOutput:
         text = input.utterance.lower()
@@ -149,6 +150,9 @@ class SemanticShotClassifier(Runnable[ShotClassifierInput, ShotClassifierOutput]
         for kw in self._CHIP:
             if kw in text:
                 return ShotClassifierOutput(shot_type="chip")
+        for kw in self._UTSLAG:
+            if kw in text:
+                return ShotClassifierOutput(shot_type="utslag")
         for kw in self._FULLSLAG:
             if kw in text:
                 return ShotClassifierOutput(shot_type="fullslag")

@@ -15,7 +15,7 @@ UTTERANCES_SV = [
     ("Lagchip mot flaggan, stannade en meter bort.", "chip"),
     ("Chippade ur bunkern, landade pa greenen.",     "chip"),
     ("Sandwedge fran rough, studsade forbi.",        "chip"),
-    ("Bra drive langt ner mitten.",                  "fullslag"),
+    ("Bra drive langt ner mitten.",                  "utslag"),
     ("Tog ett jarnslag mot par 3-halet.",            "fullslag"),
     ("7-jarn mot greenen, lite for lang.",           "fullslag"),
     ("Slog en wedge, bollen landade nara flaggan.",  "fullslag"),
