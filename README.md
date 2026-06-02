@@ -55,7 +55,50 @@ FastAPI-app med tre lager:
 - **`app/data.py`** — in-memory state: dataset, användarstatistik (GIR%, fairway%, snittrundor), PGA-benchmarks
 - **`app/chain/`** — Runnable-kedjan: `PromptBuilder | LLMRunner | ResponseParser`
 
-Förväntade CSV-kolumner: `date`, `course`, `score`, `fairways_hit`, `fairways_total`, `greens_in_regulation`, `putts`.
+Obligatoriska CSV-kolumner: `hole`, `par`, `strokes`, `gir`, `putts`. Valfria: `fairway_hit`, `date`, `course` (aktiverar filtrering per runda/bana).
+
+## Demo-flöde
+
+`demo_scorecard.csv` innehåller 6 rundor på tre banor (LAGK, Bro Hof, Arlandastad) och är designat för att visa tre tydliga mönster:
+
+| Runda | Bana | Slag | GIR | Avg putts |
+|---|---|---|---|---|
+| 2024-04-01 | LAGK | 92 | 22% | 2.17 |
+| 2024-04-20 | Arlandastad | 99 | 11% | 2.44 |
+| 2024-05-08 | Bro Hof | 95 | 17% | 2.22 |
+| 2024-05-22 | LAGK | 88 | 33% | 2.00 |
+| 2024-06-05 | Arlandastad | 97 | 17% | 2.11 |
+| 2024-06-19 | Bro Hof | 90 | 28% | 2.00 |
+
+- **Förbättring över tid** — snitt 95→91 från första till sista halvlek
+- **Puttingproblem** — 2.44→2.00, alltid över PGA-snittet 1.73
+- **Banspecifikt** — LAGK bäst (snitt 90), Arlandastad sämst (snitt 98)
+
+I Swagger: tryck `POST /data/upload/demo` (ingen filuppladdning behövs) och börja sedan filtrera.
+
+### `/data/stats` — filtrering och svar
+
+```
+GET /data/stats                         → alla 108 hål
+GET /data/stats?course=LAGK             → bara LAGK-rundorna
+GET /data/stats?course=Arlandastad      → visar puttingproblemet tydligast
+GET /data/stats?par=3                   → alla par-3-hål
+GET /data/stats?date=2024-05-22         → enskild runda
+GET /data/stats?par=3&course=Bro+Hof    → par-3-hål på Bro Hof
+```
+
+Svarsformat:
+```json
+{
+  "meta": { "holes_count": 18, "filters": { "par": null, "course": "LAGK", ... } },
+  "scoring_avg": { "player": 5.11, "pga_avg": 3.92, "gap": 1.19 },
+  "gir_pct":     { "player": 27.8, "pga_avg": 65.0, "gap": -37.2 },
+  "fairway_pct": { "player": 71.4, "pga_avg": 60.0, "gap": 11.4  },
+  "avg_putts":   { "player": 2.08, "pga_avg": 1.73, "gap": 0.35  }
+}
+```
+
+`gap` är alltid `player − pga_avg` — negativt GIR och positivt putts/scoring visar var man tappar mot PGA.
 
 ## Installation och kommandon
 

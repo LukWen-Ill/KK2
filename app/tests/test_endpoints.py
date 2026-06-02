@@ -100,9 +100,48 @@ def test_stats_after_upload():
     r = client.get("/data/stats")
     assert r.status_code == 200
     body = r.json()
-    assert "strokes" in body
-    assert "mean" in body["strokes"]
+    assert "gir_pct" in body
+    assert "player" in body["gir_pct"]
+    assert "pga_avg" in body["gir_pct"]
+    assert "gap" in body["gir_pct"]
+    assert body["meta"]["holes_count"] == 18
     json.dumps(body)  # raises if numpy types sneak through
+
+
+def test_stats_filter_by_par():
+    _upload(VALID_SCORECARD)
+    r = client.get("/data/stats?par=3")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["meta"]["holes_count"] == 4  # VALID_SCORECARD has 4 par-3 holes
+
+
+def test_stats_filter_by_hole():
+    _upload(VALID_SCORECARD)
+    r = client.get("/data/stats?hole=1")
+    assert r.status_code == 200
+    assert client.get("/data/stats?hole=1").json()["meta"]["holes_count"] == 1
+
+
+def test_stats_filter_no_match():
+    _upload(VALID_SCORECARD)
+    r = client.get("/data/stats?hole=99")
+    assert r.status_code == 400
+    assert "No holes match" in r.json()["detail"]
+
+
+def test_stats_filter_by_course():
+    csv = (
+        b"date,course,hole,par,strokes,gir,putts,fairway_hit\n"
+        b"2024-05-15,Bro Hof,1,4,5,0,2,1\n"
+        b"2024-05-15,Bro Hof,2,3,4,0,2,0\n"
+        b"2024-06-01,Arlandastad,1,4,6,0,3,0\n"
+        b"2024-06-01,Arlandastad,2,3,5,0,2,0\n"
+    )
+    _upload(csv)
+    r = client.get("/data/stats?course=Bro Hof")
+    assert r.status_code == 200
+    assert r.json()["meta"]["holes_count"] == 2
 
 
 # --- Ask ---

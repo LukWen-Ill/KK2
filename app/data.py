@@ -143,6 +143,28 @@ def get_user_stats() -> dict:
     return _user_stats
 
 
+# --- Filtering ---
+
+def get_filtered_dataset(
+    par: int | None = None,
+    hole: int | None = None,
+    course: str | None = None,
+    date: str | None = None,
+) -> pd.DataFrame:
+    df = get_dataset()
+    if par is not None:
+        df = df[df["par"] == par]
+    if hole is not None:
+        df = df[df["hole"] == hole]
+    if course is not None and "course" in df.columns:
+        df = df[df["course"] == course]
+    if date is not None and "date" in df.columns:
+        df = df[df["date"] == date]
+    if len(df) == 0:
+        raise ValueError("No holes match the given filters")
+    return df
+
+
 # --- Stats for /data/stats endpoint ---
 
 def _to_native(v):
