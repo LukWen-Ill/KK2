@@ -764,6 +764,27 @@ Grundorsaken: modellen ombeds göra för mycket på en gång — identifiera sva
 
 **Förväntad svarstid:** ~4 LLM-anrop × ~8–12s/anrop = 32–48s. Trögare men mer relevant.
 
+**Resultat (20 frågor, SmolLM2-135M, ~17s/svar, total 341s):**
+
+| Kategori | Antal | Exempel |
+|---|---|---|
+| Drill, inga stats | 9/20 | "A recommended practice routine to improve GIR is: Shot Position 1: Double Overhand Swing" |
+| Stats, inget drill | 4/20 | "GIR at 21.3% vs PGA avg 66.7% means the player is not very skilled." |
+| Generisk, inga stats | 4/20 | "You should focus on optimizing your golf swing, reducing competition..." |
+| Stats + drill (bada) | 3/20 | "GIR at 21.3% vs PGA avg 66.7%... it's recommended to practice this drill to improve" |
+
+**GapAnalyzerStep:** Identifierade GIR som svagaste stat i alla 20/20 fall (21.3% vs 66.7% PGA = 68% relativt gap) — deterministiskt steg fungerar perfekt.
+
+**Analys:**
+
+CoT-pipelinen gav en tydlig förbättring på ett plan: modellen nämner nu *antingen* stats *eller* drill i 16/20 svar (80%), jämfört med iteration 1:s 3/20 koherenta med stats. GapAnalyzerStep gör jobbet den är satt att göra.
+
+Problemet är att AskAnswerComposerStep (steg 5) inte tillförlitligt *kombinerar* det föregående stegens output. Drill-namnen är påhittade ("Roller Circles", "GIR Bar", "Double Overhand Swing") — modellen genererar plausibel text utan domänkunskap. Svar kopplar sällan till den specifika frågan (Q9 om fairway-accuracy fick GIR-svar).
+
+Svarstiden ökade från ~12s (iter 1, 1 anrop) till ~17s/fråga (iter 2, 4 anrop). Skillnaden är mindre än förväntat (32–48s) tack vare kortare `max_new_tokens` per steg.
+
+**Slutsats:** Iteration 2 löser *struktur*-problemet (stat identifieras korrekt, drill nämns oftare) men inte *relevans*-problemet fullt ut — modellen saknar golf-domänkunskap för att generera meningsfulla drillnamn och kopplingar. Nästa steg är fine-tuning (Exp 9 del 2).
+
 ---
 
 ### Experiment 9 — Fine-tuning av chat-funktionen (planerat)
@@ -777,7 +798,7 @@ Kärnfunktionen i applikationen är `/ai/ask`: en coach som svarar på fri text 
 - Promptdesign (Exp 3–7) hjälper marginellt — modellen saknar domänkunskap på svenska
 - Fine-tuning (Exp 8) gav +32 pp för klassificering — domänspecifik träning fungerar
 
-Nästa steg är att tillämpa samma insikt på chat-funktionen: fine-tuna en modell så att den faktiskt kan föra en meningsfull konversation om spelarens golfrundor på svenska.
+Nästa steg är att tillämpa samma insikt på chat-funktionen: fine-tuna en modell så att den faktiskt kan föra en meningsfull konversation om spelarens golfrundor på engelska.
 
 #### Vad är skillnaden mot Exp 8?
 

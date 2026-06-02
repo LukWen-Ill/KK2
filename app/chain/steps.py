@@ -96,7 +96,7 @@ class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput]):
         try:
             self._load()
             pipe = LLMRunner._pipelines[self._model_name_or_path]
-            gen_kwargs: dict = {"max_new_tokens": self._max_new_tokens}
+            gen_kwargs: dict = {"max_new_tokens": self._max_new_tokens, "max_length": None}
             if self._temperature != 1.0:
                 gen_kwargs["temperature"] = self._temperature
                 gen_kwargs["do_sample"] = True
