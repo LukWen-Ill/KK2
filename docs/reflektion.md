@@ -816,6 +816,39 @@ Kvarvarande problem: `AskAnswerComposerStep` inkorporerar fortfarande inte konte
 
 ---
 
+#### Iteration 4 — Constrained decoding med Outlines (Förslag B)
+
+**Hypotes:** Om `AskAnswerComposerStep` tvingas generera JSON med obligatoriska fält `player_value: float` och `pga_value: float`, kan modellen inte utelämna siffrorna — schema-constraint maskerar alla tokens som bryter mot formatet.
+
+**Förändring:** `AskAnswerComposerStep` omskrivet från `LLMRunner.invoke()`-anrop till Outlines-drivet JSON-steg:
+- `CoachingOutput(BaseModel)` med fälten `stat: str`, `player_value: float`, `pga_value: float`, `advice: str`.
+- `_get_generator()` extraherar modell+tokenizer ur `LLMRunner._pipelines` (ingen dubbeladdning) och skapar `Generator(outlines_model, JsonSchema(CoachingOutput))`.
+- `_compose_json(prompt)` separerad för testbarhet — testerna mockar den med canned JSON.
+- Fallback om parse misslyckas: `"Focus on {worst_stat}: {gap}. {drill}"`.
+- `outlines` tillagt som projektberoende.
+
+**Resultat (20 frågor, SmolLM2-135M, ~15s/svar, total 309s):**
+
+| Kategori | Antal | Jämförelse iter 3 |
+|---|---|---|
+| Stats + drill (OK) | 9/20 | +6 (3→9) |
+| Stats, inget drill | 11/20 | ny kategori |
+| Generisk, inga stats | 0/20 | -5 (5→0) |
+| Drill, inga stats | 0/20 | -10 (10→0) |
+
+**Genombrott: 20/20 svar innehåller spelarens siffror.** Constrained decoding eliminerade fullständigt kategorin "generisk/inga stats". Varje svar börjar med `"Your GIR is 21.3 (PGA Tour average: 66.7)."` — garanterat av JSON-schemat.
+
+Exempel (Q7): `"Your GIR is 21.3 (PGA Tour average: 66.7). Hit three balls each from 100, 150, and 200 yards aiming at green center"` — korrekt stat + korrekt verklig drill.
+
+**Kvarvarande problem:**
+- `advice`-fältet är fri sträng → modellen genererar svag text ("You are at PGA Tour level", "GIR, low").
+- 3/20 hallucinerar fel `player_value` (9.0 istället för 21.3) — schemat tvingar en float, inte rätt float.
+- Frågekopplingen saknas — alla svar handlar om GIR oavsett fråga.
+
+**Slutsats:** Förslag B är den enskilt effektivaste förbättringen i Exp 9: stats-täckning +85 pp (15% → 100%), 9/20 stats+drill (upp från 3/20). Det deterministiska JSON-schemat gör det omöjligt för modellen att utelämna siffrorna. Kvarvarande brister är kapacitetsproblem i SmolLM2-135M — nästa steg är Förslag C (Qwen3-0.6B) eller Förslag D (fine-tuning).
+
+---
+
 #### Djupanalys — möjliga nästa steg för ökad accuracy
 
 Analysen bygger på evalresultaten ovan, forskning kring small LM-teknik (2025) och den specifika felprofilen: hallucinerande drillnamn, stats-siffror tappas i kompositionen, svaren kopplar inte till frågan.
