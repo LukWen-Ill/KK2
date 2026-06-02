@@ -1,3 +1,4 @@
+import pytest
 from unittest.mock import patch
 from app.chain.steps import (
     PromptBuilder,
@@ -45,17 +46,49 @@ def test_prompt_builder_contains_stats():
     assert "GIR" in out.prompt
 
 
-def test_response_parser_strips_prompt_echo():
-    raw = "Du är en golfcoach...\nSvar: Träna mer putting varje dag."
+@pytest.mark.parametrize("raw, expected_contains, expected_excludes", [
+    # Normalt fall: "Svar:" med svar efter
+    (
+        "Du är en golfcoach...\nSvar: Träna mer putting varje dag.",
+        "Träna mer putting",
+        "Du är en golfcoach",
+    ),
+    # Flera "Svar:"-markörer — rfind tar den sista
+    (
+        "Svar: ignorera detta\nSvar: Ta den sista markören.",
+        "Ta den sista markören",
+        "ignorera detta",
+    ),
+    # Whitespace runt svaret strippas
+    (
+        "Svar:   \n  Fokusera på bunkerträning.  \n",
+        "Fokusera på bunkerträning",
+        None,
+    ),
+    # Kort svar efter "Svar:" (≤10 tecken) → fallback till raw
+    (
+        "Svar: Ja.",
+        "Svar: Ja.",
+        None,
+    ),
+    # Ingen markör → returnera raw text
+    (
+        "Putting är viktigt och kräver daglig träning.",
+        "Putting är viktigt",
+        None,
+    ),
+    # "Svar:" allra sist utan text → fallback till raw
+    (
+        "Svaret finns här. Svar:",
+        "Svaret finns här",
+        None,
+    ),
+])
+def test_response_parser(raw, expected_contains, expected_excludes):
     out = ResponseParser().invoke(LLMRunnerOutput(raw_text=raw))
-    assert "Träna mer putting" in out.answer
-    assert "Du är en golfcoach" not in out.answer
-
-
-def test_response_parser_fallback_when_no_marker():
-    raw = "Putting är viktigt och kräver daglig träning."
-    out = ResponseParser().invoke(LLMRunnerOutput(raw_text=raw))
-    assert out.answer == raw
+    assert expected_contains in out.answer
+    if expected_excludes:
+        assert expected_excludes not in out.answer
 
 
 def test_full_chain_with_mocked_llm():
