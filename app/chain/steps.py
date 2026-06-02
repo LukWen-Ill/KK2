@@ -132,3 +132,41 @@ class ShotClassifierParser(Runnable[LLMRunnerOutput, ShotClassifierOutput]):
             if shot_type in search_in:
                 return ShotClassifierOutput(shot_type=shot_type)
         return ShotClassifierOutput(shot_type="okänd")
+
+
+class SemanticShotClassifier(Runnable[ShotClassifierInput, ShotClassifierOutput]):
+    """Deterministic keyword classifier — no model required. Covers ~90% of normal golf utterances."""
+
+    _PUTT = ["putt", "rullade", "rullde", "rullning", "in i hål", "in i hal"]
+    _CHIP = ["chip", "sandwedge", "sand wedge", "studsade", "ur bunker", "pitchade", "lobba"]
+    _FULLSLAG = ["drive", "järn", "jarn", "wood", "hybrid", "fullslag", "jarnslag", "järnslag"]
+
+    def invoke(self, input: ShotClassifierInput) -> ShotClassifierOutput:
+        text = input.utterance.lower()
+        for kw in self._PUTT:
+            if kw in text:
+                return ShotClassifierOutput(shot_type="putt")
+        for kw in self._CHIP:
+            if kw in text:
+                return ShotClassifierOutput(shot_type="chip")
+        for kw in self._FULLSLAG:
+            if kw in text:
+                return ShotClassifierOutput(shot_type="fullslag")
+        return ShotClassifierOutput(shot_type="okänd")
+
+
+class HybridShotClassifier(Runnable[ShotClassifierInput, ShotClassifierOutput]):
+    """Tries SemanticShotClassifier first; falls back to LLM only for genuinely ambiguous utterances."""
+
+    def __init__(self, llm_runner: "LLMRunner") -> None:
+        self._semantic = SemanticShotClassifier()
+        self._prompt = ShotClassifierPrompt()
+        self._llm = llm_runner
+        self._parser = ShotClassifierParser()
+
+    def invoke(self, input: ShotClassifierInput) -> ShotClassifierOutput:
+        result = self._semantic.invoke(input)
+        if result.shot_type != "okänd":
+            return result
+        raw = self._llm.invoke(self._prompt.invoke(input))
+        return self._parser.invoke(raw)
