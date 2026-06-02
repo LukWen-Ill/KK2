@@ -101,4 +101,5 @@ def test_full_chain_with_mocked_llm():
             user_stats=_USER_STATS,
             pga_benchmarks=_PGA,
         ))
-    assert len(result.answer) > 0
+    assert "Svar:" not in result.answer
+    assert "Träna chip-shots" in result.answer

@@ -1,8 +1,10 @@
 import pytest
 from unittest.mock import patch
 from app.chain.steps import (
+    HybridShotClassifier,
     LLMRunner,
     LLMRunnerOutput,
+    SemanticShotClassifier,
     ShotClassifierInput,
     ShotClassifierParser,
     ShotClassifierPrompt,
@@ -67,3 +69,53 @@ def test_full_classifier_chain_mocked(utterance, llm_response, expected):
     with patch.object(LLMRunner, "invoke", return_value=mock_output):
         result = slag_klassificerare.invoke(ShotClassifierInput(utterance=utterance))
     assert result.shot_type == expected
+
+
+# --- SemanticShotClassifier ---
+
+@pytest.mark.parametrize("utterance, expected", [
+    # Putt-nyckelord
+    ("Tre meter rakt mot hålet, rullde in.",         "putt"),
+    ("Kort putt, missade till höger.",               "putt"),
+    ("Rullning in från kanten, precis.",             "putt"),
+    ("Rullade in från kanten.",                      "putt"),
+    # Chip-nyckelord
+    ("Lågchip mot flaggan, stannade en meter bort.", "chip"),
+    ("Chippade ur bunkern, landade på greenen.",     "chip"),
+    ("Sandwedge från rough, studsade förbi.",        "chip"),
+    ("Pitchade upp mot flaggan.",                    "chip"),
+    # Utslag-nyckelord (drive)
+    ("Bra drive långt ner mitten.",                  "utslag"),
+    ("Utslag från tee, bollen i fairway.",           "utslag"),
+    # Fullslag-nyckelord (järn, wood, hybrid)
+    ("Tog ett järnslag mot par 3-hålet.",            "fullslag"),
+    ("7-järn mot greenen, lite för lång.",           "fullslag"),
+    ("3-wood mot greenen.",                          "fullslag"),
+    # Genuint tvetydigt — inget nyckelord matchar
+    ("Slog en wedge, bollen landade nära flaggan.",  "okänd"),
+    ("Perfekt position inför nästa slag.",           "okänd"),
+])
+def test_semantic_shot_classifier(utterance, expected):
+    result = SemanticShotClassifier().invoke(ShotClassifierInput(utterance=utterance))
+    assert result.shot_type == expected
+
+
+# --- HybridShotClassifier ---
+
+def test_hybrid_uses_semantic_when_clear():
+    # "putt" matchar semantik — LLM ska aldrig anropas
+    with patch.object(LLMRunner, "invoke", side_effect=Exception("LLM should not be called")):
+        result = HybridShotClassifier(LLMRunner()).invoke(
+            ShotClassifierInput(utterance="Kort putt, rullde in.")
+        )
+    assert result.shot_type == "putt"
+
+
+def test_hybrid_falls_back_to_llm_when_ambiguous():
+    # "wedge" utan "sandwedge" matchar inget nyckelord — LLM används som fallback
+    mock_output = LLMRunnerOutput(raw_text="Svar: chip")
+    with patch.object(LLMRunner, "invoke", return_value=mock_output):
+        result = HybridShotClassifier(LLMRunner()).invoke(
+            ShotClassifierInput(utterance="Slog en wedge, bollen landade nära flaggan.")
+        )
+    assert result.shot_type == "chip"

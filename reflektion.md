@@ -95,16 +95,18 @@ Kedjan testas i `app/tests/test_chain.py` med mockad `LLMRunner`. Det låter oss
 Testerna täcker de flesta happy paths och valideringsfel, men några edge cases saknas:
 
 **AI-kedjan:**
-- **LLM-exception → 500.** Om `LLMRunner.invoke()` kastar ett undantag (nätverksfel, minnesbrist, modell-timeout) fångar `main.py` det och returnerar 500. Inget test verifierar detta beteende.
-- **Tomt eller kort modellsvar.** `ResponseParser` har en gräns på 10 tecken – om texten efter `"Svar:"` är kortare faller parsern tillbaka till hela råtexten. Denna gren är otestad, t.ex. om modellen svarar `"Svar: Nej"`.
-- **`PromptBuilder` med `fairway_pct = None`.** Om scorecard-CSV:n saknar kolumnen `fairway_hit` sätter `_compute_user_stats()` `fairway_pct` till `None`, och `PromptBuilder` skriver `"N/A"`. Flödet testas inte.
+- **LLM-exception → 500.** ✅ Åtgärdat: `test_ask_llm_exception_returns_500` verifierar att `main.py` fångar undantag från `LLMRunner` och returnerar 500 med meddelandet `"Model error — try again"`.
+- **Tomt eller kort modellsvar.** ✅ Åtgärdat på enhetsnivå: `test_response_parser` täcker fallet `"Svar: Ja."` (≤10 tecken) och verifierar fallback-beteendet. Kedjetestet verifierar nu också att `"Svar:"`-prefixet aldrig läcker ut i slutsvaret.
+- **`PromptBuilder` med `fairway_pct = None`.** Kvarstår otestat.
 
 **Datavalidering:**
-- **Negativa värden i CSV.** `validate_and_store()` kastar `ValueError` om `par`, `strokes`, `gir` eller `putts` innehåller negativa tal, men inget test verifierar att endpointen returnerar 400 i det fallet.
-- **CSV utan `fairway_hit`-kolumn.** Filen accepteras och bearbetas (kolumnen är inte obligatorisk), men det testas inte att `fairway_pct` korrekt sätts till `None` i den returnerade statistiken.
-- **Oläsbar CSV.** Binärdata som råkar sluta på `.csv` avvisas med `"Could not parse file as CSV"`, men kodvägen täcks inte av något test.
+- **Negativa värden i CSV.** ✅ Åtgärdat: `test_upload_negative_values` verifierar att en CSV med negativt `strokes`-värde ger 400.
+- **CSV utan `fairway_hit`-kolumn.** Kvarstår otestat.
+- **Oläsbar CSV.** Kvarstår otestat.
 
-> ⚠️ Det viktigaste att åtgärda ur robusthetssynpunkt är testet för LLM-exception, eftersom det är det enda felfallet i AI-flödet som saknar testtäckning helt.
+**Klassificeringskomponenter:**
+- **`SemanticShotClassifier`.** ✅ Åtgärdat: 15 parametriserade fall täcker alla fyra utfallsklasser (putt, chip, utslag, fullslag) samt genuint tvetydiga yttranden som ska returnera `"okänd"`.
+- **`HybridShotClassifier`.** ✅ Åtgärdat: två tester verifierar att semantik-lagret används utan LLM-anrop när ett nyckelord matchar, och att LLM aktiveras som fallback för tvetydiga yttranden.
 
 ---
 

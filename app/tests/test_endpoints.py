@@ -161,7 +161,8 @@ def test_ask_returns_answer():
     assert body["question"] == "Hur kan jag förbättra mitt spel?"
     assert "answer" in body
     assert "model" in body
-    assert len(body["answer"]) > 0
+    assert "Svar:" not in body["answer"]
+    assert "Fokusera på chip-shots" in body["answer"]
 
 
 def test_ask_echoes_question_in_response():
@@ -170,3 +171,39 @@ def test_ask_echoes_question_in_response():
     with patch.object(LLMRunner, "invoke", return_value=mock_output):
         r = client.post("/ai/ask", json={"question": "Vad är min svagaste del?"})
     assert r.json()["question"] == "Vad är min svagaste del?"
+
+
+def test_ask_llm_exception_returns_500():
+    _upload(VALID_SCORECARD)
+    with patch.object(LLMRunner, "invoke", side_effect=Exception("GPU out of memory")):
+        r = client.post("/ai/ask", json={"question": "Hur är min putting?"})
+    assert r.status_code == 500
+    assert r.json()["detail"] == "Model error — try again"
+
+
+def test_dataset_persists_after_successful_ask():
+    """Data ska finnas kvar efter ett lyckat ask-anrop."""
+    _upload(VALID_SCORECARD)
+    mock_output = LLMRunnerOutput(raw_text="Svar: Träna mer.")
+    with patch.object(LLMRunner, "invoke", return_value=mock_output):
+        client.post("/ai/ask", json={"question": "Tips?"})
+    r = client.get("/data/stats")
+    assert r.status_code == 200
+    assert r.json()["meta"]["holes_count"] == 18
+
+
+def test_dataset_persists_after_failed_ask():
+    """Data ska finnas kvar även om ask-anropet returnerar 500."""
+    _upload(VALID_SCORECARD)
+    with patch.object(LLMRunner, "invoke", side_effect=Exception("OOM")):
+        client.post("/ai/ask", json={"question": "Tips?"})
+    r = client.get("/data/stats")
+    assert r.status_code == 200
+    assert r.json()["meta"]["holes_count"] == 18
+
+
+def test_upload_negative_values():
+    csv = b"hole,par,strokes,gir,putts\n1,4,-1,0,2\n"
+    r = _upload(csv)
+    assert r.status_code == 400
+    assert "negative" in r.json()["detail"].lower()
