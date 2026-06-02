@@ -787,6 +787,119 @@ Svarstiden ökade från ~12s (iter 1, 1 anrop) till ~17s/fråga (iter 2, 4 anrop
 
 ---
 
+#### Djupanalys — möjliga nästa steg för ökad accuracy
+
+Analysen bygger på evalresultaten ovan, forskning kring small LM-teknik (2025) och den specifika felprofilen: hallucinerande drillnamn, stats-siffror tappas i kompositionen, svaren kopplar inte till frågan.
+
+Felprofilen har tre distinkta rötter:
+
+1. **DrillStep hallucinerar** — modellen har ingen golf-kunskap; "Roller Circles", "GIR Bar", "Double Overhand Swing" finns inte.
+2. **AskAnswerComposerStep tappar kontext** — det sista steget får full kontext men inkorporerar den inte tillförlitligt; siffror försvinner.
+3. **Frågekoppling saknas** — ImpactStep (steg 4) misslyckas med att länka svagheten till frågan; svar om fairway-accuracy pratar om GIR.
+
+Nedan rangordnas förbättringsförslag efter förväntad impact vs implementationskostnad.
+
+---
+
+##### Förslag A — Deterministisk drill-databas (hög impact, låg kostnad)
+
+**Grundorsak:** DrillStep är ett LLM-anrop vars enda uppgift är att namnge en övning. SmolLM2-135M har ingen golf-domänkunskap och hittar på namn.
+
+**Lösning:** Ersätt DrillStep med ett Python-steg som slår upp ur en hårdkodad dict med 4–6 bevisade drills per stat:
+
+```python
+DRILLS = {
+    "GIR": [
+        "9-shot drill: hit three balls each from 100/150/200 yards, aim at green center",
+        "Gate drill: place two tees as a gate, practice iron shots through",
+    ],
+    "Fairway": ["Alignment stick drill: lay stick along target line, rehearse takeaway"],
+    "Putts": ["Gate putting: two tees 1 inch wider than putter head, 3-foot putts"],
+    "Scoring": ["Par-3 scramble: play only par-3 holes, focus on par or birdie"],
+}
+```
+
+Resultatet: noll hallucination i drillsteget, inga extra LLM-anrop, snabbare svar. Direktläxan från Exp 3–7 (deterministiska steg är mer tillförlitliga).
+
+**Förväntad förbättring:** "Drill, inga stats" (9/20) + "Stats + drill" (3/20) → "Stats + drill (real)" ~12/20.
+
+---
+
+##### Förslag B — Constrained decoding / strukturerad output (hög impact, medel kostnad)
+
+**Grundorsak:** AskAnswerComposerStep kan "glömma" att inkludera siffrorna eftersom det inte finns något som *tvingar* det.
+
+**Lösning:** Använd [Outlines](https://github.com/dottxt-ai/outlines) (Python-bibliotek för grammar-constrained decoding) för att tvinga JSON-output med obligatoriska fält:
+
+```python
+import outlines
+
+schema = '{"stat": "string", "player_value": "number", "pga_value": "number", "advice": "string"}'
+# XGrammar/Outlines maskar ogiltiga tokens vid varje decoding-steg
+```
+
+Modellen *kan inte* generera ett svar utan att fylla i `player_value` — siffran tvingas med. Forskning 2025 visar att constrained decoding minskar hallucination för strukturerade output-uppgifter och är särskilt effektivt för små modeller där output-rymden annars är okontrollerbar.
+
+**Förväntad förbättring:** "Stats, inget drill" (4/20) och "Generisk, inga stats" (4/20) minskar drastiskt; "Stats + drill" ökar mot 15+/20.
+
+**Trade-off:** Kräver `pip install outlines` och omskrivning av AskAnswerComposerStep. Output blir JSON som måste formateras till läsbar text efteråt.
+
+---
+
+##### Förslag C — Byt basmodell till Qwen3-0.6B (medel impact, låg kostnad)
+
+**Grundorsak:** SmolLM2-135M har fundamentalt otillräcklig kapacitet för fri textgenerering med domänkunskap. Modellen har 135M parametrar tränade på generell webb-text.
+
+**Evidens:** Qwen3-0.6B scorer 0.880 på instruction following benchmark jämfört med SmolLM2-135M:s mycket lägre score. Qwen3-0.6B är 4.4× större men har explicit träning på instruktionsföljning och reasoning. Det finns redan stöd i codebase (`LLMRunner` accepterar valfritt modellnamn; `run_shot_classifier_eval.py` har testats mot Qwen3).
+
+**Lösning:**
+```python
+# pipeline.py
+_runner = LLMRunner("Qwen/Qwen3-0.6B", temperature=0.0)
+```
+
+Och i prompts: lägg till `<|thinking|>off` (Qwen3:s "no-thinking"-läge) för snabbare, mer deterministisk inference.
+
+**Förväntad förbättring:** Baserat på benchmark-skillnaden förväntas andelen koherenta, stats-refererande svar öka betydligt utan kodändringar.
+
+**Trade-off:** Modellstorlek 1.2 GB vs 270 MB; laddningstid och RAM ökar. CPU-inference ~3–4× långsammare.
+
+---
+
+##### Förslag D — Fine-tuning med hög-kvalitativ SFT-data (högst potential, hög kostnad)
+
+**Grundorsak:** Ingen prompt-teknik kan kompensera för fundamental avsaknad av domänkunskap. Exp 8 visade att fine-tuning gav +32 pp för klassificering. Samma princip gäller för generering.
+
+**Lösning:** Generera 500–2000 träningspar med varierande spelarprofiler och *explicit stats-refererade* svar med Claude/GPT-4 som lärare:
+
+```jsonl
+{"messages": [
+  {"role": "user", "content": "Stats: GIR 21.3% (PGA 66.7%), Fairway 64.3%...\nQ: What is my biggest weakness?"},
+  {"role": "assistant", "content": "Your GIR of 21.3% is your biggest weakness — you're hitting 45 percentage points below the PGA Tour average of 66.7%. Focus on the 9-shot approach drill: hit three balls from 100, 150, and 200 yards aiming for green center."}
+]}
+```
+
+Datafilar `data/chat_train.jsonl` och `data/chat_val.jsonl` finns redan i repot. `run_chat_finetune.py` finns redan. Infrastrukturen är på plats.
+
+**DPO-förstärkning (nästa nivå):** Generera preference pairs (bra svar vs generiskt svar) och kör DPO-träning efter SFT. Forskning 2025 visar att ~2000 syntetiska par ger meningsfull förbättring utan mänsklig annotation.
+
+**Förväntad förbättring:** Om träningsdatan är tillräckligt varierad och explicit → majoriteten av svar bör nämna korrekta siffror. Svårast att uppnå: frågekoppling (att olika frågor ger olika svar).
+
+---
+
+##### Sammanfattning och rekommenderad ordning
+
+| Prioritet | Förslag | Förväntad gain | Effort |
+|---|---|---|---|
+| 1 | **A — Deterministisk drill-databas** | +9/20 drill-kvalitet | 1–2 timmar |
+| 2 | **C — Byt till Qwen3-0.6B** | Okänt, förväntat +20–30% stats-ref | 30 minuter |
+| 3 | **B — Constrained decoding (Outlines)** | Tvingar stats i output | 4–8 timmar |
+| 4 | **D — Fine-tuning + DPO** | Bäst potential, svårast | 1–2 dagar |
+
+Rekommendationen är att köra A + C som snabbaste vinster, mäta om "Stats + drill" når >12/20, och sedan besluta om B och D är motiverade utifrån resultaten.
+
+---
+
 ### Experiment 9 — Fine-tuning av chat-funktionen (planerat)
 
 #### Bakgrund och motivation
