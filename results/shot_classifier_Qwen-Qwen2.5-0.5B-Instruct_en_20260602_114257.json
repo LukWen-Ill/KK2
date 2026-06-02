@@ -1,0 +1,400 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "lang": "en",
+  "n_runs": 5,
+  "date": "2026-06-02T11:42:57.706985",
+  "load_time_s": 2.092,
+  "aggregate": {
+    "parse_rate_mean": 0.98,
+    "parse_rate_std": 0.0447,
+    "accuracy_mean": 0.42,
+    "accuracy_std": 0.1095
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Three-foot straight putt, rolled it in,\" I can determine that this is describing a putty shot. A putty shot involves rolling a ball into position before hitting it with a putter to create a perfect arc and ensure the ball goes straight through the target. Therefore, the correct answer for the shot type is:\n\nputt",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Short putt, missed to the right,\" it indicates that the shot was an initial short putt. Given that the shot is described as being made from the left side of the hole (missed to the right), we can infer that this was likely a fullshot.\n\nTherefore, the shot type chosen for this scenario is:\n\nFullshot",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Rolled in from the edge, just dropped,\" it seems that the golfer is using a putter to roll the ball into position for a putt. The phrase \"just dropped\" indicates that the golfer has successfully rolled the ball out of the rough and onto the fairway. Therefore, the shot type chosen would be:\n\nPutt",
+          "correct": true
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Based on the utterance \"Low chip toward the flag, stopped a foot away,\" it seems that this is referring to a golf scenario. The phrase suggests a shot where the golfer aims for the hole with an underhand swing (low chip) and then pulls back with a full swing (fullslag), which effectively stops the ball from going further than usual.\n\nGiven these elements, the appropriate shot type would be:\n\nChip\n\nThis is because a low chip allows the golfer to hit the",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the phrase \"Chipped out of the bunker, landed on the green,\" it appears that this is describing a golf shot where the ball was struck from the bunker onto a green. Given that \"putt\" refers to putting the ball into position on the green after the hole and \"chip\" involves hitting the ball with a short drive or shot, the most likely shot type in this context would be:\n\nChip\n\nThis term specifically refers to a driving stroke where the golfer uses a chip",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Sand wedge from the rough, bounced past,\" it seems that the golfer is using a putter to hit a ball with sand between the rough surface and the hole. Therefore, the shot type would be:\n\nPutt\n\nThis suggests that the golfer is hitting the ball with their left hand using the right side of the club face.",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Great drive, long and down the middle,\" it seems like the golfer is expressing excitement about their performance and the smoothness of their game. The phrase \"Great drive\" suggests that they have achieved something noteworthy or impressive in their golfing efforts.\n\nGiven this context, if we were to determine the shot type from the provided options (putt, chip, or fullslag), I would lean towards using the term \"fullslag.\" Fullslag refers to",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "The given utterance is \"Hit an iron into the par 3.\" This phrase indicates that the golfer has hit a ball onto the green at a hole in one (par 3), which typically means they have completed their first round of golf.\n\nGiven this context, the appropriate shot type to choose would be **putt**.\n\nTherefore, the answer is:\n\n*Shot type - putts/Chip/FullSlag*",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "The given utterance is \"7-iron to the green, a bit long,\" and it does not specify which shot (putt, chip, or fullsilver) was made from the green. Therefore, without more context about the specific shot being taken, we cannot definitively determine the shooting type.\n\nGiven that no particular type of shot was mentioned in the sentence, both \"putt\" and \"chip\" could potentially be correct choices based on the information provided. However, if you have any",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "The shot described in the utterance is a wedge shot. Therefore, the correct answer for the shot type is:\n\nputt",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 0.9,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Three-foot straight putt, rolled it in,\" we can determine that this is describing a putt-putt shot. A putt-putt is a common golfing technique where a player attempts to hit the ball with an accurate three- or four-inch distance from the tee box into the hole. The term \"rolled\" suggests that the ball was aimed towards the target and then rolled back out of bounds.\n\nGiven these details, the shot type is clearly \"putt.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance and shot types:\n\n1. Short putt - This indicates that the player made a short putt.\n2. Missed to the right - This suggests that the player failed to complete the putt in the correct direction.\n\nGiven these details, the shot type is clearly a **putt**. The player made a short putt, which means they completed it in the shortest distance from the hole.",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Rolled in from the edge, just dropped,\" I would choose the shot type as:\n\nChip\n\nThis is because the phrase describes a stroke that was rolled from the edge of the ball and then hit to the hole. The term \"chip\" specifically refers to a putter shot, which is a common golfing technique where the club is struck into the grass or other surface near the target, rather than being directly hit back towards the hole.\n\nTherefore, based on",
+          "correct": true
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Based on the utterance \"Low chip toward the flag, stopped a foot away,\" I would choose to interpret it as a **chip** shot.\n\nHere's why:\n\n1. **Chip Shot**: A chip shot is typically done from close range (within about 2-3 feet) and is often used when there is little or no wind resistance.\n2. **Flag Positioning**: The phrase \"low chip\" suggests that the player wants to position themselves at a low point relative to the flag",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Chipped out of the bunker, landed on the green,\" it seems that this is describing a golf scenario where a golfer has successfully made a putt (a shot from beyond the rough) in a bunker and then successfully hit a ball onto the green.\n\nGiven this context, the most appropriate shot type to describe this situation would be:\n\n**Putt**\n\nThis is because:\n- The golfer has indeed chipped out of the bunker.\n- They have successfully made a",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "The phrase \"Sand wedge from the rough, bounced past\" describes a scenario where sand is being used as a wedge to hit a ball. The key elements here are:\n\n1. **Rough**: This indicates that the surface of the sand might be uneven or rough.\n2. **Bounced past**: This suggests that the ball was able to travel through the sand without stopping.\n\nGiven these elements, the shot type would most likely be a **putt**. A putt involves hitting a ball with",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Great drive, long and down the middle,\" it seems like you're describing a golf swing where the driver (which is typically considered to be the left-handed player) has been driving aggressively for a significant portion of the round. The phrase \"long and down the middle\" suggests that the golfer is making an aggressive move towards the hole in the mid-air.\n\nGiven this context, the shot type would likely be described as \"putt.\" A putt involves hitting the ball",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Based on the given utterance and shot types:\n\n- Utterance: \"Hit an iron into the par 3.\" This is a play instruction for a golfer to hit a ball into a fairway on a golf course.\n\n- Shot Type: Chip\n\nTherefore, the answer is: chip.",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"7-iron to the green, a bit long,\" it seems like the golfer is looking for an opportunity to improve their putting game and make the ball land in the fairway more frequently. Given that they're using a 7-iron (which is typically used for putting), this suggests that the golfer might be trying to establish themselves as a reliable putter.\n\nGiven the phrase \"a bit long,\" it indicates that there's room for improvement or that",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Based on the given utterance \"Wedge shot, ball landed near the flag,\" it is clear that this refers to a wedge shot. A wedge shot is a precise and accurate shot aimed at the target using a wedge-shaped club head, which helps players hit the ball into the hole or the flag in order to win the game.\n\nGiven that the shot was described as a wedge shot, the appropriate choice for the shot type would be:\n\nShot type: wedge",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 1.0,
+      "accuracy": 0.6,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Three-foot straight putt, rolled it in,\" the shot type is clearly \"putt.\" The term \"straight\" indicates that the ball will travel at an angle and be rolled, while \"rolled in\" suggests that the ball was previously putted or rolled before this shot.\n\nSo, if we consider these elements together, the most appropriate answer would be \"putt.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Short putt, missed to the right,\" it appears that the player is short of putts and has hit their ball towards the right side of the hole. Given this context, the shot type should be identified as:\n\nPutt\n\nTherefore, the answer is Putt.",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Rolled in from the edge, just dropped,\" it appears to be describing a golfer rolling a ball from the edge of a hole and then dropping it into the water. Given that this action involves a golfing context, the shot type is most likely a \"putt\" (also known as a \"pitch\"). This is because:\n\n1. The term \"roll\" suggests a movement from the edge towards the center or water.\n2. Dropping something typically means",
+          "correct": true
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Based on the utterance \"Low chip toward the flag, stopped a foot away,\" it seems that this is a shot instruction for a golfer or someone aiming to hit a ball towards a flag. The phrase suggests using a low club (chip) and hitting the ball in such a way that it touches the flag and lands a few feet away from where it was aimed.\n\nGiven these details, I would categorize this as:\n\nChip / Fullshot\n\nThis type of shot uses a lower club to",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Based on the utterance \"Chipped out of the bunker, landed on the green,\" it seems like the golfer is describing their shot in a golfing context. The phrase \"chipped out of the bunker\" suggests that the ball was struck from a fairway or an open area near the bunker, and then fell into the bunker itself.\n\nThe phrase \"landed on the green\" indicates that the ball finally came to rest on the grassy area at the destination point (the green).",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Based on the utterance \"Sand wedge from the rough, bounced past,\" it appears that the golfer is trying to hit a sand wedge and successfully hit it off the rough surface without being caught in the sand or being able to return it. The phrase suggests that this was an effective shot, likely with the ball hitting the rough area but not causing any immediate issues such as bouncing back into play.\n\nGiven this context, the most appropriate shot type would be:\n\nShot type: Chip\n\nThis choice align",
+          "correct": true
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Great drive, long and down the middle,\" I would choose to shoot with a **putt**. The term \"great drive\" suggests a strong and confident approach, while \"long and down the middle\" implies a deliberate and strategic move towards the target. A putter is typically used for driving the ball into the hole or attempting to hit the ball in such a way that it lands squarely on the green, which aligns well with these descriptions.",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "The phrase \"Hit an iron into the par 3\" is typically associated with putting (putt) shots in golf. Therefore, the shot type chosen would be:\n\n- Putt\n\nThis sentence suggests that the golfer has hit an iron onto the green and intends to use it for a putt on the par 3 hole they are trying to make.",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the phrase \"7-iron to the green, a bit long,\" it seems like this is referring to a putts or a combination of putting and chipping techniques. The term \"green\" suggests that you're aiming for an area where your club is close to the ball, which can be tricky if not done properly.\n\nGiven the shot type (putt) and the description, I would likely recommend using a fullshot technique with a 7-iron. This would allow you to",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "The phrase \"Wedge shot, ball landed near the flag\" describes an event where a golfer hits a wedge (a long, curved club) with the intent to land it close to the flag. The term \"putt\" is not typically used in this context as it refers to a stroke or move that goes into play but does not necessarily involve landing on a specific target like a flag.\n\nGiven the options:\n- Chip: A shorter, flatter piece of wood that can be used for",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Three-foot straight putt, rolled it in,\" it suggests that this is a putt (put) shot. The phrase \"rolled it in\" indicates that the ball was thrown and then landed correctly on the hole. Therefore, the appropriate shot type for this scenario would be:\n\nPutt\n\nThis choice aligns with the common usage of putting shots to roll the ball into position and ensure a fair playfield.",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance and shot type information:\n\n\"Short putt, missed to the right.\"\n\nThe phrase \"short putt\" indicates that the golfer is making a short putout, which typically means they are using a shorter stroke length compared to a fullput out.\n\nGiven this context, the shot type should be classified as:\n\nPutt\n\nTherefore, the answer is Putt.",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Rolled in from the edge, just dropped,\" it is clear that this refers to a stroke that was rolled into play rather than a shot that has been hit with a ball or putter. The phrase \"dropped\" suggests that the ball landed on the ground after being rolled, indicating that this was not a traditional putter shot but more of a rolling motion.\n\nGiven these details, the shot type would be:\n\nShot type: Chip\n\nThis term specifically refers",
+          "correct": true
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "The utterance \"Low chip toward the flag, stopped a foot away\" is clearly a shot command from a golfer or player. It describes a scenario where the golfer (or player) aims to place their ball at a specific point on the golf course, which in this case is towards the flag and about 10 feet away.\n\nGiven that it's describing a shot, the most appropriate shot type for this context would be **putt**. A putt involves driving the ball into the",
+          "correct": false
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "The utterance \"Chipped out of the bunker, landed on the green.\" is in English and does not contain any specific shot type information. Therefore, based solely on the given text, we cannot determine which shot type was used for this statement. The sentence describes an action where something (likely a golf ball or other object) was thrown from a bunker to land on a green, but it doesn't specify how the golfer achieved this landing position.\n\nIf you have additional context about what kind of",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Sand wedge from the rough, bounced past,\" it is clear that this refers to a sand wedge shot. Given that a sand wedge is typically used for putting or chip shots, and considering the context of bouncing off the rough surface, it's reasonable to conclude that this was likely a putter shot.\n\nTherefore, the shot type is:\n- Shot type: Putt",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Great drive, long and down the middle,\" it appears to be describing a golf shot where the golfer is making an aggressive, long-range drive that goes through the center of the hole.\n\nGiven this context, the most appropriate shot type from the options provided (putt, chip, or fullslack) would be **chip**.\n\nTherefore, the answer to the question \"Choose one: putty / chip / fullslack\" is:\n\nChip\n\nThis choice reflects",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Hit an iron into the par 3,\" it is clear that the golfer is attempting to hit a ball into a fairway on a golf course. Given this context, the most appropriate shot type for this scenario would be:\n\nChip\n\nThis term refers to using the club in such a way as to place the ball onto a grassy area of the course rather than directly into the rough or sand traps typically used for putting. The use of a chip can provide several",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the phrase \"7-iron to the green, a bit long,\" it suggests that the golfer is aiming for a putter shot with an 8-iron clubhead and is looking to make a short approach to the green. The use of the word \"bit\" implies that the shot may be slightly too long or require some adjustment before being successful.\n\nGiven these considerations, the appropriate shot type from the provided options would be:\n\n**Putt**\n\nThis option best fits the context because",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Based on the utterance \"Wedge shot, ball landed near the flag,\" it is clear that the shot was a wedge shot. Therefore, the appropriate shot type to describe this scenario is:\n\nShot type - chip",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 1.0,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Three-foot straight putt, rolled it in,\" the shot type is clearly \"putt.\" The phrase suggests that the golfer aimed to make a straight putt with their putter, and they rolled the ball into position after making the putt. This describes a typical putting stroke or approach.",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the phrase \"Short putt, missed to the right,\" it is clear that this refers to a short putty shot. Therefore, the shot type should be chosen as \"putt.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Rolled in from the edge, just dropped,\" it appears to be describing a shot where someone has rolled their ball out of bounds and then dropped it back into play.\n\nGiven this context, the most appropriate choice for the shot type is:\n\nShot Type: Chip\n\nA chip shot typically involves rolling the ball out of bounds, which fits perfectly with the description provided. A putty or fullshot would not fit as well because they require the ball to be hit straight up",
+          "correct": true
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Low chip toward the flag, stopped a foot away,\" I would classify this as a **putt** shot.\n\nThe phrase \"Low chip\" suggests that the golfer is attempting to get close to the flag using their putter or short stick. The use of \"foot away\" implies that the golfer is aiming for an area far enough away from the flag to make a successful putt without sinking the ball too deep into the water.\n\nTherefore, it's most likely",
+          "correct": false
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the given utterance \"Chipped out of the bunker, landed on the green,\" it appears that this is describing a golf shot. The phrase \"chipped out\" suggests a shot where the ball was hit off the ground, while \"landed\" indicates that the ball touched the ground. \"The green\" likely refers to the green area on the golf course.\n\nGiven these details, the most appropriate shot type from the options provided would be **putt** (or more specifically,",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Based on the given utterance and shot type options:\n\n1. **Putt**:\n   - The phrase \"Sand wedge from the rough\" suggests that this is likely a putter swing where the sand is being hit into the ball.\n\n2. **Chip**:\n   - The phrase \"bounced past\" implies that the ball has traveled out of bounds, which could be due to the sand being too heavy or causing the ball to go over the edge.\n\nGiven these descriptions, it seems most",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Based on the given utterance \"Great drive, long and down the middle,\" I would choose to answer with:\n\nChip\n\nThis is because the phrase \"great drive\" suggests that the golfer is capable of producing a strong and consistent stroke. The term \"long and down the middle\" implies that the golfer has a good balance in their swing, allowing them to hit the ball effectively at various distances. These qualities make it logical for a golfer to use a chip shot, which allows for",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Hit an iron into the par 3,\" the most appropriate shot type is:\n\nChip\n\nThis phrase suggests that the golfer has hit their iron (which is typically used for putting) into a fairway or onto a rough area of the course. Therefore, the shot being described is a putch, where the player aims to drive their ball into the hole with a chip. The term \"par 3\" indicates a difficult, short par, so hitting into such",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"7-iron to the green, a bit long,\" it appears that this is describing a putt in golf. The phrase \"a bit long\" suggests that there might be some extra distance needed from the tee to the green. In such situations, putting is often used as an alternative to chipping or using full slugging shots (which would involve driving very far). Therefore, the shot type chosen for this situation would likely be:\n\nShot Type: Putt",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Based on the utterance \"Wedge shot, ball landed near the flag,\" we can determine that this is describing a putter shot. The phrase \"Wedge shot\" typically indicates a high-stroke shot where the driver (or wedge) strikes the ball with great force and precision. \n\nGiven that the ball lands near the flag, which is usually at the boundary of the green or the fairway in golf, it suggests that the putter was aimed towards the hole to improve your chances of",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

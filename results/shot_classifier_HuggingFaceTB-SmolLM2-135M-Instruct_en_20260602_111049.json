@@ -1,0 +1,400 @@
+{
+  "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "lang": "en",
+  "n_runs": 5,
+  "date": "2026-06-02T11:10:49.976533",
+  "load_time_s": 1.611,
+  "aggregate": {
+    "parse_rate_mean": 0.96,
+    "parse_rate_std": 0.0548,
+    "accuracy_mean": 0.34,
+    "accuracy_std": 0.0548
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "putt.",
+          "correct": false
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "putt",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "A fullslag is a term used in the sports industry to describe a combination of a shot and a blow.",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "\"Fullslag\"",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 0.9,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "A fullslag.",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Cherry pick",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "\"Putt\"\n\nThe sentence is in the form of a fullstop or fullslag.",
+          "correct": false
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "A fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Which one of the options fits this sentence best?\n\nOptions:\n- putt\n- chip\n- fullslag\n\nPutst is the correct shot type, as it provides a longer and down-the-middle drive.",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "\"fullslag\"",
+          "correct": true
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "A fullslag\n\nTreating the fullslag as a \"fullslag\" is a common practice in metallurgy. It is a type of slag that contains the largest particles and was first developed in the 1950s. This process can improve the strength and performance of steel by reducing the amount of impurities and oxides present in the steel.",
+          "correct": true
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 0.9,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "A fullslag.",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Bounce.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "A fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "putt",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 1.0,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "A fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "putt",
+          "correct": false
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "\"Putt\"",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "A fullslag is a completely different type of shot.",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "\"Fullslag\"",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chipped",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "A fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": true
+        }
+      ]
+    }
+  ]
+}

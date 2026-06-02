@@ -1,0 +1,400 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "lang": "sv",
+  "n_runs": 5,
+  "date": "2026-06-02T11:32:36.483723",
+  "load_time_s": 1.537,
+  "aggregate": {
+    "parse_rate_mean": 0.66,
+    "parse_rate_std": 0.1517,
+    "accuracy_mean": 0.26,
+    "accuracy_std": 0.1517
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 0.5,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "Rätt svar är \"fullslag\". Detta är en typ av fullslag, som används i skapandet av klasikkastorner och klokkständer. Detta kan också innehola platsvälkommen eller att man kommer att ta bort något medförande från ett viktigt moment. Detta betyder att man har lärt sig på en lång tid, men inte har fått en effekt",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Kort putt.",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "In my opinion, I believe the most appropriate answer for your statement is:\n\n\"Putt\"\n\nThis option fits best with the context of the question and the information provided. The statement mentions that Rullning (a type of traditional Norwegian knitting) was made in front of the window, indicating it's a window-based knitting project.\n\nWhile it could also be interpreted as a chip or full-slag, the specific term \"putt\" seems to capture the idea of making something in front of an object",
+          "correct": true
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Valj ett typ av slag. Det var ett putpåflagg i en vektor.",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Uten mer specifikke information om uttrykket \"landade pa greenen\", kan jeg ikke forstå et uttrykk som \"landade pa greenen\". \n\n\"Landade pa greenen\" kan være en engelsk-svensk term som gør sikt på at det betyder \"på sin lager\" eller \"på sin plats\". Det kan ha mottaget om en skapingsplats eller en spesifikasjon",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Ett sjökristall och en sandsträng. Så snaror det. Sandväxtet är en putpopp, som kan ställa upp en kraftfull glasfönstret. Detta kan vara en sorg i något omgivning eller en förändring i en landingsystem. Sandväxtet är ett av de mest viktiga strukturerna i en skagen och kan ha varje dag olika eff",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Måste du hjälpa till nå? Detta är en viktigt känsla i åtta, men det var inte mer än ett förklaring om vad en yttrand kan utöka. Detta var en rädda eller bättre sätt att säga något mer specifikt om vad en yttrand kan utöva. Så jag skulle ge dig en mer precis informerad svar om att göra på.",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Valj ett puttslag, yttrandet kommer att göra ett jarnslag mot par 3-halet.",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "I apologize, but I'm not able to understand or respond to the text you provided as it appears to be in another language that I don't recognize. It seems to contain words and phrases in a language that I can't identify. If you could rephrase your question in English or any other language I'm familiar with, I'd be happy to try and assist you further.",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Valj ett slag på ytterligare ett typ av puttslag. Det är ett rösta och rätt slag med råksting och rösten. Det behöver vara så att det kallar sig ut till en liten, rötta, grön og rätte puttslag. Det är ett särskilt riktig och stor slag som kan ha varit ett viktigt steg i ett världskap",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 0.8,
+      "accuracy": 0.5,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "I den här fråga använder jag yttrandet (littalit) för att skapa en platsing och en sätt på att berätta sina stora viktiga verksamheter.\n\nFrån de svarna:\n\n- Sverige: \"Hemmer till krig\"\n\nDetta betyder att den är en av de mest starka och viktigaste personer i den svenska regnliga, som kan vara välkomndlig",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "I'm sorry, but I don't have enough context to fully understand what you're asking or what you mean by \"Kort putt, missade till hoger.\" Without more information, it's difficult for me to provide an accurate response. Could you please clarify your question or provide more details?",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "In den kortste rulle, som vi har på tid, är ett fullslag. Detta betyder att en person eller sitt sätt försöker skada något i ett sätt som skulle vara tillgångstillsats för det. I det här fall är det en plattform eller sammanlagd sammanhang som kan vara tillgångsskapet. Så när du tänker att skada någon i en",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "I den viktigaste uttrykket i sitt svar är \"flaggan\", som betyder 'krona' eller 'huvud'. Detta kallas \"lagchip\" i talbokstavens för struktur. \n\nDetta kan inneholpa olika materialer och konstruktioner, vilket kan vara en mer omgivna information än \"fullslag\". Om flaggan är en metal eller en plast, kan det kun",
+          "correct": true
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "Valj ett, spesiellt ett putpput (fullslag). Detta betyder att den utkastade eller spilte en plats som var fysisk och tiden på något av de viktigaste strukturerna i en landstiftelse eller en grunnbar struktureringsområde. Det kan innehola egna landstäder, rättslandstegn, hörnskapar eller floden.",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Valj ett slag typ i yttrandet:\n\n1. Putp (studded)\n2. Chip (chiped)\n\nDenna svar är rätt för yttrandet \"sandwedge\". Detta gäller en sandhånd som har städade eller putat på en flottan.\n\n1. Studded: Här används en ord för att beskriva ett sandhånd som har städade eller putat på en flott",
+          "correct": true
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Merk du en skrivning eller en ordet? Det var inte klarat som en ord eller en svar på ytterligare svar. Kan du forstå om du vil ha mer information eller hjälpa dig med några svar?",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Valj ett fullslag. Detta är en viktigt och konfliktful val på par 3-halet. Så jag skulle ställa till:\n\n\"Tog ett fullslag mot par 3-halet.\"",
+          "correct": true
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "\"Greenstone\" er en typ av puttslag. Det betyr att det är ett puttslag som har ett kallningstyp av \"green\", vilket innebär att den kommer från ett land som är kunna eller blå. Innehållet i puttslaget kan variera, men den står för att den är utgivet av en tidskriglig puttslagare som haft en kunna orsak.\n\nValj",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Slag typen är \"fullslag\". Detta betyder att slagen är fullt och inte bara viktiga eller tillgängligt för användarna. Detta är ett allmän tydsslag som måste vara platsfull för att kunna användas på ett ordentlig sätt. Detta kan användas i olika områden, inklusive kulturliga upplevelser, kognitiv upplevelser eller sportutb",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 0.5,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Rettet mot att råd, tatt in.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Svar: Kort putte, missade till hogar.",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "I stedet för att röra, har jag vunnit och rördes till den andra side på en flera-kanten rättig. Detta är en valjett, som kan ha varaktiga uttryck i ett valjett.\n\n\"Valjett\": det här skulle vara ett antal eller ord som kallas på ett valjett. Om du har en valjett med en bokstav som har några värdering",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Ett putpil inaktueliserat flagg på ytterligare 100 meter årsakar.",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Chippade ur bunkern, landade pa greenen. Svar: Valj ett.",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Valj chiptildelser i Sandwedgen:\n\n1. Sandwedgen\n2. Sandwedgen (förbättningsstil)\n3. Sandwedgen förbättningsstil\n\nHär är några andra typar av sandwedgen:\n\n4. Sandwedgen tillförlit\n5. Sandwedgen på rätt stig\n6. Sandwedgen förbättningsstil på rätt stig\n7.",
+          "correct": true
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "I'll do my best to assist you with the information provided:\n\nThe sentence \"Bra drive langt ner mitten\" translates roughly to English as \"Drive me out of here.\" \n\nIn the context of the provided options:\n- \"Putt\" is likely an action word or verb related to driving, but without more context it's hard to pinpoint.\n- \"Chip\" could be related to chips or something that might be driven in, though again this is speculative based on the given words.",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "Fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "I den första ordet \"7-jarn mot greenen, lite for lang\" kan du hitta en plats som kallas \"putt\". Detta är en viktig term in mitt valj ett typ av slag, men det är inte de mest allmänna eller mest populara. \n\nVad man kan t.ex. svara på detta omfattar att man har sett ett bättre och mer effektiv slagkraft när man använder put",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Slag typen er \"fullslag\", som betyder \"valkåld\" eller \"vatten\". Svaret har några kanskje omkanger, så det kan vara mer än en liten svar:\n\n- \"Slog en wedde, bollen landade nara flaggan\"\n- \"Slog en wedde, bollen landade nara flaggan\"\n- \"Slog en wedde, bollen landade nara flaggan",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 0.8,
+      "accuracy": 0.1,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Svar: Plastisk\n\nPlastic är en av de mest populära och effektivaste materialer i det tidigare kultur, med stor platsing i industriens värld. Plastiska material är tillgängliga och kan användas på olika sätt, inklusive:\n\n1. Plaster (båna)\n2. Bokstaven\n3. Kapsel\n4. Skattning\n5. Storlek",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "I den här svaret är det gott att bekräfta att yttrandet är en kort put och inte en fullslaget. Detta kallas för ett deltagare som kan ha ett kort put eller ett fullslaget i sin huvudsakliga skatt. Om yttrandet har en lång skatt, kan det bli ett fullslaget. Så om yttrandet har ett kort put, skulle detta vara felaktigt.",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Valj ett: fullslag\n\nVänligen veta att fullslag är en del av ett fullslags svar, vilket har en lång och större stridning än ett putt eller ett chip. Detta betyder att den överstyrkorna i svaret är mindre stort än den overstyrkade som uttrycket. \n\nI yttrandets svar, \"valj ett: fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Lagchip mot flaggan är ett platsvård som kallas \"putt\" eller \"stannade\". Detta är en av de mest populara och viktigaste platsvårderna i skandinavisk taler. I dagens tid kan lagchip mot flaggan vara ett utmanad vård på månaden. Det varit en förväntad värde för att flaggarna skulle ta bort lagchip mot den",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "Ett fullslag.",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Sandwedges är en kattkastning med puttskära sande. Sanddelen är fyllt av källor och steder. Detta är en typ av sandwedges som är svårt att förbättra eller skapa i dag. Sandwedges kan vara viktiga för att förutsättas på andra källor eller för att använda på olika sida av flod. Sanddelen kan ha olika form",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Svar är \"fullslag\". Detta betyder att yttrandet har följande sätt:\n\n1. Valj ett: Utbaka i en plats.\n2. Chip: Kör ut och lägga till kroppar i en plats.\n3. Fullslag: Om yttrandet är över 100 gram, kommer det att bli avbrukbar.\n\nDetta betyder att yttrandet har en hö",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Eftersom det är ett par-3-halet, kan jag inte svara på \"ett jarnslag\". Par-3-halet är en formel formåga som delar hela halet av ett par tal med en rekord (fem tal i halet). Så om du vill svara på ett jarnslag eller att du har gjort ett jarnslag, skulle jag inte kunna förstå vad du behö",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Valj ett puttslag. Detta är en särskilt viktig och ämnet för yttrandet. Detta kallas för en puttslag med rätt delar och en rådlig struktur som gör det lika att kunna spela olika spelar i samma form. Så detta bjuder till en effekt som kan vara främst av de mest högre delar av yttrandets mänt.",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Valj ett putt.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 0.7,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "I den här fråga är det inte möjligt att ge en ansvar för ytterligare information om en skapad putpprogram eller en fullslaget. Det finns ingen traditionella typ av ytterligare svar som kan hitta på YouTube. Om du har några detaljer om en ytterligare skapad putpprogram eller en fullslaget, kan jag hjälpa dig mer?",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Kort putt, missade till hoger.\nIktilläggning:\nDetta är en kort, rätt och kraftfull svar på yttrandens ordning. Det betyder att man har fått ett upp till högre grad av yttrandet. Så det kan vara ett utmanad och stor resultat för personen som har några delar av yttrandets värld.",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Rullning i franska var att rulla ut en viktigt tidigare sitt på en nykstilling eller skrift, som førte till ett beroende typ av sitt uttryck eller valg av sitt uttrycksspråk.\n\nDetta kan inkludera några av de mest populære typerna av valjett:\n\n1. **Putpp**: Sitt uttryck har stört och är svårt att",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "I den här fråga skriver jag ut ett svar på ytterligare rätt. Detta är det första varje svaret och är inte de mest viktiga eller korrekta. Vi kan tvinga oss att ändra dina frågor om vi vill ha ett svar som är möjligen mer korrekt och inkluderar mer information.",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "I'll be happy to help you with your question about the Slavic language. Let's break down the sentence and analyze its structure:\n\n1. **Sentence Structure**: The sentence appears to be in Slavic, which is known for its complex grammar and syntax.\n2. **Key Words**:\n   - \"Chippade\" - This word has a meaning of \"bunkers\" or \"burrows\".\n   - \"Bunkern\" - This is likely a verb form related to \"",
+          "correct": true
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Sandwedge is a type of sandstone that has been used in construction and engineering projects due to its ability to withstand certain types of wear and tear. Sandwedges can be classified into three main types based on their physical properties:\n\n1. **Putty**: These sandstones have a high porosity and are commonly used in concrete applications where they provide excellent flowability.\n2. **Chip Sand**: These sands are characterized by their fine grain size and low permeability, making them ideal for road",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Raskning: \"Bra drive langt ner mitten.\"\n\nValj typ:\n- Putp (malm)\n- Chip (krista)\n- Fullslag (fullslag)\n\nKomplikationer:\n- Bra är en del av bracket som kan skapa putp eller chip.\n- Fullslag är en del av fullslag och kan generera raskning.\n\nDetta räknar till att raskningen kommer från båda",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar: putt",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "I'm sorry, but I can't assist with that request. If you have any other questions or need information on a different topic, feel free to ask!",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Valj ett slag på yttrandet:\n\nGusten på yttrandet\n\nFörklaring:\n- Slog (gå) är det första steg i ett slags process.\n- En puttslag är ett gud som tar ut ett sätt att skapa en slag, vilket kan vara ett av de mest viktigaste uttryckna i yttrandets process.\n\nDetta kallas för ett slags gud och är en v",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

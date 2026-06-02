@@ -1,0 +1,400 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "lang": "sv",
+  "n_runs": 5,
+  "date": "2026-06-02T11:05:16.945435",
+  "load_time_s": 2.966,
+  "aggregate": {
+    "parse_rate_mean": 1.0,
+    "parse_rate_std": 0.0,
+    "accuracy_mean": 0.24,
+    "accuracy_std": 0.0548
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 1.0,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Svar: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "Slagtyp: **chip**",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Putt.",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "- **Putt**  \n- **Chip**  \n- **Fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar: **Putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Putt.",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "- **Putt**  \n- **Chip**  \n- **Fullslag**",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 1.0,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "\"Putt\"",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Svar: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Putt",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar: *Putt*",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "- **Putt**",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar:  \n- **Putt** / **Chip** / **Fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar: **putt**",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 1.0,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Svar: **Putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Svar: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "slagtyp: chip",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Valj ett: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Putt",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Svar: **putt / fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Slagtyp - valj ett: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Slagtyp: chip",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt** / **chip** / **fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar: **putt**",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 1.0,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "- **Putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "**Putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Yttrande: *Sandwedge fran rough, studsade forbi.*  \nSlagtyp: *putt / chip / fullslag.*",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "\"Putt\"",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "- **Putt**",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "- **Putt**  \n- **Chip**  \n- **Fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 1.0,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Svar: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "slagtyp: chip",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Svar: **putt, chip, fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Slagtyp: **putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Putt.",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Svar: **Putt**",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "- **Putt**",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "- **Putt**  \n- **Chip**  \n- **Fullslag**",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Valj **putt** / **chip** / **fullslag**.",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,400 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "lang": "en",
+  "n_runs": 5,
+  "date": "2026-06-02T11:09:46.040307",
+  "load_time_s": 3.266,
+  "aggregate": {
+    "parse_rate_mean": 1.0,
+    "parse_rate_std": 0.0,
+    "accuracy_mean": 0.44,
+    "accuracy_std": 0.0548
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 1.0,
+      "accuracy": 0.5,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "The shot type is **putt**.",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": true
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip.",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 1.0,
+      "accuracy": 0.5,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "**Putt**",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "**Shot type: chip**.",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "**Chip**.",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip.",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": true
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "The shot is a **putt**.",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip.",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "putt",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "putt",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": true
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "**Answer:** chip",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 1.0,
+      "accuracy": 0.4,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "putt",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "The correct shot type is **putt**.",
+          "correct": true
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "chip",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "**Chip**.",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "chip",
+          "raw": "Chip.",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

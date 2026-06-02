@@ -375,6 +375,42 @@ Resultat:
 
 **Slutsats:** Språket förklarar parse-rate-skillnaden men inte accuracy-taket. Båda modellerna saknar golf-domänkunskap — de förstår inte att `"rolled in from the edge"` är ett putt eller att `"hit an iron"` är ett fullslag. Det är inte ett prompt-problem och inte ett språkproblem. Det är ett kunskapsproblem som inte löses med modeller av denna storlek.
 
+### Experiment 5 — Statistiskt robusta jämförelser över fyra modeller (utfört)
+
+Experiment 3 och 4 körde varje modell en gång. Det räcker inte för att skilja på slump och faktisk förmåga. Experiment 5 upprepar klassificeringstestet 5 gånger per modell och språk och utökar urvalet med Qwen3-0.6B och Qwen2.5-0.5B-Instruct.
+
+**Infrastrukturförbättringar inför körningen:**
+
+- `run_shot_classifier_eval.py` fick `--runs N`-flagga: modellen laddas en gång och kör N iterationer utan omstart.
+- Resultaten sparas som JSON per körning i `results/` med modellnamn och tidsstämpel i filnamnet. `show_results.py` läser alla filer och skriver ut en jämförelsetabell.
+- Buggfix: jämförelsen `p != "okand"` (utan umlaut) rapporterade alltid parse-rate 100% — rättades till `p != "okänd"`.
+- Qwen3-specifik hantering: Qwen3 har ett inbyggt reasoning-läge som genererar `<think>...</think>` innan svaret. Med `max_new_tokens=100` hann thinking aldrig avslutas och parsern hittade slagtypsordet i reasoning-texten — inte i svaret. Lösning: `/no_think`-direktivet i slutet av user-meddelandet stänger av reasoning för Qwen3 utan att påverka andra modeller.
+
+**Resultat (5 runs × 10 yttranden per modell och språk):**
+
+| Modell | Params | Språk | Parse-rate | Accuracy | Load |
+|---|---|---|---|---|---|
+| Supra-50M | 50M | sv | 12% ±11% | 10% ±10% | 1.6s |
+| Supra-50M | 50M | en | 28% ±8% | 22% ±13% | 1.1s |
+| SmolLM2-135M | 135M | sv | 30% ±12% | 20% ±7% | 1.6s |
+| SmolLM2-135M | 135M | en | 96% ±6% | 34% ±6% | 1.6s |
+| Qwen2.5-0.5B | 500M | sv | 66% ±15% | 26% ±15% | 1.5s |
+| Qwen2.5-0.5B | 500M | en | 98% ±5% | 42% ±11% | 2.1s |
+| Qwen3-0.6B | 600M | sv | 100% ±0% | 24% ±6% | 3.0s |
+| Qwen3-0.6B | 600M | en | 100% ±0% | 44% ±6% | 3.3s |
+
+**Analys:**
+
+*SV/EN-gapet är genomgående.* Alla fyra modeller presterar 10–20 procentenheter bättre på engelska. Det är inte ett prompting-problem — det är ett träningsdataproblem. Svenska golfjargong är underrepresenterat i förträningsdatan för alla testade modeller.
+
+*Parse-rate och accuracy är olika problem.* Qwen3 svarar alltid med ett giltigt alternativ (100% parse-rate) men gissningen är ofta fel (24–44% accuracy). Supra-50M gissningsvis rätt när den svarar, men svarar sällan. Det finns ingen modell som kombinerar hög parse-rate med hög accuracy.
+
+*Parametrar förklarar inte skillnaderna.* Qwen3-0.6B (600M) är bara 2 procentenheter bättre än Qwen2.5-0.5B (500M) på engelska — trots att den är 20% större. Den höga variansen för Qwen2.5-0.5B SV (±15%) visar att modellen inte har en stabil strategi för svenska yttranden; den gissar olika varje run.
+
+*Storleksgränsen för under-10s-inferens på CPU* ligger runt 300M parametrar vid max_new_tokens=100. Supra-50M och SmolLM2-135M är klart under gränsen. Qwen3-0.6B och Qwen2.5-0.5B laddar på ~3s respektive ~2s men genererar tillräckligt snabbt per yttrande vid 100 tokens.
+
+**Slutsats:** Accuracy-taket (~44% på engelska, ~26% på svenska) kvarstår oavsett modellstorlek inom det testade spannet 50–600M parametrar. Att byta från SmolLM2 till Qwen3 ger marginell förbättring. Problemet är golf-domänkunskap på svenska — inte tokenbudget, inte parsning. Vägen framåt är semantisk kod för nyckelord (täcker ~70% av fallen deterministiskt) kombinerat med LLM enbart som fallback.
+
 ### Vägen till högre träffsäkerhet
 
 Tre nivåer, i stigande komplexitet:
@@ -440,3 +476,9 @@ Identifierade brister prioriterade efter viktighet för detta system:
 | Rate limiting på `/ai/ask` | Kräver nytt beroende (`slowapi`); skyddar mot DoS via tung modellkörning men overkill i nuläget |
 | API-nyckelskydd | Relevant i produktion; utanför scope för denna inlämning |
 | GDPR — automatisk sessionsrensning | Kräver sessionhantering och TTL-logik; dokumenterat som känd brist |
+
+### Idébacklogg — framtida funktioner
+
+| Idé | Beskrivning |
+|-----|-------------|
+| Notatparsning per hål | Spelaren skriver/talar fritt per hål (`"Tre putts, landade i bunkern"`); LLM extraherar `{ putts, gir, fairway_hit, ... }`. Kräver en eval-svit med håldescriptioner → förväntad JSON och field accuracy som mått. Semantisk kod hanterar nyckelord; LLM används enbart för tvetydiga fall. |

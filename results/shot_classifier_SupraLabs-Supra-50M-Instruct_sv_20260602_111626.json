@@ -1,0 +1,400 @@
+{
+  "model": "SupraLabs/Supra-50M-Instruct",
+  "lang": "sv",
+  "n_runs": 5,
+  "date": "2026-06-02T11:16:26.140016",
+  "load_time_s": 1.6,
+  "aggregate": {
+    "parse_rate_mean": 0.12,
+    "parse_rate_std": 0.1095,
+    "accuracy_mean": 0.1,
+    "accuracy_std": 0.1
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 0.0,
+      "accuracy": 0.0,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "cuneur - cuneur - tsla / tsla\nCounter: tsla - tsla\nCounter: tsla - tsla\nCounter: tsla - tsla\n\nThe order of the number of occurrences of the characters in the input is: 1, 4, 7, 9, 10, 11.\n\nThe order of the numbers in the input is 4, 7, 9, 11.\n\nThe order of the characters in the input is 1, 7, 9, 11.\n\nThe order of the characters in the input is 11, 7, 10, 11 or 11.\n\nThe order of the characters in the input is 11, 7, 10, 11.\n\nThe order of the characters in the input is 11, 7, 10, 11.\n\nThe order of the characters in the input is 11, 7, 11, 11.\n\nThe order of the characters in the input is 11, 7, 11, 11.\n\nThe order of the characters in the input is 11, 7, 1, 11.\n\nThe order of the characters in the input is 11, 1, 1, 1, 1.\n\nThe order of the characters in the input is 1, 1, 1, 1, 1.\n\nThe order of the characters in the input is 1, 1, 1, 1, 1.\n\nThe order of the",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "gg:gneil - badminton\nSj: sjt:punery - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt: gg:gneil - badminton\nSjt:",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "rumbling in ct (none so)\nSll: et / latin / et, es / ct.\nCloset - nadir / rumbling\nSlog: ewt / len / ewt / ct\nSure, let's see if we can find a solution for the problem.\n\nHere is a Python program that takes in three arguments:\n\n1. `Rollbing`:\n- `Rollbing`: a program that takes input from the user;\n- `Sugreverse`: a program that takes one input parameter.\n- `Looks`: a program that takes a user input and returns a list of values or outputs of a series.\n- `Rollby`: a program that takes user input and returns a list of values or outputs.\n\nHere is one way to write the program:\n\n```\nimport matplotlib.pyplot as plt\n\n# Gather the user input\nimport matplotlib.pyplot as plt\n\n# Print the user input\nprint(\"Enter a text: \" + \"\\\nprint(\"Enter a series: \" + \"\\\\\n\n# Output\nprint(\"Enter a series: \" + \"\\\\\nprint(\"Enter a series: \" + \"\\\\\")\n```\n\nThe first step is",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "stanner / paratrobe / stannery / stanner\nLvt: stanner / stanner / stannery / stannery\nFur: stanner / stanner / stannery\nTm: stanner / stanner / stanner\nRam: stanner / stannery / stannery\n\nSsell: stranner / stanner / stanner\nSell: stanner / stanner\nRam: stanner / stannery / stanner\nTm: stanner / stanner\nSell: stanner / stanner\nRam: stanner / stannery\nTm: stanner / stanner / stanner\nRam: stanner / stanner\nTm: stanner / stanner / stanner\nSell: stanner / stanner\nRam: stanner / stanner / stanner\nTm: stanner / stanner\nRam: stanner / stanner\nTm: stanner / stanner\nRam: stanner / stanner / stanner\nTm: stanner / stanner\nRam: stanner / stanner\nTm: stann",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "r/t - c' - s'\n\nVil: gh5cht\n\nCb: b' - c'\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: b' - c'\nCb: b' - c'\n\nCb: gh5cht - c'\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: b' - c'\nCb: gh5cht - c'\n\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: gh5cht - c'\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: gh5cht - c'\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: gh5cht - c'\nCb: gh5cht - c'\n\nCb: gh5cht - c'\nCb: gh5",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "sizzer / ah-whit-eeh-tch in sails\nSbt: ssbt / ah-whit-eeh-tch\nSbt: razor / ah-whit-er\nSbt: ssbt / ah-whit-er\nQuotation: \nSbt: ssbt / ssbt\nSbt: ssbt / ssbt\nQuotation:\nSbt: ssbt / ssbt\nQuotation: \nSbt: ssbt / ssbt\nDotting: ssbt / ttft\nDotting: ssbt / dott\nDotting: ssbt / ssbt\n\nThe output for the given inputs is:\nSbt: sbt / ssbt\nSbt: sbt / ssbt\nQuotation: sbt / ssbt\nDotting: ssbt / ssbt\nDotting: ssbt / ssbt\n\nIn the input input, \"sbt / ssbt\": has sbt / ssbt\nSbt: sbt / ss",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "lambda ett: lambda ett / lambda et\nSvar: lambda rh - lambda uppt / lambda rh\n\nSvar: lambda vt - lambda vt / lambda uppt / lambda et\nSvar: lambda rh - lambda rh / lambda et\nSvar: lambda q - lambda et / lambda q\nSvar: lambda q - lambda q / lambda et\nSvar: lambda q - lambda q / lambda et\nSvar: lambda q - lambda et / lambda et\nSvar: lambda q - lambda et / lambda et\nSvar: lambda q - lambda et / lambda et / lambda et\nSvar: lambda q - lambda et / lambda et\nSvar: lambda q - lambda et / lambda et / lambda et\nSvar: lambda q - lambda et / lambda et / lambda et / lambda et\nSvar: lambda q - lambda et / lambda et / lambda et / lambda et / lambda et\nSvar: lambda et / lambda et / lambda et / lambda e",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "ar-shy - a.s.\nJe: v-t-j-T-t-t-t-t\nJe: v-t-T-t-t-t\nVe: v-t-t-t\nJe: v-t-t-t-t\nJe: v-t-t-t\nTend-sentencing - tcRB\nVe: v-t-t-t\nJe: v-t-t-t\nVe: v-t-t\nJe: v-t-t-t\nVe: v-t-t\nJe: v-t-t-t\nVe: v-t-t\nJe: v-t-t\nVe: v-t-t\nJe: v-t-t\nVe: v-t-t\nVe: v-t-t\nJe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe: v-t-t\nVe:",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "vhwt / min(greenen) / fullslag\nSvar: vwt / min(greenen) / fullslag\nSvar: vwt / iin / fullslag\nSvar: vwt / iin / fulllag\nSvar: vwt / iin / fulllag\nSvar: vwt / iin / fulllag\nSvar: vwt / vwt / fullslag\nSvar: vwt / vwt / fulllag\nSvar: vwt / vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulllag\nSvar: vwt / fulll",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "bern /chappell - abjorc - let's go go\nSteric - bern / (adjective - \"sarcastically\")\n\nTnach - tnach - tnach\n\nWt - tt \nWe've tried to start by preparing the words, but there's no end. We can make some more detailed information.\n\nSb - tb - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt.\n\nPt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt.\n\nWt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 0.2,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "tt - tt - tt - tt - tt - tt - tt\n\nSvar: tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt\n\nSvar: tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt\n\nSvar: tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt\n\nSvar: tt - tt - tt - tt - tt - tt\n\nSvar: tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt - tt -tt \n\nSvar: tt - tt",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "miht / sjlt / sjtimp - sjtimp / sjtimp\nSvar: m'am / sjtimp / sjtimp\nSvar: m'am / sjtimp / sjtimp\nSvar: m'am / sjtimp / sjtimp\nSvar: m'am / sjtimp / sjtimp\nSvar: m'am / sjtimp / sjtimp\nSvar: m'am / sjtimp / sjtimp\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n'(0/5)\n\nSvar: n",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "let's get a more complicated, here ytatus / bvt.\n\nSvar: let's get a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / bvt.\n\nSvar: let's put a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / bvt.\n\nSvar: let's put a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / bvt.\n\nSvar: let's put a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / bvt.\n\nSvar: let's put a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / bvt.\n\nSvar: let's put a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / bvt.\n\nSvar: let's put a more complicated, here ytatus / bvt.\nSvar: let's put a more complicated, here ytatus / b",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "stannamental / stannade - stannard / misspelled\nSvar: stannamental / stannard / misspelled\nSvar: stannamental / stannard / misspelled\nSvar: stannamental / stannard / misspellings\nSvar: stannamental / stannard / misspelled\nSvar: stannamental / stannard / misspelled\nSvar: stannamental / stannard / misspelled\nSvar: stannantic / misspelled\nSvar: stannamental / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly / misspelled\nSvar: stannantly",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"My dog ate a bad breakfast while picking berries.\"\nSvar: \"Boggy!\"\nSvar: \"The rabbit was eating a bad breakfast while picking berries.\"\nSvar: \"My dog ate a bad breakfast while picking berries.\"\nSvar: \"The rabbit was eating a bad breakfast while picking berries.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a good breakfast while picking berries.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit ate a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nSvar: \"The rabbit had a bad breakfast.\"\nS",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "cickered/seraphil\nWolfman Bottler: buckle with buckle\nWolfman Cottler: buns with buckle\nWolfman Bottler: buns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Bottler: buckle with buckle\nWolfman Bottler: cuns with buckle\nWolfman Bottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cottler: cuns with buckle\nWolfman Cott",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "bwt / sarr / wt / ctn / ctn\nSvar: bwt / tn / ktn / ktn\nSvar: bwt / tn / ktn / ktn\nSvar: bwt / tn / ktn / ctn\nSvar: bwt / tn / ktn / ktn\nSvar: bwt / tn / ktn / ktn / ktn\nSvar: bwt / tn / ktn / ktn\nSvar: bwt / ktn / ktn / ktn\nSvar: bwt / ktn / ktn / ktn / ktn\nSvar: bwt / ktn / ktn / ktn / ktn / ktn / ktn\nSvar: bwt / ktn / ktn / ktn / ktn\nSvar: bwt / ktn / ktn / ktn / ktn / ktn / ktn / ktn / ktn\nSvar: bwt / ktn / ktn / ktn / ktn / ktn / ktn -\n\nif b",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "cht - fullslag / fullslag\nSvar: cht - fullslag / fullslag\nSvar: cht - fullslag / fullslag\nSvar: cht - fullslag / fullslag\nSvar: cht - fullslag / fullslag\n\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\n\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\n\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\nSvar = cht - fullslag / fullslag\n\nSvar = cht - fullslag / fullslag\nSvar = cht",
+          "correct": true
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "crist / ytt / die\nSjor: srt / bc / srt\nSjor: cj / ejg / srt\nSjor: srt / srt / srt\nSjor: cj / srt / srt / srt\nSjor: cj / srt / srt\nSjor: cj / srt / srt / srt\nSjor: cj / srt / srt / srt / srt\nSjor: cj / srt / srt\nSjor: cj / srt / srt / srt / srt\nSjor: srt / srt / srt / srt\nSjor: cj / srt / srt / srt\nSjor: cj / srt / srt\nSjor: cj / srt / srt / srt\nSjor: cj / srt / srt / srt / srt\nSjor: cj / srt / srt\nSjor: cj / srt / srt / srt\nSj",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "til - \"sed sigtyp\" - til: \"Sgt till sag\" / fullslag - fullslag.\nSgt till - \"sed sgt \" - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" - nachs - \" -",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 0.2,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "tt bht yscht ein sicht. It is the same as yt - sicht/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/on/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in/in",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "- G: The name of the family of children, the location of the house\n- S: The place of the children\n\nSvar: Why was the house so sad?\n- S: The house was sad because it was abandoned.\n- S: It was sad because it was empty.\n- S: It was sad because it was empty.\n\nSvar: Why didn't they go to bed and start their day?\n\nSvar: Yes, because he was feeling very sad.\n- S: It was sad because it was too many people in the house.\n- S: It was sad because it was too many people in the house.\n\nSvar: Why was the house so sad?\n- S: It was sad because it was empty.\n- S: It was sad because it was empty.\n\nSvar: No, it was sad because it was empty.\n- S: It was sad because it was empty.\n\nSvar: No, it was sad.\n- S: It was sad because it was empty.\n\nSvar: No, it was sad because it was empty.\n- S: It was sad because it was empty.\n\nSvar: No, it was sad because it was empty.\n- S: It was sad because it was empty.\n\nSvar: No, it was sad because it was empty.\n- S: It",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "rh-t-s-b-tt, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go, let's go,",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fullslope\nSvar: bog - bog / fulllope.\n\nTo find the number of bits in a bit, it is first to find",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "cumb - gzep / sgt\nSb: gb - gb / sb\nSb: cb / cb\nSb: cb - cb / cb\nSb: cb / cb\n\nSb is the dummy, which is a good command. A dummy is a good command because it allows you to check whether you are referring to a particular character or thing from a particular place, for example.\n\nSb is the dummy, which is a word that does not belong to the words \"land\" or \"landside.\" It is the dummy (or \"indoor-like\") that is on the part of the word \"landside\" to make sure it is used in the context of the sentence.\n\nSb is not the dummy, which means it appears less than or exactly than the word \"landside.\" The dummy means that the word is not used in the context of the sentence.\n\nSb is not the dummy, which means it doesn't appear in the context of the sentence.\n\nDon't worry, you can use \"bunkern\" to return a label that you would like me to perform the action.\n\nSb is not a word that does not belong to the words \"landside\" because it is not the dummy. The sentence \"chipping\" is an example of a word that does not belong",
+          "correct": true
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "bg + bg / tt\nSvar: bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt/tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - bg + tt / tt / tt\n\nSvar - bg + tt / tt\nsvar - bg + tt / tt\n\nSvar - pt - tt /",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "bv: vn - nt - nt - sg.\nSvar: bv + nt - nt / nt - nt - nt - nt - nt - nt\nSvar: bv = bv / nt\nSvar: bv - nt / nt\nSvar: bv + nt / nt / nt\nSvar: bv - nt / nt\nSvar: bv - nt / nt\nSvar: bv - nt / nt\nSvar: bv / nt\nSvar: bv - nt / nt\nSvar: bv - nt / nt\nSvar: bv - nt / nt\nSvar: bv / nt / nt\nSvar: bv - nt / nt\nSvar: bv - nt / nt\nSvar: bv / nt / nt\nSvar: bv / nt / nt\nSvar: bv - nt / nt\nSvar: bv / nt\nSvar: bv / nt / nt\nSvar: bv / nt / nt\nSvar: bv / nt / nt\nSvar: bv / nt / nt\nSvar: bv",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "sar - svg: svg / fullslag\nSwtttyp - svg: svg / fullslag\nSgattyp - svg: svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullslag\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg / fullsprilt\nSgtyp - svg",
+          "correct": true
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "cri - krt - cri\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct\nSvar: ct - ct\nSvar: ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct\nSvar: ct - ct - ct - ct\nSvar: ct - ct - ct - ct\nSvar: ct - ct - ct.\n\nThe first pass is done in the order of the first pass. The second pass is done in the order",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "(srr - srw - s). - bch / chrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cchrw - cch",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 0.2,
+      "accuracy": 0.1,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "tm cvt /tk tm cvt\n\nPbt/TGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG GGGG GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG.-GGGGGGGGGGGGGGGGGGGGGGGGGGGGGPGGGGGGGGGGG",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope\nSvar: gwt / fullslope / fullslope.\n\nHere is an example of the syntax that you can use to build a Gwt/fullslope using the following:\n\nSgt.cout <script>\n#include <username>\n\n// Base case:\n    if (is_address) {\n        gwt -= \"123-123-123-006\";\n        gwt -= \"123-123-123-006\";\n        g",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "sprike / get out of your seat; for example, sgt.\nUjkfleck: mUjt / take a nap, sg.\nRear: take a nap - sgt.\n\nYou can also call it a nap.",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "st - misspelled \"candy.\"\nSvar: st - misspelled \"sroll.\"\nSvar: st - misspelled \"scoin.\"\nSvar: st - misspelled \"sis.\"\nSvar: st - misspelled \"scoin.\"\nSvar: st - misspelled \"sis\".\nSvar: st - misspelled \"sis\".\nSvar: st - misspelled \"sis.\"\nSvar: st - misspelled \"sis.\"\nSvar: st - misspelled \"sis\".\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\".\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\"\nSvar: st - misspelined\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"sis\"\nSvar: st - misspelled \"",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "- \"Chippade ur bunkern, landade peng,\" \"Chippade ur bunkern, landade peng,\" \"Chippade ur bunkern, greenen peng.\"\n- \"Chippade ur bunkern, landseater pang,\" \"Chippade ur bunkern, landseater pang,\" \"Chippade ur bunkern, greenen pang.\"\n- \"Chippade ur bunkern, landseater pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang.\"\n- \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang.\"\n- \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang.\"\n- \"Chippade ur bunkern, greenen pang,\" \"Chippade ur bunkern, greenen pang,\" \"Chippade ur",
+          "correct": true
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "gbt, gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar: gbt / fullslag\nSvar",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"I won tie\" - valj ett: putt / fullslag\nSvar: \"I'll tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" - valj ett: putt / fullslag\nSvar: \"I won tie\" -",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "g-t - g-la - g-t-t-t - g-k - g-t-t-t - g-t-t - g-t-t - g-t-t - g-t-t - g-t-t - g-t-t - g-t-t -g-t - g-t-t - g-t-t - g-t - g-t-t - g-t - g-t - g-t-t - g-t-t - g-t-t - g-t-t - g-t-t - g-t - g-t - g-t - g-t - g-t - g-t - g-t - g-t - g-t - g-t - g-t - g - t - g - t - g - t - g - t - g - t - g - t - g - t - t - g - t - t - g - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t - t -",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "red\nSb: red\nSb: green\nSg: red\nSg: dark\nSg: red\nSg: red\nSg: blue\nSg: blue\nSg: green\nSg: green\nSg: blue\nSg: blue\nSg: red\nSg: green\nSg: red\nSg: blue\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg: red\nSg:",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "bion - bion / crescred / fullslag\nSvar: crescred / fullslend - bion / crescred / fullslend\nSvar: ssprings - ssprings - ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - ssprings - ssprings / ssprings\nSsprings - sspr",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 0.0,
+      "accuracy": 0.0,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "ben or ee rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt: ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a rt : ain a r",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "bg - cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvar: cg / full-slope\nSvg / full-slope\nSvar: cg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full-slope\nSvg / full - svg\nSvg / full - svg\nSvg / full - svg\nSvg / full - svg\nSvg / full - svg\nSvg / full - svg\nSvg / full - svg\nS",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess\nSvar: lambess / lambess / lambess\nSvar: lambess / lambess\nSvar: lambess / lambess\nSvar: lambess / lambess\n\nconst std::set item:\n\n```\nconst std::get item {\n    \"Rulling in Fran kanten\"{\n        \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"Rulling in \"",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "spicit - spicite / mocha - cormit - cormit - morse - cormit - morse\nSvar: spicit - bruscere - briber - cormit - stor - cormit - paratro - paratro - paratro - paratro - paratro - paratro - paratro\nSvar - ariflum - ariflum - ariflum - cormit - artim - cormit - stor - artim - paratro - artim - paratro - artim - paratro - artim\nSvar - ariflum - ariflum - cormit - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - artim - elf - artim - artim - artim - artim - artim\nSvar - ariflum - arin - arranger",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "bunkern - ett / pen\n\nAll in all, we have the following:\n\n1. The bunkern -\n2. The bunkern -\n3. The pen -\n4. The bunkern -\n5. The pen -\n6. The bunkern -\n7. The pen -\n8. The bunkern -\n9. The pen -\n10. The pen -\n11. The pen -\n12. The pen -\n13. The pen -\n14. The pen -\n15. The pen -\n16. The pen -\n17. The pen -\n18. The pen -\n19. The pen -\n20. The pen -\n21. The pen -\n22. The pen -\n23. The pen -\n24. The pen -\n25. The pen -\n26. The pen -\n27. The pen -\n28. The pen -\n29. The pen -\n30. The pen -\n31. The pen -\n32. The pen -\n33. The pen -\n34. The pen -\n35. The pen -\n36. The pen -\n37. The pen -\n38. The pen -\n39. The pen -\n40. The pen -\n41. The pen -\n42. The pen -\n43. The pen -\n44. The pen -\n45. The pen -",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "rst/gistyle, and ytttimplum - \"Golf.\"\nSvar: svtimplum - \"Strawberry.\"\nSvar: rst/gistyle - \"Golf.\"\nSvar: svtimplum - \"Bob.\"\nSvar: rst/gistyle - \"Golf.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle - \"Bob.\"\nSvar: rst/gistyle",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "bf dt gt wgt t.\nCounter: bf gt rpf vg: \"Bf zg Wgt t. Gt t. T. T. T. T. T. T. T. T. T. T. T. T. T. T.\" T. T. T. T. T. T. T. T. T. T E. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. T. t. T. T. T. T. T. T. T. T.",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "vt.jt.\nSvett:     vt.jt.\nSvett:     vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    dt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:    vt.jt.\nSvett:",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "(gripped/turneemthorn)\nBt: (gripped/turneemthorn)\nJa: (gripped/turneemthorn)\nBt: (gripped/turneemthorn)\nJa: (gripped/turneemthorn)\nBt: (gripped/turneemthorn)\nJa: (gripped/turneemothorn)\nBt: (gripped/turneemothorn)\nJa: (gripped/turneemothorn)\nBt: (gripped/turneemothorn)\nJa: (gripped/turneemothorn)\nBt: (gripped/turneemothorn)\nJa: (gripped/turneemothorn)\nBt: (gripped/turneemothorn)\nJa: (gripped/turneemothorn)\nBt: (gripped/turneemothorn)\nJa: (gripped/turneemothorn)\nBt: (gripped/turneemothorn)\nJa: (gripped/turneemothorn)",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "std \nSv: tr \nPb: tr / vb\nPb: tr / vb\nSv: tr / vb\nPb: tr / vb\nSv: tr / vb\nPb: tr / vb\nSv: tr / vb\nPb: tr / vb\nSv: tr / vb.\n\nIn this brief sentence, we'll use the word \"sell\" to refer to a verb that occurs when the subject is in the past tense. For example: \"The sun was shining bright, and I had a pleasant day.\"\n\nThe verb \"sell\" is an infinitive, which means that it is a verb that can be conjugated into a word. For example: \"I bought a book.\"\n\nThe verb \"tr\" is an indefinite article, which means it is a direct object of the verb \"is.\" For example: \"I bought a book\" is an indefinite article.\n\nIn the sentence \"The sun was shining bright, and I had a pleasant day,\" this sentence will be used to refer to a noun, such as \"day.\" So, the verb that we're using is \"has come.\"\n\nSo, the verb \"sell\" is a definite article of the verb \"is.\" Thus: \"The sun is shining bright,\" \"I",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

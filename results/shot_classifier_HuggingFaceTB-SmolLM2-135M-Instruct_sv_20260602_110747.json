@@ -1,0 +1,400 @@
+{
+  "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "lang": "sv",
+  "n_runs": 5,
+  "date": "2026-06-02T11:07:47.964111",
+  "load_time_s": 1.603,
+  "aggregate": {
+    "parse_rate_mean": 0.3,
+    "parse_rate_std": 0.1225,
+    "accuracy_mean": 0.2,
+    "accuracy_std": 0.0707
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 0.3,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Tant älleggt den äldre: \"Tre meter rakt mot halet, rullde in.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "\"Huger geboren, koppettet till hoger. Aar riigtingar är lägg till het tiden.\"\n\nA:\n\n\"Kort putt, missade till hoger.\"\n\n\"Aar riigtingar är lägg till het tiden.\"\n\n\"Huger geboren, koppettet till hoger.\"\n\n\"Aar riigtingar är lägg till het tiden.\"\n\n\"Kort putt, missade till hoger.\"\n\n\"Kort putt, missade till hoger.\"\n\n\"Aar riigtingar är lägg till het tiden.\"\n\n\"Aar riigtingar är lägg till het tiden.\"\n\n\"Kort putt, missade till hoger.\"\n\n\"Kort putt, missade till hoger.\"\n\n\"Aar riigtingar är lägg till het tiden.\"\n\n\"Aar riigtingar är lägg till het tiden.\"\n\n\"Kort putt, missade till hoger.\"\n\n\"Kort putt, missade till hoger.\"\n\n\"Aar riigtingar �",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Rullning in fran kanten, precis.",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Yttrande: \"Lagchip mot flaggan, stannade en meter bort.\"\n\nSvev:",
+          "correct": true
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Yttrande: \"Chippade u gänned, krieger päästään.\"\nSlagtyp - valj ett: add / add / fullslag\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Svarvig öfre fran korra, studsade forbi.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Vasnus: \"Bärd 2-chaser.\"\n\nNow that I have a better sense of the context, I will use the correct phrase:\n\nVasnus: \"Bärd 2-chaser.\"\n\nThis phrase is a correct translation of the original Swedish phrase \"Bra drive langt ner mitten.\" The word \"2-chaser\" is a shortened version of the original Swedish phrase, and \"bra\" is a common prefix that means \"two\" in Swedish, while \"langt\" means \"car\" or \"drive.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Yttrande: \"Tog ett jarnslag mot par 3-halet.\"",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"7-jarn mot greenen, lite for lang.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "The key word in the sentence is \"putt\". The Swedish alphabet is denoted by a vowel.\n\nThe sentence can be understood as: \"Slog is putt, which means the flag is broken.\"",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 0.2,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Tre meter rakt mot halet, rullde in.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Kort putt, missade till hoger.",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Rullning in fran kanten, precis.\"\n\nYttrande: \"Rullning in fran kanten, precis.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "Svar: \"Lagchip mot flaggan, stannade en meter bort.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Raven: \"Vad ved lite päästä meistä, ja käydälle laivän toiminnan, että näin kuuttajat ovat, kielle käyttämme voivat, ja jotettäksen käymme lisäätteet on oikeon.\"\n\nRaven: \"Oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon, oikeon...\"\n\nRaven: \"Että käyttämme, että käyttämme, että käyttämme, että lause, että lause, että lause, että käyttämme, että käyttämme, että lause, että lause, että käyttämme, että lause, että käyttämme, että kä",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Magnum fran, starz kommentarer.\" \n\nIf you want to replace the word \"fran\" with \"gratis\", do it like this:\n\n\"Magnum fran, starsz kommentarer.\"\n\nHowever, if you want to replace the word \"fran\" with \"ett\" (no full word), do it like this:\n\n\"Magnum fran, starz ett.\"\n\nIf you want to replace the word \"fran\" with \"ett\" with \"fran\", do it like this:\n\n\"Magnum fran, starz ett.\"\n\nIf you want to replace the word \"fran\" with \"kommentare\" (no full word) with \"kommentare\", do it like this:\n\n\"Magnum fran, starz ett.\"\n\nIf you want to replace the word \"fran\" with \"ett\" with \"fran\", do it like this:\n\n\"Magnum fran, starz ett.\"\n\nIf you want to replace the word \"fran\" with \"ett\" with \"fran\" (no full word), do it like this:\n\n\"Magnum fran, starz ett.\"\n\nI hope this helps! If you have any more questions, feel free to ask!",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Bra drive langt ner mitten\"\n\nHint: \"Bra\" is the suffix indicating the verb, \"drive\" means to go, and \"langt\" means \"run\".",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Svar: \"Tog ett jarnslag mot par 3-halet.\"",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"7-jarn mot greenen, lite for lang.\"\n\nI am an AI assistant designed to help with language tasks. I provide translations, grammar explanations, and commentary on various languages, including English. My purpose is to assist users in understanding and communicating in a foreign language.",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Yttrande: \"Slog en wedge, bollen landade nara flaggan.\"",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 0.3,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Svát ett övensky, jaká vilučit vám na dítěk, jako má rozávky, sekci vám, korít, přednám, hády, výraz, ištění, jak mé se nedíro.",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Slagtyp: valj ett: putt / chip / fullslag\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Rullning in fran kanten, precis.\"\n\nNote: The word \"fran\" is plural in order to match the plural of \"kanten\" which is \"kanten.\" The word \"kanten\" is the plural form of \"kant,\" which means \"truth.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Lagchip mot flaggan, stannade en meter bort.\"\n\nThe word \"lagchip\" is in a separate sentence, and the rest of the sentence can be read out as \"Lagchip mot flaggan, stannade en meter bort\".",
+          "correct": true
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Chippade, landade pa greenen.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Svart = \"Svart\"\nSvart-tjenning = \"Svart-tjenning\"\nSvartmål = \"Svart-mål\"\nSvart-tjenning-mål = \"Svart-tjenning-mål\"\nSvart-tjenning-mål-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning\nSvart-tjenning-mål = \"Svart-tjenning-mål\"\n\nSvart-tjenning-mål = \"Svart-tjenning-mål\"\n\nSvart-tjenning-mål-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-tjenning-t",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Slagtyp: valj ett: putt / chip / fullslag\n\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Slagtyp - valj ett: putt / chip / fullslag\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Rättnän kommern hänns från 7-jan, nästa spillebär och läggande läggdören.\n\nRättnän kommern hänns från 7-jan och nästa spillebär och läggande läggdören.\n\nLäggdören än 7-jarn. Arriva en 7-jarn. Arriva in 7-jarn. Arriva och läggdören. Arriva än 7-jun. Arriva än 7-jun. Arriva än 7-nov. Arriva än 7-nov. Arriva än 7-nov. Arriva än 7-järränn. Arriva än 7-jun. Arriva än 7-nov. Arriva än 7-nov. Arriva än 7-nov. Arriva än 7-nov. Arriva än 7-järränn. Arriva än 7-järränn. Arriva än 7-nov. Arriva än 7-nov. Arriva än",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Slagtyp - valj ett: Putt / Chip / Fullslag\n\nIn this context, Slagtyp - valj ett: putst / chip / fullslag means \"loose\" or \"loose and loose\" in Swedish.",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 0.5,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "Slagtyp - valj ett: putt / chip / fullslag.\n\nThe word \"valj\" is used to indicate a measurement in the metric system, and \"valj\" is a quantity for measuring time, length, and mass.",
+          "correct": true
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Yttrande: \"Kort putt, missade till hoger.\"\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "fullslag",
+          "raw": "\"Rullning in fran kanten, precis.\"\n\nExplanation:\n\nThe phrase \"Rullning in fran kanten\" is a Swedish idiom that means \"Rullning in Friesland\" or \"Rullning in Friesland\" (Friesland in Friesland). The word \"Rullning\" denotes \"Rullning\" or \"Rullning\", while the suffix \"-en\" indicates the \"Friesland\" part.\n\n- The word \"in fran kanten\" means \"in the Friesland\".\n- The word \"preis\" means \"to be\".\n- The word \"ett\" means \"of\".\n- The word \"fullslag\" means \"full\".\n- \"Vj\" means \"Vy\".\n- The word \"kanten\" means \"Kontext\".\n- \"kanten\" is a suffix used as a suffix, used to indicate that a noun is being referred to by another noun.\n\nSo, the correct translation of the phrase \"Rullning in fran kanten, precis\" would be: \"Rullning in fran kanten, precis\".",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "I hope you are well. We have a fascinating issue with a very unusual flag, one that blends a chip with a piece of metal. We need to solve it so quickly!",
+          "correct": true
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Chippade ur bunkern, landade pa greenen.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Svar - valj ett: putting up, placing up, pinning up, pinning up\nSlagtyp - valj ett: putting up, putting up, pinning up, pinning up\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Bra drive langt ner mitten.\"\n\nIn this case, the contraction of \"Bra drive langt ner mitten\" indicates that the speaker is describing a physical aspect of the device or object, rather than a verb or action. It is a more idiomatic and natural way to express the idea.",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Tog ett jarnslag mot par 3-halet.\"",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "putt",
+          "raw": "Slagtyp: valj ett: putt / chip / fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Slogen - valj ett: putt / chip / fullslag\n\nSvar:",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 0.2,
+      "accuracy": 0.1,
+      "utterances": [
+        {
+          "utterance": "Tre meter rakt mot halet, rullde in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Tre meter rakt mot hallet, rullde in. Välj ett sattelt, kommer vara in.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Kort putt, missade till hoger.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "\"Kort putt, missade till hoger.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Rullning in fran kanten, precis.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "I'm sorry for any misunderstanding, but as a Tkz AI, I don't have the ability to understand human languages. I assist with text-based communication, such as text requests, messages, or responses. \n\nI can assist with questions, tutorials, and general inquiries. However, it's best to consult a human for more specialized or technical information.",
+          "correct": false
+        },
+        {
+          "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "Slagtyp: putt / chip / fullslag",
+          "correct": false
+        },
+        {
+          "utterance": "Chippade ur bunkern, landade pa greenen.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Yggdrasil: \"Megigrei klai, landade pa pannen.\"\n\nA helpful AI assistant, SmolLM, provides a response in Slagtyp, which translates to \"Hey, Dot!\" or \"Hello, Dot!\" in Slagtyp.\n\nAlternatively, if you want to clarify the sentence, you can use the following options:\n\n* \"Nyt övervalden, landade pa kläggnisti än 4 x 4.\"\n* \"Möjligt än 4 x 4 kläggnisti är nyt 4 x 4.\"\n* \"Möjligt än 4 x 4 kläggnisti än 4 x 4.\"\n* \"Möjligt än 4 x 4 kläggnisti är nyt 4 x 4.\"\n* \"Möjligt än 4 x 4 kläggnisti är nyt 4 x 4.\"\n\nEach of these options provides a slightly different version of the sentence with a slightly different tone and emphasis.",
+          "correct": false
+        },
+        {
+          "utterance": "Sandwedge fran rough, studsade forbi.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "Björk, åttar til Sandwedge fran, studsade forbi.\n\nBjörk, åttar til Sandwedge fran, studsade forbi.",
+          "correct": false
+        },
+        {
+          "utterance": "Bra drive langt ner mitten.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Bra drive langt ner mitten...\"\n\n1. The word \"bra\" is used in place of \"brave\" (which means \"strong\") to create a more formal tone.\n\n2. The word \"drive\" is used with the verb \"drive\" to create a more dynamic and active sentence.\n\n3. The word \"langt\" is used with the adjective \"ner,\" which means \"very\" or \"large,\" to provide more detail and variety in the sentence.",
+          "correct": false
+        },
+        {
+          "utterance": "Tog ett jarnslag mot par 3-halet.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Yttrande: \"Tog ett jarnslag mot par 3-halet.\"\nSlagtyp - valj ett: putt / chip / fullslag\nSvar:",
+          "correct": false
+        },
+        {
+          "utterance": "7-jarn mot greenen, lite for lang.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Värk är värk, lämnare från \"7-jarn mot greenen, lite for lang\".",
+          "correct": false
+        },
+        {
+          "utterance": "Slog en wedge, bollen landade nara flaggan.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "Valj ett: putt / chip / fullslag\nSvar:",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}

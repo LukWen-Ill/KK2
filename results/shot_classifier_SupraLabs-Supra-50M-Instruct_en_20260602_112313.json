@@ -1,0 +1,400 @@
+{
+  "model": "SupraLabs/Supra-50M-Instruct",
+  "lang": "en",
+  "n_runs": 5,
+  "date": "2026-06-02T11:23:13.790206",
+  "load_time_s": 1.129,
+  "aggregate": {
+    "parse_rate_mean": 0.28,
+    "parse_rate_std": 0.0837,
+    "accuracy_mean": 0.22,
+    "accuracy_std": 0.1304
+  },
+  "runs": [
+    {
+      "run": 1,
+      "parse_rate": 0.3,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "\"Three-foot straight putt\"",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Happy Holidays\"\n\nSure, here is the corrected version of the sentence: \"Happy Holidays\"\n\nHappy Holidays, Happy Birthday\n\nSure, I've updated the sentence with the correct format: \"Happy Holidays\"\n\nHappy Holidays, Happy Birthday\n\nHappy Holidays, Happy Birthday\n\nSure, here's the corrected version of the sentence: \"Happy Holidays\"\n\nH",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Rolled in turn: \"Rolled in turn.\"\nFunctionality:\nRolled in turn: \"Rolled in turn.\"\n\nExample:\nHere is a function that takes an integer `n` as an argument. Let's call it \"Rolled in turn\" in Python:\n\n```\ndef get_valid_num(n):\n    if n > 1:",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Low chip towards the flag\"\n\nThe flag \"Low chip towards the flag\" is the same as \"Low chip towards the flag.\" The difference between \"Low chip\" and \"Fullslag\" is \"1\". If \"Low chip\" is chosen correctly, the flag will be \"Low chip towards the flag.\"\nIf \"Fullslag\" is chosen incorrectly, the flag will be \"Fullslag\". If \"Low chip\" is chosen incorrectly, the flag will be \"",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Chipped out of the bunker\" - fullslag\n\n- The \"Chipped out\" is the only answer.\n- \"Fullslag\" is the only answer.\n- \"Chipped out\" is the only answer.\n- \"Fullslag\" is the final answer.\n\nSo the answer is the original answer.",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Pure Thunder\"\n\nSand wedge, \"Pure Thunder\"\nPure Thunder, \"Pure Thunder\"\n\nSure, \"Pure Thunder\" is an example of a type of lightning strike that involves a person standing in the midst of an approaching lightning strike and using his or her hands to dislodge the ground. The person is often characterized by the sudden sudden motion of the objects, and the lightning strikes and the sounds of the thunder",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Great drive, long and down the middle\"\n\nThe final answer is: \"\"\n\nTherefore, \"Great drive, long and down the middle\" is \"Good drive\"\n\nNote: \"Good drive\" is not a valid answer and more information is needed to determine the final answer.",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Action is the final measure of the product.\"\n\nThe result is: \"Action is the final measure of the product.\"\n\nExample:\nExample 1: \"Action is the final measure of the product\"\n\n- \"Action is the first measure of the product\"\n- \"Action is the first measure of the product\"\n- \"Action is the first measure of the product\"\n- \"Action is the first measure of the product\"",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"The green will be in the middle.\"\nMatch: \"1\"\nWrench: \"W\" / 2\nWrench: \"0\" / 4\nWrench: \"0\" / 4\nWrench: \"0\" / 4\nWrench: \"0\" / 4\nWrench: \"0\" / 4\nWrench: \"0\" / 4\nWrench: \"3\" / 4\nWrench: \"0\" / 4\nWrench",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Wedge shot\"\n\nWideprint: \"WETING\"\n\nWipe-down: \"WETING\"\n\nWETwalk: \"WETwalk\"\n\nWETwalk: \"WETwalk\"\n\nWETwalk: \"WETwalk\"\n\nWETwalk: \"WETwalk\"\n\nWETwalk: \"WETwalk\"\n\nWETwalk: \"WETwalk\"\n\nWETwalk:",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "parse_rate": 0.2,
+      "accuracy": 0.2,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Sure, I've suggested that you try the \"Lower Stage\" that's made from bamboo and has a 1.5-inch cross section. It's a good idea to use a bucket or a shovel to drill holes in the bottom of the cross section. The depth of the bucket and the shovel are the best choices. Plus, the shovel is relatively inexpensive and is a good choice if you want to traverse the entire area. Also, the shovel has a lifespan of just one",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Dune\"\n\nPairing:\n- \"Dune\" is the simplest form of the assignment, and is always used to indicate the start of the assignment. For example, \"Dune\" is a \"Dune\" and is the first letter of the assignment.\n- \"Dune\" is the least common multiple of \"Dune\" and \"Dune\" is the second letter of \"Dune\" and you can use \"Dune\" to specify the final",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in \"Rolled in",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Low chip while the flag is flying\"\n\nNote: The flag is meant to be worn to indicate that the flag is a reflection of the flag, not to indicate that it is a legal and not applicable to a person or organization.\n\nFor a \"Low chip while the flag is flying\" answer, you could use the following method:\n1. Place the flag in a neat pile and place it at the top of the flag.\n2. For the flag to be \"",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out of bunker\" \nAnswer: \"Chipped out",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Sand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)\nSand wedge, \"(sure)",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Good luck ride\" for you.\n\nAs an AI language model, I'm not able to use this information to suggest personal experiences or travel experiences for myself. A travel destination or location could be a great travel destination or location with a lot of information. However, for a general overview of the best travel experiences for you, here are some ideas that might help you:\n\n- Start your journey with a good travel destination, such as a hikes, a city, or a country",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Put Tails\" - toast\n\nHere's some sample code to solve the problem:\n\n1. Define the current temperature of the oven and prepare the bread. \n2. Take the input from the user and compare the temperature of the bread with the temperature of the oven.\n3. Compare the temperature of the bread with the oven temperature using the formula:\nHg / (H2O),\nHg = (4,0,0,0), H",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"green\" to \"green\" or \"green\" to \"green.\"\n\nCondition: None\n- Change the color of the flag to green\n\nCondition: \"green\" or \"green\"\n- Change the color to green\n\nCondition: \"green\" or \"green\"\n- Change the color to green\n\nFront of the flag:\n- The flag will be red\n- The flag will be green\n\nDown to the bottom of the flag",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Wedge shot\".\n\nWidemark shot - ball lying on a flat wheel. Please check the weather forecast.\n\nWearers - \"Wrestling\"\nWearers - \"Wrestling\"\nWearers - \"Wrestling\"\nWearers - \"Wrestling\"\nWearers - \"Wrestling\"\nWearers - \"Wrestling\"\nWearers - \"Wrestling\"\nWearers",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "parse_rate": 0.4,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Aces = 5.5/3\n\nThe result is: Ace - Pitch - Pitch - Tail\n\nThe expression is: \"Ace - Pitch - Tail\".\n\nThe print version is: \"Ace - Pitch - Paille - Tail\".\n\nSo, \"Ace - Pitch - Paille - Tail\" can be written in the format of a four-sided Paille or a six-sided P",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Stalkon\" - best approach.\n\nChart.\n                        = -0.8\n\nTo solve this problem, you can use the following formula: \n\nt = -0.8 - 0.8\n\nwhere t is the number of bits in a byte, and t is the number of bytes in a byte. \n\nHere's how",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Rolled in from the edge: rollin / die\nRolled in: dropin / die\nRolled in: rollin / die\nRolled in: rollin / die\nRolled in: rollin / die\nRolled in: rollin / die\nRolled in: rollin / die\nRolled in: rollin / die\nRolled in: rollin / die\nRolled in: rollin",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Low chip towards the flag, stopped by either a fullslag or a fullspread.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Chipped out of the bunker, landed on the green.\"\n\nIf you use the correct answer, then you'll find the correct answer. Now, it's good to know that there is no issue, and you can use the \"Chipped out of the billy\" method to determine if there's a bug. You could use a bout or a time pass to check the amount of time it takes to find the bug. If it does, then you need to return the",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "fullslag",
+          "raw": "\"Sandy wedge, s'am\"\n\nType: Simple to Envelope\n-  Answering: \"Sandy wedge, s'am\"\n- Toasting: \"Sandy wedge, s'am\"\n- To painting: \"Sandy wedge / fullslag\"\n\nSample: \"Sandy wedge, s'am\"\n\nIf the sentence \"Sandy wedge, s'am\" is \"Sandy",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Good drive, long and down the middle.\" \n\nSample:\nSure, let's assume there are a few cars in the traffic.\n\nSample: Sure, the one one\nSample: \"Woke up early for the first mile, and got out of the traffic. The traffic is heavy, and there is a lot of traffic.\"\n\nSample: \"But I've been driving a lot of traffic, and I have a pretty high start.\"",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"The first step to clean up my kitchen\"\n\n- **Split the trash**: Take a shower and rinse all the trash.\n- **Prepare the trash: Wash and dry all the trash.\n- **Prepare the trash bag: Take the trash bag and dispose of all the trash.\n- **Prepare the trash bin: Take the trash bin and dispose of the garbage.\n- **Restore the trash bag",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"green\"\n\nOutput: \"green\"\n\nThe result will be \"green\"\n\nThus, \"green\" is the green and \"green\" is the full-slope.",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "fullslag",
+          "raw": "\"Wedge shot\" (fullslag)\nResult: \"Wedge shot\" is \"Wedge shot\". It is a good indicator that a shot is needed to be taken.",
+          "correct": true
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "parse_rate": 0.3,
+      "accuracy": 0.3,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "putt",
+          "raw": "\"Three-foot straight putt / fullslag\"\nRoundby - make a figure out the value of \"Three-foot straight\"\nSure, here's one possible solution:\n\n1. Ride the \"three-foot\" line between the two points and mark the line to determine the value of \"Three-foot straight.\"\n2. With the \"three-foot\" line, divide 2 of the points into three equal parts: \"Three-foot straight\"",
+          "correct": true
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Thinner\"\n\nSure, I've provided you with the answer. Let's make an outline of the main parts of the proposal.\n\nFirst, we'll choose a small number of tokens.\n\nFirst, we'll choose a small number of tokens.\n\nNext, we'll choose an instrument, such as tape, tape or a pen.\n\nSET start of the proposal\n\nInput: \"Thinner\"\nDescription:\n\nThe",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Rolled in from the edge\"; \"Rolled in from the ground.\"\n- Rectangle to R\n- Rectangle to square root (Rx)\n- Rectangle to square root (Rb)\n- Rectangle to square root (Rr)\n- Rectangle to square root (Rr).\n- Rectangle to square root (Rr).\n- Rectangle to square root (Rr).\n\nIf",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"Low chip behind the flag\"\n\nCriteria: \n- The flag is not in action.\n- The flag is not the symbol or symbol used in the flag.\n- The flag is not the symbol or symbol used in the flag.\n- The flag is not in action.\n\nConclusion: \n- The flag is not in action.\n- The flag is not the symbol or symbol used in the flag.\n- The flag is not in action",
+          "correct": true
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "chip",
+          "raw": "\"chipped out the green\"\n\nIf the green is not red, then your answer is \"cut\". This is an example of \"cut\" which is a phrase that means you have taken a cut.\nIf the green is red, then you have cut. You are given the phrase, \"cut down the green.\"\nTherefore, \"cut down the green\" is a phrase that means \"cut down the green.\"",
+          "correct": true
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Sandy wedge from the rough, bounced past.\"\n\nSandy wedge from the rough, bounced past.\nSandy wedge from the rough, bounced past.\nSandy wedge from the rough, bounced past.\nSandy wedge from the rough, bounced past. \nSandy wedge from the rough, bounced past.\nSandy wedge from the rough, bounced past.\nSandy wedge from the",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Great drive, long and down the middle.\"\n\nTips:\n- Driver: This is the best option.\n- Mode: This is the most efficient and cost-effective way to drive.\n- Mode: This means taking shortcuts, avoiding sudden stops, and taking shorter trips.\n- Charged: This is the fastest and most efficient route to reach the destination.\n- Mode: This is the most economical trip to take. It can be a long and difficult road",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Zero Zero\"\n\nThe outcome of the operation will be \"Zero Zero.\"\n\nThe result will be \"Zero Zero\".\n\nTo see the outcome of the operation, you can use the following code:\n\n```\n#include <iostream>\n#include <img>\n\nusing namespace html\n#include <stdio.h>\n\nusing namespace html",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Escape\" - place a red card in the middle of the green, \"Escape.\"\n\nRound the green to the nearest 10 positions, \"Escape\" - turn on the computer and keep it running until \"Escape\".\n\nGrounding the green card, \"Escape\" - turn on the computer and take a step to exit.\n\nAs the card goes up, \"Escape\" - take a step back by placing the card in front of it",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Wedge shot\"\n\nFalse. The shot is incorrect. False. The shot has the form \"Wedge shot\" and is \"Wedge shot\". This is the correct answer. It is simply an error because the shot has not taken the form \"Wedge shot\". The correct answer is \"Wedge shot.\" This is an error because the correct answer is \"Knap Tag\". The correct answer is \"Knap Tag\". This is an error because the correct",
+          "correct": false
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "parse_rate": 0.2,
+      "accuracy": 0.0,
+      "utterances": [
+        {
+          "utterance": "Three-foot straight putt, rolled it in.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Premise\"\n\nConditional, automatic, and time-saving.\n- Premise\n- Premise\n- Premise\n- Premise\n- Premise\n- Premight\n- Premise\n\nIn the order of difficulty, here is the code in Python to solve the problem:\n\n1. Initialize the \"Premise\" variable, and set a variable to the first element of the \"Premise",
+          "correct": false
+        },
+        {
+          "utterance": "Short putt, missed to the right.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "\"Wonderfully\"\n\nIt is not possible to determine the exact method to use - it is possible to check the exact method or set of instructions for using the item to which it belongs without knowing the exact method. Each instruction is typically included in the code and a brief explanation of the specific item is provided.",
+          "correct": false
+        },
+        {
+          "utterance": "Rolled in from the edge, just dropped.",
+          "expected": "putt",
+          "predicted": "okänd",
+          "raw": "Rolled in from the corner\nRolled in from the corner\nRolled in from the corner\nRolled in from the corner\nRolled in from the corner\nRolled in from the corner\nRolled in from the corner.\n\nTherefore, Rolled in from the corner is \"Rolled in from the corner\" and \"Rolled in from the corner\" is \"Rolled in from the corner\".",
+          "correct": false
+        },
+        {
+          "utterance": "Low chip toward the flag, stopped a foot away.",
+          "expected": "chip",
+          "predicted": "okänd",
+          "raw": "\"Roat-turn\" / \"Roat-turn\"\n\nExamples: \n- A person is making a statement and is taking a step to turn it off.\n- The car tires are spinning, but the tires have a bad turn.\n- No one is on the road to make it safely.\n- The streetlights are shining.\n- The streetlights are shining.\n- The streetlights are dimly lit.\n- The doctor is having trouble breathing and",
+          "correct": false
+        },
+        {
+          "utterance": "Chipped out of the bunker, landed on the green.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "\"Chipped out the bunker\"\nReversed to \"Chipped out the green\"\nReversed to \"Fullslag\"\nResolved: \"Fullslag to the green.\"\nShot type - choose one: putt / chip / fullslag\nAnswer: \"Fullslag to the green\"\nReversed to \"Fullslag to the green.\"\nShot type - choose one: putt / chip / fullslag\nAnswer",
+          "correct": false
+        },
+        {
+          "utterance": "Sand wedge from the rough, bounced past.",
+          "expected": "chip",
+          "predicted": "putt",
+          "raw": "\"Grace wedge in the rough, bounced past.\"\n\nExample: \"The farmer's corn was in a beautiful meadow.\"\n\nSolution:\n- Putt / chip or fullslag\n- The farmer's corn was in a rough, bounced past\n- The farmer's corn was in a beautiful meadow\n- The farmer's corn was in a meadow\n- The farmer's corn was in a meadow\n\nAnswer: \"Sandy wedge in the rough",
+          "correct": false
+        },
+        {
+          "utterance": "Great drive, long and down the middle.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Good drive, long and down the middle\"\n\nIn this scenario, we choose one of the options we choose.\n\n(Prepare a roadmap of the route)\n- The roadmap of the route is as follows:\n    - The first stop is at the nearest stop of the road.\n    - The second stop is at the roadside of the route.\n    - The third stop is at the exit point of the road",
+          "correct": false
+        },
+        {
+          "utterance": "Hit an iron into the par 3.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Hit the iron into the par 3.\"\n\nPairing:\n- \"Join a craft, \"in the hand of the iron, with a pen and a knife. Take the clay and start to paint the paper. \n- \"Affection\" (to form the final design)\n- \"Wack\" (to craft the paper, to paint the paper).\n\nNote: This is a basic template, and the instructions are specific and are specific to the",
+          "correct": false
+        },
+        {
+          "utterance": "7-iron to the green, a bit long.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "a.0\n\nNo.0 = 0\n\n2.0 = 1\n\nAnswer: a.0 = 0\n\nThe answer is \"a.\"\n\nAnswer: a.0 = 1\n\nAnswer: a.0 = 0\n\nSo, a.0 = 0.0 or a.0 = 1.0 or a.0 = 0.0 or a.0 = 1.0 or a.0 = 1.0 or a.0 =",
+          "correct": false
+        },
+        {
+          "utterance": "Wedge shot, ball landed near the flag.",
+          "expected": "fullslag",
+          "predicted": "okänd",
+          "raw": "\"Wedge shot\" - shot as it is being shot at a point below the flag.\nThe shot is being shot as it is being shot for the flag. If \"Wedge shot\" is being shot as it is being shot, it is being shot as well. If \"Wedge shot\" is being shot, it is being shot as it is being shot. If \"Wedge shot\" is being shot in the shot, it is being taken as it is being shot. If",
+          "correct": false
+        }
+      ]
+    }
+  ]
+}
