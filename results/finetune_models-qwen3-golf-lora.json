@@ -1,0 +1,9 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "adapter": "models/qwen3-golf-lora",
+  "epochs": 3,
+  "lora_rank": 8,
+  "train_examples": 160,
+  "val_accuracy": 0.65,
+  "training_minutes": 29.638521578333652
+}

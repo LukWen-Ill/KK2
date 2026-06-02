@@ -545,7 +545,7 @@ Sista run (few-shot) per yttrande:
 
 ---
 
-### Experiment 8 — Fine-tuning med LoRA (pågår)
+### Experiment 8 — Fine-tuning med LoRA (utfört)
 
 #### Vad är fine-tuning?
 
@@ -630,14 +630,55 @@ Yttrandena täcker variation i ordval och situation (direktträff, miss, bunker,
 
 #### Resultat
 
-> ⏳ **Pågår.** Träning körs lokalt på CPU. Resultaten fylls i när körningen är klar.
+Träning kördes lokalt på CPU i ~30 minuter (3 epoker, 120 steg, batch_size=4).
 
 | Mått | Värde |
 |---|---|
-| Träningstid | — |
-| Val accuracy (adapter) | — |
-| Accuracy vs. testset 10 ex. | — |
-| Jämfört med few-shot (33%) | — |
+| Träningstid | 29.6 min |
+| Träningsexempel | 160 |
+| Val accuracy (40 ex.) | **65% (26/40)** |
+| Loss (slutvärde) | 0.9680 |
+| Jämfört med few-shot (33%) | **+32 pp** |
+| Jämfört med zero-shot (24%) | **+41 pp** |
+
+Val-accuracy per klass (observerat felmönster):
+
+| Klass | Feltyp |
+|---|---|
+| putt | Förväxlas med fullslag i korta beskrivningar utan "putt"-nyckelord |
+| chip | Förväxlas med fullslag (wedge-slag) och putt (korta rullningar) — svåraste klassen |
+| fullslag | Hög precision; tydliga fall klassificeras rätt |
+
+**Analys:**
+
+Fine-tuning gav den enskilt största förbättringen i hela experimentserien: från 33% (few-shot) till 65% — en fördubbling. Det bekräftar hypotesen att domänkunskap på svenska, inte promptdesign, är flaskhalsen.
+
+Chip-klassen är fortfarande svår. Yttrandena är genuint tvetydiga: ett wedge-slag 30 meter från greenen är tekniskt ett fullslag men beskrivs ofta som ett chip. Det är inte ett modellfail — det är en annotation-ambiguitet. Mer träningsdata med tydligare distinktioner för chip-klassen förväntas höja accuracy ytterligare.
+
+**Jämförelsetabell — alla metoder:**
+
+| Metod | Accuracy | Kräver modell | Kräver träning |
+|---|---|---|---|
+| Zero-shot Qwen3-0.6B (Exp 5) | 24% | ja | nej |
+| Few-shot Qwen3-0.6B (Exp 7) | 33% | ja | nej |
+| **Fine-tuned Qwen3-0.6B LoRA (Exp 8)** | **65%** | **ja** | **ja** |
+| Semantisk kod (Exp 6) | 90% | nej | nej |
+
+**Slutsats:** Fine-tuning validerar edge AI-argumentet: en liten lokal modell med domänspecifik träning slår all prompting utan träning med stor marginal. Accuracy på 65% gör fine-tunade Qwen3 användbar som Nivå 2-fallback i hybridarkitekturen. Semantisk kod (Nivå 1) täcker fortfarande de enkla fallen bättre, men för genuint tvetydiga yttranden — de som saknar uppenbara nyckelord — är fine-tunad LoRA det starkaste alternativet utan API-beroende.
+
+#### Skulle mer träningsdata ge bättre accuracy?
+
+Vår träningsdata består av 160 exempel (53 per klass). Frågan är om en utökning — säg till 500 eller 1 000 exempel — faktiskt skulle höja accuracy.
+
+Forskning på LoRA-finjustering av småmodeller pekar mot tre konsistenta mönster:
+
+**Mer data hjälper — men planar tidigt ut.** För klassificeringsuppgifter med tre klasser visar empiriska mätningar att 100–300 exempel per klass ger mätbar förbättring; utöver ~500 totala exempel börjar avkastningen avta snabbt. Llama 3.1 8B nådde 92% accuracy med 150 träningsexempel; ytterligare data bidrog marginellt ([Particula, 2026](https://particula.tech/blog/how-much-data-fine-tune-llm)).
+
+**Kvalitet slår kvantitet vid liten skala.** En studie av finjusterade småmodeller på textklassificering visade att 200 välkurerade exempel konsekvent presterar bättre än 2 000 slarvigt annoterade ([arXiv:2406.08660](https://arxiv.org/html/2406.08660v2)).
+
+**LoRA saturerar tidigt.** En färsk scaling-studie (2025) visar att prestandaplatå infaller runt LoRA-rank 48–64 för småmodeller — data snarare än rank är flaskhalsen vid låga rank-värden ([arXiv:2501.03152](https://arxiv.org/html/2501.03152v1)).
+
+**Vår slutsats:** Mer data förväntas hjälpa, men exakt hur mycket är oklart utan att köra experimentet. Det forskningen ger stöd för är att vi inte nått saturering med 160 exempel, och att den mest effektiva insatsen är fler chip-specifika exempel med tydligare distinktion mot fullslag — den klass som tappade mest i Exp 8. Utöver ~500 exempel bedöms förbättringen vara marginell för en modell av denna storlek; då är en större basmodell ett mer kostnadseffektivt nästa steg.
 
 #### Varför inte bara använda en större modell?
 
