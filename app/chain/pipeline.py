@@ -23,7 +23,7 @@ analyse_kedjan = GoodStep(_runner) | BadStep(_runner) | TipStep(_runner)
 ask_cot_kedjan = (
     GapAnalyzerStep()
     | WeaknessStep(_runner)
-    | DrillStep(_runner)
+    | DrillStep()
     | ImpactStep(_runner)
     | AskAnswerComposerStep(_runner)
 )

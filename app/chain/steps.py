@@ -243,19 +243,37 @@ class WeaknessStep(Runnable[AskCoTState, AskCoTState]):
         return state.model_copy(update={"weakness_desc": text})
 
 
+_DRILL_DB: dict[str, list[str]] = {
+    "GIR": [
+        "9-shot drill: hit three balls each from 100, 150, and 200 yards aiming at green center — track how many land and stay.",
+        "Gate drill: place two alignment sticks just wider than the green, practice approach shots through the gate from 100–150 yards.",
+        "Dispersion circle: pick a target on the range, hit 10 approach shots and measure how many land within a 10-yard radius.",
+    ],
+    "Fairway": [
+        "Alignment stick drill: lay a stick along your target line, rehearse takeaway staying parallel — hit 20 drives focusing on path, not distance.",
+        "Fairway finder: tee the ball lower than normal and swing at 80% speed — count how many of 10 drives land in a simulated fairway corridor.",
+        "Half-swing drill: practice 3/4-speed driver swings to build repeatable ball-striking before returning to full speed.",
+    ],
+    "Putts": [
+        "Gate putting drill: place two tees 1 inch wider than your putter face, 3 feet from the hole — make 20 consecutive putts without touching the tees.",
+        "Distance ladder: place balls at 10, 20, and 30 feet; putt each to within 18 inches — builds lag putting and distance control.",
+        "Clock drill: place 8 balls around the hole at 3 feet (like clock positions), make all 8 before moving to 4 feet.",
+    ],
+    "Scoring": [
+        "Par-3 challenge: play only par-3 holes for a full round, target par or better on every hole — sharpens scoring mindset.",
+        "Two-club scramble: play a hole using only your wedge and putter — forces creative shot-making and short-game accuracy.",
+        "Bogey-free practice round: play at your own pace targeting bogey max on every hole; focus on avoiding double-bogeys.",
+    ],
+}
+
+
 class DrillStep(Runnable[AskCoTState, AskCoTState]):
-    """Step 3: one specific practice drill for the worst stat."""
-    def __init__(self, runner: "LLMRunner") -> None:
-        self._runner = LLMRunner(model_name_or_path=runner._model_name_or_path, max_new_tokens=50)
+    """Step 3: deterministic drill lookup — no LLM, no hallucination."""
 
     def invoke(self, state: AskCoTState) -> AskCoTState:
-        prompt = (
-            f"A golfer has {state.worst_stat} at {state.worst_gap_str}.\n"
-            f"Name one specific practice drill to improve {state.worst_stat}. Answer:"
-        )
-        raw = self._runner.invoke(PromptBuilderOutput(prompt=prompt)).raw_text
-        text = _parse_cot_response(raw) or raw.strip()[:150]
-        return state.model_copy(update={"drill": text})
+        drills = _DRILL_DB.get(state.worst_stat, _DRILL_DB["GIR"])
+        drill = drills[0]
+        return state.model_copy(update={"drill": drill})
 
 
 class ImpactStep(Runnable[AskCoTState, AskCoTState]):

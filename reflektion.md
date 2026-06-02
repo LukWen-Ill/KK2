@@ -787,6 +787,35 @@ Svarstiden ökade från ~12s (iter 1, 1 anrop) till ~17s/fråga (iter 2, 4 anrop
 
 ---
 
+#### Iteration 3 — Deterministisk drill-databas (Förslag A)
+
+**Hypotes:** Om `DrillStep` ersätts med ett Python-steg som slår upp ur en hårdkodad dict med bevisade drills per stat, elimineras hallucinerande drillnamn och kompositionssteget får riktig text att arbeta med.
+
+**Förändring:** `DrillStep` är omskrivet från ett LLM-anrop (50 tokens) till en deterministisk lookup i `_DRILL_DB` — en dict med 3 konkreta, namngivna övningar per stat (GIR, Fairway, Putts, Scoring). Inget LLM-anrop sker i detta steg.
+
+**Resultat (20 frågor, SmolLM2-135M, ~11s/svar, total 224s):**
+
+| Kategori | Antal | Jämförelse iter 2 |
+|---|---|---|
+| Drill, inga stats | 10/20 | +1 (9→10) |
+| Generisk, inga stats | 5/20 | +1 (4→5) |
+| Stats + drill (OK) | 3/20 | = |
+| Stats, inget drill | 2/20 | -2 (4→2) |
+
+**Svarstid:** 11.2s/fråga (ned från 17.1s) — 34% snabbare; ett LLM-anrop borttaget.
+
+**Analys:**
+
+Kategorisiffrorna ser nästan identiska ut med iter 2, men det missar den verkliga förbättringen: *kvaliteten på drilltext i svar som nämner drill är nu äkta*. Iter 2 producerade "Roller Circles", "GIR Bar", "Double Overhand Swing" (påhittade). Iter 3 producerar "9-shot drill: hit three balls each from 100, 150, and 200 yards" (verklig övning). Auto-kategoriseringen detekterar bara närvaron av drillord, inte om de är sanna.
+
+Exempel på förbättring (Q20): `"Given the player's GIR (GIR 21.3%) against GIR (GIR 66.7%), the recommended drill would be a 9-shot drill targeting green center"` — korrekt stat + korrekt drill i ett svar.
+
+Kvarvarande problem: `AskAnswerComposerStep` inkorporerar fortfarande inte kontexten tillförlitligt. Siffror tappas i flertalet svar. Snabbhetsvinsten (−6s/fråga) är konkret; drill-kvalitetsvinsten är verklig men inte mätbar med nuvarande kategorisering.
+
+**Slutsats:** Förslag A levererade förväntad hastighetsvinst och eliminerade hallucination i drillsteget. Kategorisiffrorna rörde sig inte uppåt eftersom flaskhalsen nu entydigt är `AskAnswerComposerStep` — nästa steg är antingen Förslag C (starkare basmodell) eller Förslag B (constrained decoding).
+
+---
+
 #### Djupanalys — möjliga nästa steg för ökad accuracy
 
 Analysen bygger på evalresultaten ovan, forskning kring small LM-teknik (2025) och den specifika felprofilen: hallucinerande drillnamn, stats-siffror tappas i kompositionen, svaren kopplar inte till frågan.
