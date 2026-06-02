@@ -1,9 +1,18 @@
-"""Kör Exp 1 (batch) och Exp 2 (async) mot SmolLM2-135M-Instruct."""
+"""Kör Exp 1 (batch) och Exp 2 (async) mot en HuggingFace-modell.
+
+Användning:
+  uv run python run_experiments.py
+  uv run python run_experiments.py SupraLabs/Supra-50M-Instruct
+"""
 import asyncio
 import concurrent.futures
+import sys
 import time
 
 from transformers import pipeline
+
+DEFAULT_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
+MODEL = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_MODEL
 
 PROMPT_CONTENT = (
     "Spelarens stats: GIR 38.9% (PGA 65%), "
@@ -11,17 +20,27 @@ PROMPT_CONTENT = (
     "Vad ar min svagaste del?"
 )
 MAX_TOKENS = 60
-BASELINE_PER_PROMPT = 4.190  # mean_s vid max_new_tokens=60 från tidigare körning
+BASELINE_PER_PROMPT = 4.190  # mean_s vid max_new_tokens=60 från SmolLM2-körning
 
-print("Laddar modell...")
-llm = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-135M-Instruct")
+print(f"Laddar modell: {MODEL}")
+llm = pipeline("text-generation", model=MODEL)
+
+# Avgör om modellen stöder chat-format
+def _make_input(content: str):
+    try:
+        llm([{"role": "user", "content": content}], max_new_tokens=1)
+        return lambda c: [{"role": "user", "content": c}]
+    except ValueError:
+        return lambda c: c
+
+_fmt = _make_input(PROMPT_CONTENT)
 print("Klar.\n")
 
 # --- Experiment 1: Batch inference ---
 print("=== Experiment 1: Batch inference ===")
 batch_rows = []
 for n in [5, 10, 15]:
-    prompts = [[{"role": "user", "content": PROMPT_CONTENT}]] * n
+    prompts = [_fmt(PROMPT_CONTENT)] * n
     print(f"  batch_size={n} ...", end=" ", flush=True)
     t0 = time.perf_counter()
     llm(prompts, max_new_tokens=MAX_TOKENS, batch_size=n)
@@ -35,7 +54,7 @@ for n in [5, 10, 15]:
 print("\n=== Experiment 2: Async parallella anrop ===")
 
 def _run_one(_):
-    llm([{"role": "user", "content": PROMPT_CONTENT}], max_new_tokens=MAX_TOKENS)
+    llm(_fmt(PROMPT_CONTENT), max_new_tokens=MAX_TOKENS)
 
 async def run_parallel(n):
     loop = asyncio.get_running_loop()
