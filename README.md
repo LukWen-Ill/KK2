@@ -30,8 +30,12 @@ Spelaren talar in ett fritt hålmemo; backend aggregerar slag till `{ strokes, g
 | Exp 2 — Async parallellt | ThreadPoolExecutor + asyncio.gather | Sämre än sekventiellt vid n≥10 pga GIL-serialisering |
 | Exp 3 — Slagtypsklassificering (SV) | SmolLM2 mot 10 märkta svenska yttranden | 30% accuracy — nyckelordsmatching, inte klassificering |
 | Exp 4 — Engelska + Supra-50M | Språk som förklaring; okänd modell som kontroll | 100% parse-rate, 20% accuracy — kunskapsproblem, inte språkproblem |
+| Exp 5 — Fyra modeller, statistisk jämförelse | SmolLM2 / Supra-50M / Qwen2.5-0.5B / Qwen3-0.6B × 5 runs | Accuracy-tak ~44% (EN) / ~26% (SV) oavsett modellstorlek |
+| Exp 6 — Semantisk klassificering | Nyckelordsbaserad klassificerare utan modell | 90% accuracy, 0 ms latens — slår samtliga LLM-baselines |
+| Exp 7 — Few-shot prompting | Qwen3-0.6B med ett exempel per klass i prompten | 33% accuracy (+20 pp vs zero-shot) — promptdesign når ett tak |
+| Exp 8 — Fine-tuning med LoRA | Qwen3-0.6B tränad på 160 svenska golfyttranden | **65% val-accuracy** — fördubbling mot few-shot; domänkunskap, inte promptdesign, är flaskhalsen |
 
-Experiment 3 och 4 testade om SmolLM2 klarar slagtypsklassificering (putt / chip / fullslag). Accuracy stannade på 20–30% oavsett språk och modell — båda modellerna saknar golf-domänkunskap.
+Experimenten bekräftar att accuracy-taket för zero-/few-shot (~33%) bryts genom fine-tuning: en liten lokal modell med domänspecifik träning slår all prompting med stor marginal. Semantisk kod (Exp 6) täcker de enkla fallen bäst; fine-tunad LoRA (Exp 8) är starkast för genuint tvetydiga yttranden utan API-beroende.
 
 Detaljerade resultat och analys finns i `reflektion.md` avsnitt 5.
 
@@ -41,7 +45,7 @@ Tre nivåer, i stigande komplexitet:
 
 **Nivå 1 — Semantisk kod** hanterar deterministiska fält via nyckelordslistor (`ruffen` → `fairway_hit: 0`, `tre puttar` → `putts: 3`). Täcker majoriteten av fallen utan modell.
 
-**Nivå 2 — LLM som fallback** används bara för genuint tvetydiga yttranden (`"studsade förbi"`, `"perfekt position"`). Few-shot prompt med ett exempel per klass.
+**Nivå 2 — Fine-tunad LLM som fallback** används bara för genuint tvetydiga yttranden (`"studsade förbi"`, `"perfekt position"`). Qwen3-0.6B med LoRA-adapter tränad på svenska golfyttranden (`models/qwen3-golf-lora/`).
 
 **Nivå 3 — API-modell post-runda** — en tyngre modell (Haiku, GPT-4o-mini) parsar hela rundan en gång när precision krävs. ~70 anrop per runda är hanterbart.
 
@@ -109,11 +113,15 @@ uv run pytest app/tests/ -v             # kör alla tester
 ```
 
 ```bash
-# Slagtypsklassificering — parse-rate och accuracy mot 10 märkta yttranden (Exp 3–4)
+# Slagtypsklassificering — parse-rate och accuracy mot 10 märkta yttranden (Exp 3–5)
 uv run python run_shot_classifier_eval.py [MODEL] [--lang en]
 
 # Latens och genomströmning — batch (Exp 1) och async (Exp 2)
 uv run python run_experiments.py [MODEL]
+
+# Fine-tuning med LoRA (Exp 8) — generera data och träna adapter
+uv run python generate_training_data.py   # skapar data/train.jsonl och data/val.jsonl
+uv run python run_finetune.py             # tränar models/qwen3-golf-lora/ (~30 min CPU)
 ```
 
 ## Notebooks
@@ -131,7 +139,7 @@ uv run python run_experiments.py [MODEL]
 1. **Säkerhetsaspekter** — API-nycklar, filuppladdningsrisker, prompt injection, autentisering, XSS
 2. **Dataskydd (GDPR)** — in-memory-lagring, rättslig grund, åtkomstlogg, externa API:er
 3. **AI-risker och ansvar** — SmolLM2:s begränsningar, bias, testtäckningsluckor
-4. **Designval** — Runnable-mönstret, chat-format-insikten, experiment 1–4 och hybridarkitekturen
+4. **Designval** — Runnable-mönstret, chat-format-insikten, experiment 1–8 och hybridarkitekturen
 
 Rapporten avslutas med en prioriterad åtgärdsbacklogg.
 

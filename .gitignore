@@ -6,3 +6,6 @@ __pycache__/
 .pytest_cache/
 *.log
 scorecard_test.csv
+
+# Träningscheckpoints (optimizer-states, ej nödvändiga för inferens)
+models/**/checkpoint-*/
