@@ -1,0 +1,431 @@
+{
+  "experiment": "Exp7_fewshot",
+  "model": "Qwen/Qwen3-0.6B",
+  "n_runs": 3,
+  "date": "2026-06-02T12:28:44.586273",
+  "load_time_s": 1.881,
+  "zero_shot": {
+    "label": "zero-shot",
+    "runs": [
+      {
+        "run": 1,
+        "parse_rate": 1.0,
+        "accuracy": 0.2,
+        "utterances": [
+          {
+            "utterance": "Tre meter rakt mot halet, rullde in.",
+            "expected": "putt",
+            "predicted": "putt",
+            "correct": true
+          },
+          {
+            "utterance": "Kort putt, missade till hoger.",
+            "expected": "putt",
+            "predicted": "fullslag",
+            "correct": false
+          },
+          {
+            "utterance": "Rullning in fran kanten, precis.",
+            "expected": "putt",
+            "predicted": "putt",
+            "correct": true
+          },
+          {
+            "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Chippade ur bunkern, landade pa greenen.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Sandwedge fran rough, studsade forbi.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Bra drive langt ner mitten.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Tog ett jarnslag mot par 3-halet.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "7-jarn mot greenen, lite for lang.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Slog en wedge, bollen landade nara flaggan.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "run": 2,
+        "parse_rate": 1.0,
+        "accuracy": 0.2,
+        "utterances": [
+          {
+            "utterance": "Tre meter rakt mot halet, rullde in.",
+            "expected": "putt",
+            "predicted": "putt",
+            "correct": true
+          },
+          {
+            "utterance": "Kort putt, missade till hoger.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Rullning in fran kanten, precis.",
+            "expected": "putt",
+            "predicted": "putt",
+            "correct": true
+          },
+          {
+            "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Chippade ur bunkern, landade pa greenen.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Sandwedge fran rough, studsade forbi.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Bra drive langt ner mitten.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Tog ett jarnslag mot par 3-halet.",
+            "expected": "fullslag",
+            "predicted": "okänd",
+            "correct": false
+          },
+          {
+            "utterance": "7-jarn mot greenen, lite for lang.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Slog en wedge, bollen landade nara flaggan.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "run": 3,
+        "parse_rate": 1.0,
+        "accuracy": 0.1,
+        "utterances": [
+          {
+            "utterance": "Tre meter rakt mot halet, rullde in.",
+            "expected": "putt",
+            "predicted": "putt",
+            "correct": true
+          },
+          {
+            "utterance": "Kort putt, missade till hoger.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Rullning in fran kanten, precis.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Chippade ur bunkern, landade pa greenen.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Sandwedge fran rough, studsade forbi.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Bra drive langt ner mitten.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Tog ett jarnslag mot par 3-halet.",
+            "expected": "fullslag",
+            "predicted": "okänd",
+            "correct": false
+          },
+          {
+            "utterance": "7-jarn mot greenen, lite for lang.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Slog en wedge, bollen landade nara flaggan.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          }
+        ]
+      }
+    ],
+    "aggregate": {
+      "parse_rate_mean": 1.0,
+      "parse_rate_std": 0.0,
+      "accuracy_mean": 0.16666666666666669,
+      "accuracy_std": 0.05773502691896258
+    }
+  },
+  "few_shot": {
+    "label": "few-shot",
+    "runs": [
+      {
+        "run": 1,
+        "parse_rate": 1.0,
+        "accuracy": 0.1,
+        "utterances": [
+          {
+            "utterance": "Tre meter rakt mot halet, rullde in.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Kort putt, missade till hoger.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Rullning in fran kanten, precis.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Chippade ur bunkern, landade pa greenen.",
+            "expected": "chip",
+            "predicted": "chip",
+            "correct": true
+          },
+          {
+            "utterance": "Sandwedge fran rough, studsade forbi.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Bra drive langt ner mitten.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Tog ett jarnslag mot par 3-halet.",
+            "expected": "fullslag",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "7-jarn mot greenen, lite for lang.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Slog en wedge, bollen landade nara flaggan.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "run": 2,
+        "parse_rate": 1.0,
+        "accuracy": 0.1,
+        "utterances": [
+          {
+            "utterance": "Tre meter rakt mot halet, rullde in.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Kort putt, missade till hoger.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Rullning in fran kanten, precis.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Chippade ur bunkern, landade pa greenen.",
+            "expected": "chip",
+            "predicted": "chip",
+            "correct": true
+          },
+          {
+            "utterance": "Sandwedge fran rough, studsade forbi.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Bra drive langt ner mitten.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Tog ett jarnslag mot par 3-halet.",
+            "expected": "fullslag",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "7-jarn mot greenen, lite for lang.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Slog en wedge, bollen landade nara flaggan.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          }
+        ]
+      },
+      {
+        "run": 3,
+        "parse_rate": 1.0,
+        "accuracy": 0.3,
+        "utterances": [
+          {
+            "utterance": "Tre meter rakt mot halet, rullde in.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Kort putt, missade till hoger.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Rullning in fran kanten, precis.",
+            "expected": "putt",
+            "predicted": "chip",
+            "correct": false
+          },
+          {
+            "utterance": "Lagchip mot flaggan, stannade en meter bort.",
+            "expected": "chip",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Chippade ur bunkern, landade pa greenen.",
+            "expected": "chip",
+            "predicted": "chip",
+            "correct": true
+          },
+          {
+            "utterance": "Sandwedge fran rough, studsade forbi.",
+            "expected": "chip",
+            "predicted": "chip",
+            "correct": true
+          },
+          {
+            "utterance": "Bra drive langt ner mitten.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Tog ett jarnslag mot par 3-halet.",
+            "expected": "fullslag",
+            "predicted": "fullslag",
+            "correct": true
+          },
+          {
+            "utterance": "7-jarn mot greenen, lite for lang.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          },
+          {
+            "utterance": "Slog en wedge, bollen landade nara flaggan.",
+            "expected": "fullslag",
+            "predicted": "putt",
+            "correct": false
+          }
+        ]
+      }
+    ],
+    "aggregate": {
+      "parse_rate_mean": 1.0,
+      "parse_rate_std": 0.0,
+      "accuracy_mean": 0.16666666666666666,
+      "accuracy_std": 0.11547005383792515
+    }
+  }
+}

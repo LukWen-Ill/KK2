@@ -482,6 +482,60 @@ Eval kördes med `run_semantic_eval.py` mot samma 10 svenska yttranden som Exp 3
 
 **Slutsats:** Hybridarkitekturen validerades empiriskt. Semantisk kod täcker 9 av 10 fall deterministiskt. LLM-resurser sparas för det 1 fall av 10 där inferens faktiskt krävs — vilket sänker latens, eliminerar modellberoenden under rundan, och minskar risken för fel i de enkla fallen.
 
+### Experiment 7 — Few-shot prompting med Qwen3-0.6B (utfört)
+
+**Hypotes:** Att ge modellen tre konkreta exempel i prompten (ett per klass) förbättrar accuracy — modellen behöver inte gissa vad "fullslag" innebär om den ser att `"Drive langt ner mitten." → fullslag` direkt i frågan.
+
+**Vad är few-shot prompting?**
+"Few-shot" betyder att man visar ett fåtal (few) exempelsvar (shots) direkt i prompten. Istället för att bara beskriva uppgiften demonstrerar man den:
+
+```
+# Zero-shot (inga exempel):
+Yttrande: "Bra drive langt ner mitten."
+Slagtyp - valj ett: putt / chip / fullslag
+Svar:
+
+# Few-shot (tre exempel):
+Yttrande: "Kort putt, rullde in."       -> putt
+Yttrande: "Lagchip mot greenen."        -> chip
+Yttrande: "Drive langt ner mitten."     -> fullslag
+Yttrande: "Bra drive langt ner mitten."
+Slagtyp - valj ett: putt / chip / fullslag
+Svar:
+```
+
+Tanken är att modellen ser mönstret och kopierar det — precis som en människa förstår ett mönster efter att ha sett ett par exempel.
+
+**Resultat (3 runs × 10 yttranden, Qwen3-0.6B, svenska):**
+
+| Metod | Parse-rate | Accuracy |
+|---|---|---|
+| Zero-shot (Exp 5, historisk) | 100% | 24% ±6% |
+| Zero-shot (Exp 7) | 100% | 17% ±6% |
+| Few-shot (Exp 7) | 100% | 17% ±12% |
+| Semantisk kod (Exp 6) | 90% | 90% |
+
+Variansen för few-shot är *dubbelt så hög* som för zero-shot — modellen blev inte bättre, den blev mer instabil.
+
+**Diagnos — vad hände egentligen?**
+
+Råsvaren avslöjar mönstret: 7 av 10 svar är `"putt"`, oavsett yttrande. Modellen har fastnat i ett standardsvar istället för att klassificera. Exemplen i prompten förändrar ingenting.
+
+Det händer av en specifik anledning: **in-context learning kräver att modellen är tillräckligt stor för att faktiskt lära sig av exemplen i prompten**. Stora modeller (GPT-4, Claude, Llama 70B) är tränade på enorma mängder text och har lärt sig att *imitera mönster från prompten*. Qwen3-0.6B är för liten — den har inte den kapaciteten. Den ser exemplen men ignorerar dem och faller tillbaka på sin tränade default.
+
+Jämförelse: att ge few-shot-exempel till en liten modell är som att visa ett recept för någon som aldrig har lagat mat och hoppas att de kan koka mat på en campingkök. Receptet hjälper inte om grundkunskapen och utrustningen saknas.
+
+**Slutsats: prompting löser inte kunskapsproblemet**
+
+Accuracy-gapet (17% LLM vs 90% semantisk kod) är inte ett promptingproblem — det är ett *träningsdata*-problem. Modellen har inte exponeras för tillräckligt med golf-specifik svenska text under sin förträning.
+
+Vägarna framåt är:
+1. **Semantisk kod (Nivå 1)** — täcker redan 90% utan modell, räcker för de flesta fall
+2. **Fine-tuning** — träna om Qwen3 (eller Llama 3.2 1B) på golfdata; löser kunskapsproblemet i grunden
+3. **API-modell (Nivå 3)** — Haiku eller GPT-4o-mini har tillräckligt bred förträning för att klara svenska golfjargong utan fine-tuning
+
+Negativt resultat är ett bra resultat: det stänger en väg och motiverar nästa steg.
+
 ---
 
 ## 6. AI at the Edge — Lärdomar
