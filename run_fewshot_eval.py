@@ -1,11 +1,30 @@
-"""Experiment 7 — Few-shot prompting vs zero-shot for Qwen3-0.6B.
+"""Experiment 7 — Few-shot prompting.
 
-Testar om det racker att ge modellen tre konkreta exempel (ett per klass)
-direkt i prompten for att forbattra accuracy pa svenska golfyttranden.
+Vad är few-shot prompting?
+  Istället för att bara beskriva uppgiften ger vi modellen konkreta
+  EXEMPEL direkt i prompten. Modellen "ser" mönstret och kan generalisera
+  bättre utan att ha tränat på golfdata specifikt.
+
+  Zero-shot (nuvarande): "Yttrande: X → välj ett av tre"
+  Few-shot (nytt):       "Yttrande: A → putt
+                          Yttrande: B → chip
+                          Yttrande: C → fullslag
+                          Yttrande: X → välj ett av tre"
+
+Experiment:
+  Kör samma modell med zero-shot och few-shot, N_RUNS gånger vardera,
+  mot samma 10 svenska yttranden som Exp 3–5.
+  Jämför parse-rate och accuracy för att se om few-shot hjälper.
+
+Notera:
+  Exemplen i few-shot-prompten är valda så att de INTE innehåller
+  nyckelord som finns i testyttrandena (drive, jarn, putt, chip etc.).
+  Det tvingar modellen att generalisera, inte bara nyckelordsmatch.
 
 Usage:
   uv run python run_fewshot_eval.py
-  uv run python run_fewshot_eval.py --runs 5
+  uv run python run_fewshot_eval.py Qwen/Qwen2.5-0.5B-Instruct
+  uv run python run_fewshot_eval.py HuggingFaceTB/SmolLM2-135M-Instruct
 """
 
 import json
@@ -15,18 +34,15 @@ import sys
 import time
 from datetime import datetime
 from statistics import mean, stdev
-
 from transformers import pipeline
+
 from app.chain.steps import ShotClassifierParser, LLMRunnerOutput
 
-MODEL = "Qwen/Qwen3-0.6B"
-
+DEFAULT_MODEL = "Qwen/Qwen3-0.6B"
+MODEL = next((a for a in sys.argv[1:] if not a.startswith("--")), DEFAULT_MODEL)
 N_RUNS = 3
-for i, arg in enumerate(sys.argv[1:]):
-    if arg == "--runs" and i + 1 < len(sys.argv) - 1:
-        N_RUNS = int(sys.argv[i + 2])
 
-# Samma 10 yttranden som Exp 3-5
+# Samma 10 yttranden som Exp 3–5 (ASCII-folded svenska utan åäö)
 UTTERANCES = [
     ("Tre meter rakt mot halet, rullde in.",         "putt"),
     ("Kort putt, missade till hoger.",               "putt"),
@@ -40,55 +56,63 @@ UTTERANCES = [
     ("Slog en wedge, bollen landade nara flaggan.",  "fullslag"),
 ]
 
-# Zero-shot: bara uppgiftsbeskrivning, inga exempel
-PROMPT_ZERO = (
+# Zero-shot: samma format som Exp 3–5 (baseline)
+ZERO_SHOT = (
     'Yttrande: "{utterance}"\n'
     "Slagtyp - valj ett: putt / chip / fullslag\n"
     "Svar:"
 )
 
-# Few-shot: tre konkreta exempel (ett per klass) foljt av fragan
-# Exemplen ar valda for att:
-#   - vara enkla och tydliga (inte fran testdatan)
-#   - tacka alla tre klasser
-#   - anvanda samma terminologi som testyttrandena
-PROMPT_FEW = (
-    'Yttrande: "Kort putt, rullde in." -> putt\n'
-    'Yttrande: "Lagchip mot greenen, stannade nara." -> chip\n'
-    'Yttrande: "Drive langt ner mitten." -> fullslag\n'
+# Few-shot: tre exempel följt av frågan.
+# Exemplen är medvetet valda utan de nyckelord som finns i testsetet
+# (ingen "drive", "jarn", "putt", "chip" etc.) — modellen tvingas
+# förstå kontexten, inte kopiera ett nyckelord.
+FEW_SHOT = (
+    "Klassificera slagtypen. Tre exempel:\n\n"
+    'Yttrande: "Nappa in en halvmeter, rak linje." → putt\n'
+    'Yttrande: "Pitchade upp fran ruffen, landade pa greenen." → chip\n'
+    'Yttrande: "Langt utslag fran tee, bra treff." → fullslag\n\n'
     'Yttrande: "{utterance}"\n'
     "Slagtyp - valj ett: putt / chip / fullslag\n"
     "Svar:"
 )
+
+PROMPTS = {
+    "zero-shot": ZERO_SHOT,
+    "few-shot":  FEW_SHOT,
+}
+
+# ---
 
 print(f"Modell : {MODEL}")
-print(f"Runs   : {N_RUNS}")
-print("Laddar modell...")
-t0 = time.perf_counter()
+print(f"Runs   : {N_RUNS} per prompt-variant\n")
+
+_t = time.perf_counter()
 llm = pipeline("text-generation", model=MODEL)
-load_s = time.perf_counter() - t0
-print(f"Laddad : {load_s:.1f}s\n")
+print(f"Laddad : {time.perf_counter() - _t:.2f}s\n")
 
 parser = ShotClassifierParser()
 
 
 def generate(prompt: str) -> str:
-    # /no_think stanger av Qwen3:s reasoning-lage sa att svaret kommer direkt
-    content = prompt + "\n/no_think"
-    result = llm([{"role": "user", "content": content}], max_new_tokens=100)
-    raw = result[0]["generated_text"][-1]["content"]
+    content = prompt + ("\n/no_think" if "Qwen3" in MODEL else "")
+    try:
+        messages = [{"role": "user", "content": content}]
+        result = llm(messages, max_new_tokens=60)
+        raw = result[0]["generated_text"][-1]["content"]
+    except ValueError:
+        result = llm(content, max_new_tokens=60)
+        raw = result[0]["generated_text"][len(content):].strip()
     return re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
 
 
 def run_eval(prompt_template: str, label: str) -> dict:
-    """Kor ett komplett eval-pass och returnerar aggregerade resultat."""
+    """Kör N_RUNS omgångar och returnerar aggregerad statistik."""
     all_runs = []
-
     for run_idx in range(N_RUNS):
         run_results = []
         for utterance, expected in UTTERANCES:
-            prompt = prompt_template.format(utterance=utterance)
-            raw = generate(prompt)
+            raw = generate(prompt_template.format(utterance=utterance))
             predicted = parser.invoke(LLMRunnerOutput(raw_text=raw)).shot_type
             run_results.append({
                 "utterance": utterance,
@@ -96,20 +120,17 @@ def run_eval(prompt_template: str, label: str) -> dict:
                 "predicted": predicted,
                 "correct": predicted == expected,
             })
-
-        total = len(run_results)
-        parsed = sum(1 for r in run_results if r["predicted"] != "okand")
+        parsed = sum(1 for r in run_results if r["predicted"] != "okänd")
         correct = sum(1 for r in run_results if r["correct"])
         all_runs.append({
             "run": run_idx + 1,
-            "parse_rate": parsed / total,
-            "accuracy": correct / total,
+            "parse_rate": parsed / len(run_results),
+            "accuracy": correct / len(run_results),
             "utterances": run_results,
         })
 
     parse_rates = [r["parse_rate"] for r in all_runs]
     accuracies  = [r["accuracy"]   for r in all_runs]
-
     return {
         "label": label,
         "runs": all_runs,
@@ -122,74 +143,53 @@ def run_eval(prompt_template: str, label: str) -> dict:
     }
 
 
-def print_detail(result: dict) -> None:
-    """Skriver ut per-yttrande-resultat for sista run:en."""
-    last = result["runs"][-1]
-    print(f"  {'Yttrande':<52} {'Fatt':<10} {'Modell':<10} OK")
-    print("  " + "-" * 76)
-    for r in last["utterances"]:
-        ok = "OK" if r["correct"] else "--"
-        print(f"  {r['utterance']:<52} {r['expected']:<10} {r['predicted']:<10} {ok}")
+# Kör zero-shot och few-shot
+results = {}
+for label, template in PROMPTS.items():
+    print(f"--- {label.upper()} ---")
+    results[label] = run_eval(template, label)
+
+    agg = results[label]["aggregate"]
+    # Visa sista run detaljerat
+    last = results[label]["runs"][-1]["utterances"]
+    print(f"{'Yttrande':<52} {'Forv.':<10} {'Utfall':<10} OK")
+    print("-" * 80)
+    for r in last:
+        print(f"{r['utterance']:<52} {r['expected']:<10} {r['predicted']:<10} {'OK' if r['correct'] else '--'}")
+    print(f"\nParse-rate : {agg['parse_rate_mean']:.1%} +/- {agg['parse_rate_std']:.1%}")
+    print(f"Accuracy   : {agg['accuracy_mean']:.1%} +/- {agg['accuracy_std']:.1%}\n")
 
 
-# --- Kor zero-shot ---
-print("=" * 60)
-print("ZERO-SHOT (ingen exempel i prompten)")
-print("=" * 60)
-zero = run_eval(PROMPT_ZERO, "zero-shot")
-print_detail(zero)
-ag = zero["aggregate"]
-print(f"\n  Parse-rate : {ag['parse_rate_mean']:.1%} +/- {ag['parse_rate_std']:.1%}")
-print(f"  Accuracy   : {ag['accuracy_mean']:.1%} +/- {ag['accuracy_std']:.1%}\n")
+# Jämförelsetabell
+print("=== SAMMANFATTNING ===\n")
+print(f"{'Metod':<12} {'Parse-rate':>12} {'Accuracy':>10}   Forandring")
+print("-" * 55)
 
-# --- Kor few-shot ---
-print("=" * 60)
-print("FEW-SHOT (tre exempel i prompten)")
-print("=" * 60)
-print("  Exempel som gavs till modellen:")
-print('    "Kort putt, rullde in."             -> putt')
-print('    "Lagchip mot greenen, stannade nara." -> chip')
-print('    "Drive langt ner mitten."            -> fullslag')
-print()
-few = run_eval(PROMPT_FEW, "few-shot")
-print_detail(few)
-ag_f = few["aggregate"]
-print(f"\n  Parse-rate : {ag_f['parse_rate_mean']:.1%} +/- {ag_f['parse_rate_std']:.1%}")
-print(f"  Accuracy   : {ag_f['accuracy_mean']:.1%} +/- {ag_f['accuracy_std']:.1%}\n")
+zs = results["zero-shot"]["aggregate"]
+fs = results["few-shot"]["aggregate"]
+delta_acc  = fs["accuracy_mean"]   - zs["accuracy_mean"]
+delta_pr   = fs["parse_rate_mean"] - zs["parse_rate_mean"]
 
-# --- Jamforelsetabell ---
-print("=" * 60)
-print("SAMMANFATTNING")
-print("=" * 60)
-print(f"  {'Metod':<20} {'Parse-rate':>12} {'Accuracy':>10}")
-print("  " + "-" * 44)
+print(f"{'zero-shot':<12} {zs['parse_rate_mean']:>11.1%} {zs['accuracy_mean']:>10.1%}")
+print(f"{'few-shot':<12} {fs['parse_rate_mean']:>11.1%} {fs['accuracy_mean']:>10.1%}   "
+      f"acc {delta_acc:+.1%}, parse {delta_pr:+.1%}")
 
-# Baslinjer fran Exp 5 (Qwen3 sv)
-print(f"  {'Qwen3 zero-shot (Exp5)':<20} {'100%':>12} {'24%':>10}  (historisk baseline)")
+print(f"\n--- Exp 5-baselines (Qwen3-0.6B, 5 runs) ---")
+print(f"{'Qwen3 sv (Exp5)':<16} {'100%':>8} {'24%':>8}   (referens)")
+print(f"{'Qwen3 en (Exp5)':<16} {'100%':>8} {'44%':>8}   (referens)")
 
-z = zero["aggregate"]
-f = few["aggregate"]
-print(f"  {'Zero-shot (nu)':<20} {z['parse_rate_mean']:>11.0%} {z['accuracy_mean']:>9.0%}")
-print(f"  {'Few-shot (nu)':<20} {f['parse_rate_mean']:>11.0%} {f['accuracy_mean']:>9.0%}")
-print(f"  {'Semantisk kod (Exp6)':<20} {'90%':>12} {'90%':>10}  (ingen modell)")
-
-diff = f["accuracy_mean"] - z["accuracy_mean"]
-sign = "+" if diff >= 0 else ""
-print(f"\n  Few-shot vs zero-shot: {sign}{diff:.0%} accuracy")
-
-# --- Spara ---
+# Spara
 os.makedirs("results", exist_ok=True)
+model_slug = MODEL.replace("/", "-")
 ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 out = {
-    "experiment": "Exp7_fewshot",
     "model": MODEL,
     "n_runs": N_RUNS,
     "date": datetime.now().isoformat(),
-    "load_time_s": round(load_s, 3),
-    "zero_shot": zero,
-    "few_shot": few,
+    "zero_shot": results["zero-shot"],
+    "few_shot":  results["few-shot"],
 }
-path = f"results/exp7_fewshot_{ts}.json"
-with open(path, "w", encoding="utf-8") as f_out:
-    json.dump(out, f_out, ensure_ascii=False, indent=2)
+path = f"results/fewshot_{model_slug}_{ts}.json"
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(out, f, ensure_ascii=False, indent=2)
 print(f"\nResultat sparat: {path}")

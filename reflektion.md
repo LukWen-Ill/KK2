@@ -536,6 +536,67 @@ Vägarna framåt är:
 
 Negativt resultat är ett bra resultat: det stänger en väg och motiverar nästa steg.
 
+### Experiment 7 — Few-shot prompting med Qwen3-0.6B (utfört)
+
+**Vad är few-shot prompting?**
+Istället för att bara beskriva uppgiften ("välj ett av tre") ger vi modellen konkreta exempel direkt i prompten — ett per klass — precis innan frågan ställs. Modellen ser mönstret och kan generalisera bättre utan att ha tränat på golfdata. Det kräver ingen träning och ingen modellnedladdning utöver det som redan finns.
+
+```
+# Zero-shot (Exp 3–5):
+Yttrande: "Bra drive langt ner mitten."
+Slagtyp - valj ett: putt / chip / fullslag
+Svar:
+
+# Few-shot (Exp 7):
+Yttrande: "Nappa in en halvmeter, rak linje." → putt
+Yttrande: "Pitchade upp fran ruffen, landade pa greenen." → chip
+Yttrande: "Langt utslag fran tee, bra treff." → fullslag
+
+Yttrande: "Bra drive langt ner mitten."
+Slagtyp - valj ett: putt / chip / fullslag
+Svar:
+```
+
+Exemplen är medvetet valda utan de nyckelord som finns i testsetet (ingen "drive", "jarn", "putt" etc.) — modellen tvingas förstå kontexten, inte kopiera ett nyckelord från exemplen.
+
+Skriptet `run_fewshot_eval.py` kör zero-shot och few-shot 3 gånger vardera mot samma 10 svenska yttranden som Exp 3–5. Qwen3-0.6B valdes för sin höga parse-rate (100% i Exp 5) — en modell som inte följer format-instruktioner kan inte heller dra nytta av bättre instruktioner.
+
+**Resultat (3 runs × 10 yttranden):**
+
+| Prompt-variant | Parse-rate | Accuracy | Jämfört med zero-shot |
+|---|---|---|---|
+| Zero-shot (Exp 7-körning) | 96.7% ±5.8% | 13.3% ±5.8% | — |
+| **Few-shot** | **100.0% ±0.0%** | **33.3% ±5.8%** | **+20 pp** |
+| Zero-shot Exp 5 (referens, 5 runs) | 100% ±0% | 24% ±6% | — |
+| Semantisk kod Exp 6 (referens) | 90% | 90% | — |
+
+Sista run (few-shot) per yttrande:
+
+| Yttrande | Förväntat | Utfall | OK |
+|---|---|---|---|
+| Tre meter rakt mot halet, rullde in. | putt | chip | ✗ |
+| Kort putt, missade till hoger. | putt | putt | ✓ |
+| Rullning in fran kanten, precis. | putt | chip | ✗ |
+| Lagchip mot flaggan, stannade en meter bort. | chip | putt | ✗ |
+| Chippade ur bunkern, landade pa greenen. | chip | putt | ✗ |
+| Sandwedge fran rough, studsade forbi. | chip | chip | ✓ |
+| Bra drive langt ner mitten. | fullslag | fullslag | ✓ |
+| Tog ett jarnslag mot par 3-halet. | fullslag | putt | ✗ |
+| 7-jarn mot greenen, lite for lang. | fullslag | chip | ✗ |
+| Slog en wedge, bollen landade nara flaggan. | fullslag | putt | ✗ |
+
+**Analys:**
+
+*Few-shot hjälper — men avslöjar var problemet sitter.* Accuracy steg från 13% till 33% (+20 procentenheter) och parse-rate stabiliserades på 100%. Det visar att few-shot gör modellen mer konsekvent i hur den svarar.
+
+*Fullslag-klassen är vinnaren.* "Bra drive langt ner mitten" klassificerades korrekt med few-shot men inte zero-shot. Det beror på att exemplet "Langt utslag fran tee" ger modellen en koppling mellan "drive/utslag" och fullslag.
+
+*Parafras-fallen kvarstår olösta.* "Rullning in fran kanten" borde vara putt men klassificeras som chip — modellen förstår inte att "rullning" semantiskt är ett puttbeteende. "Lagchip mot flaggan" borde vara chip men klassificeras som putt. Det är samma domänkunskapsproblem som identifierades i Exp 3–5: modellen saknar golf-specifik semantik på svenska.
+
+*Modellen har ett putt-bias.* I zero-shot-körningen svarar modellen "putt" på 7 av 10 yttranden — det är standardgissningen när den är osäker. Few-shot minskar bias något men eliminerar det inte.
+
+**Slutsats:** Few-shot prompting ger en verklig förbättring (+20 pp) utan träning. Det är rätt teknik att använda i Nivå 2 (LLM-fallback) för de yttranden semantisk kod inte fångar. Men accuracy på 33% bekräftar att utan golf-domänkunskap på svenska — antingen via fine-tuning eller en mycket större förtränad modell — är taket lågt. Vägen till genuint hög accuracy för de tvetydiga fallen är fine-tuning, inte promptdesign.
+
 ---
 
 ## 6. AI at the Edge — Lärdomar
