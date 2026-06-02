@@ -4,8 +4,10 @@ import pytest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from app.main import app
-from app.chain.steps import LLMRunner, LLMRunnerOutput
+from app.chain.steps import LLMRunner, LLMRunnerOutput, AskAnswerComposerStep
 import app.data as data
+
+_FAKE_JSON = '{"stat": "GIR", "player_value": 33.3, "pga_value": 65.0, "advice": "Practice approach shots daily."}'
 
 client = TestClient(app)
 
@@ -153,27 +155,30 @@ def test_ask_no_dataset():
 
 def test_ask_returns_answer():
     _upload(VALID_SCORECARD)
-    mock_output = LLMRunnerOutput(raw_text="Svar: Fokusera på chip-shots för bättre GIR.")
-    with patch.object(LLMRunner, "invoke", return_value=mock_output):
+    mock_output = LLMRunnerOutput(raw_text="focuses on iron play")
+    with patch.object(LLMRunner, "invoke", return_value=mock_output), \
+         patch.object(AskAnswerComposerStep, "_compose_json", return_value=_FAKE_JSON):
         r = client.post("/ai/ask", json={"question": "Hur kan jag förbättra mitt spel?"})
     assert r.status_code == 200
     body = r.json()
     assert body["question"] == "Hur kan jag förbättra mitt spel?"
     assert "answer" in body
     assert "model" in body
-    assert "Svar:" not in body["answer"]
-    assert "Fokusera på chip-shots" in body["answer"]
+    assert "GIR" in body["answer"]
+    assert "33.3" in body["answer"]
 
 
 def test_ask_echoes_question_in_response():
     _upload(VALID_SCORECARD)
-    mock_output = LLMRunnerOutput(raw_text="Svar: Träna mer putting.")
-    with patch.object(LLMRunner, "invoke", return_value=mock_output):
+    mock_output = LLMRunnerOutput(raw_text="some weakness text")
+    with patch.object(LLMRunner, "invoke", return_value=mock_output), \
+         patch.object(AskAnswerComposerStep, "_compose_json", return_value=_FAKE_JSON):
         r = client.post("/ai/ask", json={"question": "Vad är min svagaste del?"})
     assert r.json()["question"] == "Vad är min svagaste del?"
 
 
 def test_ask_llm_exception_returns_500():
+    # WeaknessStep raises before AskAnswerComposerStep is reached
     _upload(VALID_SCORECARD)
     with patch.object(LLMRunner, "invoke", side_effect=Exception("GPU out of memory")):
         r = client.post("/ai/ask", json={"question": "Hur är min putting?"})
@@ -184,8 +189,9 @@ def test_ask_llm_exception_returns_500():
 def test_dataset_persists_after_successful_ask():
     """Data ska finnas kvar efter ett lyckat ask-anrop."""
     _upload(VALID_SCORECARD)
-    mock_output = LLMRunnerOutput(raw_text="Svar: Träna mer.")
-    with patch.object(LLMRunner, "invoke", return_value=mock_output):
+    mock_output = LLMRunnerOutput(raw_text="some text")
+    with patch.object(LLMRunner, "invoke", return_value=mock_output), \
+         patch.object(AskAnswerComposerStep, "_compose_json", return_value=_FAKE_JSON):
         client.post("/ai/ask", json={"question": "Tips?"})
     r = client.get("/data/stats")
     assert r.status_code == 200

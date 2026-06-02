@@ -292,30 +292,60 @@ class ImpactStep(Runnable[AskCoTState, AskCoTState]):
         return state.model_copy(update={"impact": text})
 
 
+class CoachingOutput(BaseModel):
+    stat: str
+    player_value: float
+    pga_value: float
+    advice: str
+
+
 class AskAnswerComposerStep(Runnable[AskCoTState, AskCoTState]):
-    """Step 5: compose final answer using all prior context."""
+    """Step 5: constrained JSON generation — stat values guaranteed by schema."""
+
+    _generators: dict[str, Any] = {}
+
     def __init__(self, runner: "LLMRunner") -> None:
-        self._runner = LLMRunner(model_name_or_path=runner._model_name_or_path, max_new_tokens=80)
+        self._runner = runner
+
+    def _get_generator(self) -> Any:
+        key = self._runner._model_name_or_path
+        if key not in AskAnswerComposerStep._generators:
+            self._runner._load()
+            pipe = LLMRunner._pipelines[key]
+            from outlines import from_transformers, Generator
+            from outlines.generator import JsonSchema
+            outlines_model = from_transformers(pipe.model, pipe.tokenizer)
+            AskAnswerComposerStep._generators[key] = Generator(
+                outlines_model, JsonSchema(CoachingOutput)
+            )
+        return AskAnswerComposerStep._generators[key]
+
+    def _compose_json(self, prompt: str) -> str:
+        """Separated for testability — returns raw JSON string."""
+        return self._get_generator()(prompt, max_new_tokens=120)
 
     def invoke(self, state: AskCoTState) -> AskCoTState:
-        u = state.user_stats
-        p = state.pga_benchmarks
-        stats_line = (
-            f"GIR {u.get('gir_pct','N/A')}% (PGA {p.get('gir_pct',65.0):.1f}%), "
-            f"Fairway {u.get('fairway_pct','N/A')}% (PGA {p.get('fairway_pct',60.0):.1f}%), "
-            f"Putts {u.get('avg_putts','N/A')} (PGA {p.get('avg_putts',1.73)}), "
-            f"Scoring {u.get('scoring_avg','N/A')}/hole (PGA {p.get('scoring_avg',70.5)/18:.2f})"
-        )
         prompt = (
-            f"Player stats: {stats_line}.\n"
-            f"Biggest weakness: {state.worst_stat} at {state.worst_gap_str}. {state.weakness_desc}\n"
-            f"Recommended drill: {state.drill}\n"
+            f"Golf coach. Player's worst stat: {state.worst_stat} at {state.worst_gap_str}.\n"
+            f"Weakness: {state.weakness_desc}\n"
+            f"Drill: {state.drill}\n"
             f"Question: {state.question}\n"
-            f"Answer in 2 sentences using the stats above: Answer:"
+            f"Output JSON with stat, player_value, pga_value, advice:"
         )
-        raw = self._runner.invoke(PromptBuilderOutput(prompt=prompt)).raw_text
-        text = _parse_cot_response(raw) or raw.strip()
-        return state.model_copy(update={"answer": text})
+        try:
+            import json
+            raw_json = self._compose_json(prompt)
+            data = json.loads(raw_json)
+            out = CoachingOutput(**data)
+            answer = (
+                f"Your {state.worst_stat} is {out.player_value} "
+                f"(PGA Tour average: {out.pga_value}). "
+                f"{out.advice}"
+            )
+        except Exception as e:
+            logger.warning("Constrained generation failed: %s — using fallback", e)
+            answer = f"Focus on {state.worst_stat}: {state.worst_gap_str}. {state.drill}"
+        return state.model_copy(update={"answer": answer})
 
 
 # --- CoT analyze pipeline ---

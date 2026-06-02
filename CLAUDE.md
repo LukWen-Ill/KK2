@@ -43,13 +43,13 @@ Två script jämför godtyckliga HuggingFace-modeller. Modellnamnet är första 
 
 ```bash
 # Slagtypsklassificering — parse-rate och accuracy mot 10 märkta yttranden
-uv run python run_shot_classifier_eval.py [MODEL] [--lang en]
+uv run python scripts/run_shot_classifier_eval.py [MODEL] [--lang en]
 
 # Latens och genomströmning — batch (Exp 1) och async (Exp 2)
-uv run python run_experiments.py [MODEL]
+uv run python scripts/run_experiments.py [MODEL]
 ```
 
-Resultat dokumenteras i `reflektion.md` under respektive experiment.
+Resultat dokumenteras i `docs/reflektion.md` under respektive experiment.
 
 ## Miljövariabler
 
