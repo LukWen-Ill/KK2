@@ -97,3 +97,38 @@ class ResponseParser(Runnable[LLMRunnerOutput, ResponseParserOutput]):
             if len(after) > 10:
                 return ResponseParserOutput(answer=after)
         return ResponseParserOutput(answer=text)
+
+
+# --- Shot classifier ---
+
+SHOT_TYPES = ("putt", "chip", "fullslag")
+
+
+class ShotClassifierInput(BaseModel):
+    utterance: str
+
+
+class ShotClassifierOutput(BaseModel):
+    shot_type: str  # "putt" | "chip" | "fullslag" | "okänd"
+
+
+class ShotClassifierPrompt(Runnable[ShotClassifierInput, PromptBuilderOutput]):
+    def invoke(self, input: ShotClassifierInput) -> PromptBuilderOutput:
+        prompt = (
+            f'Yttrande: "{input.utterance}"\n'
+            "Slagtyp — välj ett: putt / chip / fullslag\n"
+            "Svar:"
+        )
+        return PromptBuilderOutput(prompt=prompt)
+
+
+class ShotClassifierParser(Runnable[LLMRunnerOutput, ShotClassifierOutput]):
+    def invoke(self, input: LLMRunnerOutput) -> ShotClassifierOutput:
+        text = input.raw_text.lower()
+        marker = "svar:"
+        idx = text.rfind(marker)
+        search_in = text[idx + len(marker):].strip() if idx != -1 else text
+        for shot_type in SHOT_TYPES:
+            if shot_type in search_in:
+                return ShotClassifierOutput(shot_type=shot_type)
+        return ShotClassifierOutput(shot_type="okänd")
