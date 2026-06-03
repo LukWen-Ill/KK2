@@ -14,8 +14,8 @@ from transformers import (
 )
 
 BASE_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
-OUTPUT_DIR = "models/smollm2-chat-lora"
-MAX_LENGTH = 128
+OUTPUT_DIR = "models/smollm2-ask-lora"
+MAX_LENGTH = 256
 
 
 def load_jsonl(path: str) -> list[dict]:
@@ -28,8 +28,8 @@ def tokenize(examples, tokenizer):
 
 
 def main():
-    train_data = load_jsonl("data/chat_train.jsonl")
-    val_data = load_jsonl("data/chat_val.jsonl")
+    train_data = load_jsonl("data/ask_train.jsonl")
+    val_data = load_jsonl("data/ask_val.jsonl")
     print(f"Loaded {len(train_data)} train, {len(val_data)} val examples")
 
     tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
