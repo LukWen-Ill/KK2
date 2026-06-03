@@ -60,6 +60,8 @@ async def upload(file: UploadFile) -> UploadResponse:
         df = data.validate_and_store(contents, file.filename)
     except data.FileTooLargeError as e:
         raise HTTPException(status_code=413, detail=str(e))
+    except data.TooManyRowsError as e:
+        raise HTTPException(status_code=413, detail=str(e))
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     return UploadResponse(
@@ -67,6 +69,11 @@ async def upload(file: UploadFile) -> UploadResponse:
         columns=list(df.columns),
         dtypes={col: str(dtype) for col, dtype in df.dtypes.items()},
     )
+
+
+@app.delete("/data", status_code=204, summary="Radera uppladdad data (GDPR)")
+def delete_data() -> None:
+    data.clear_dataset()
 
 
 @app.get("/data/stats")

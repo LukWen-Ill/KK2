@@ -1,5 +1,6 @@
 import io
 import logging
+import time
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -17,11 +18,18 @@ _PGA_FALLBACK = {
 _dataset: pd.DataFrame | None = None
 _user_stats: dict | None = None
 _pga_benchmarks: dict | None = None
+_upload_time: float | None = None
 
 MAX_SIZE = 10 * 1024 * 1024  # 10 MB
+MAX_ROWS = 1000               # ~55 rounds of 18 holes
+DATA_TTL_SECONDS = 3600       # GDPR: auto-purge after 1 hour
 
 
 class FileTooLargeError(ValueError):
+    pass
+
+
+class TooManyRowsError(ValueError):
     pass
 
 
@@ -99,6 +107,9 @@ def validate_and_store(contents: bytes, filename: str) -> pd.DataFrame:
     if len(df) == 0:
         raise ValueError("CSV contains no data rows")
 
+    if len(df) > MAX_ROWS:
+        raise TooManyRowsError(f"CSV exceeds {MAX_ROWS}-row limit")
+
     missing = REQUIRED_SCORECARD_COLS - set(df.columns)
     if missing:
         raise ValueError(f"Missing required scorecard columns: {sorted(missing)}")
@@ -113,21 +124,33 @@ def validate_and_store(contents: bytes, filename: str) -> pd.DataFrame:
 
 # --- Dataset storage ---
 
+def _check_ttl() -> None:
+    global _dataset, _user_stats, _upload_time
+    if _upload_time is not None and time.time() - _upload_time > DATA_TTL_SECONDS:
+        logger.info("Dataset TTL expired — purging data")
+        _dataset = None
+        _user_stats = None
+        _upload_time = None
+
+
 def store_dataset(df: pd.DataFrame) -> None:
-    global _dataset
+    global _dataset, _upload_time
     _dataset = df
+    _upload_time = time.time()
 
 
 def get_dataset() -> pd.DataFrame:
+    _check_ttl()
     if _dataset is None:
         raise ValueError("No dataset loaded")
     return _dataset
 
 
 def clear_dataset() -> None:
-    global _dataset, _user_stats
+    global _dataset, _user_stats, _upload_time
     _dataset = None
     _user_stats = None
+    _upload_time = None
 
 
 # --- User stats storage ---
@@ -138,6 +161,7 @@ def store_user_stats(stats: dict) -> None:
 
 
 def get_user_stats() -> dict:
+    _check_ttl()
     if _user_stats is None:
         raise ValueError("No dataset loaded")
     return _user_stats

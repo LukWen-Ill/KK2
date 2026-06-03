@@ -56,10 +56,11 @@ SmolLM2-135M är kvar för latens-kritiska moment under rundan; coaching-generer
 FastAPI-app med tre lager:
 
 - **`app/main.py`** — routes, `MODEL_NAME`-konstanten (`HuggingFaceTB/SmolLM2-135M-Instruct`)
-- **`app/data.py`** — in-memory state: dataset, användarstatistik (GIR%, fairway%, snittrundor), PGA-benchmarks
+- **`app/data.py`** — in-memory state: dataset, användarstatistik (GIR%, fairway%, snittrundor), PGA-benchmarks; TTL-rensning (1 h) och `DELETE /data` för GDPR
+- **`app/schemas.py`** — API-modeller; `AskRequest.question` valideras mot prompt injection-mönster (max 500 tecken, regexblocklista → HTTP 422)
 - **`app/chain/`** — Runnable-kedjan: `PromptBuilder | LLMRunner | ResponseParser`
 
-Obligatoriska CSV-kolumner: `hole`, `par`, `strokes`, `gir`, `putts`. Valfria: `fairway_hit`, `date`, `course` (aktiverar filtrering per runda/bana).
+Obligatoriska CSV-kolumner: `hole`, `par`, `strokes`, `gir`, `putts`. Valfria: `fairway_hit`, `date`, `course` (aktiverar filtrering per runda/bana). Max 1 000 rader per uppladdning (HTTP 413 om gränsen överskrids).
 
 ## Demo-flöde
 
@@ -78,7 +79,7 @@ Obligatoriska CSV-kolumner: `hole`, `par`, `strokes`, `gir`, `putts`. Valfria: `
 - **Puttingproblem** — 2.44→2.00, alltid över PGA-snittet 1.73
 - **Banspecifikt** — LAGK bäst (snitt 90), Arlandastad sämst (snitt 98)
 
-I Swagger: tryck `POST /data/upload/demo` (ingen filuppladdning behövs) och börja sedan filtrera.
+I Swagger: tryck `POST /data/upload/demo` (ingen filuppladdning behövs) och börja sedan filtrera. Data raderas explicit med `DELETE /data` (HTTP 204) eller automatiskt en timme efter uppladdning.
 
 ### `/data/stats` — filtrering och svar
 
