@@ -1,60 +1,45 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Commands
+## Kommandon
 
 ```bash
-uv sync                                  # installera beroenden
-uv run uvicorn app.main:app --reload     # starta API (Swagger: http://localhost:8000/docs)
-uv run pytest app/tests/ -v             # kör alla tester
-uv run pytest app/tests/test_chain.py::test_prompt_builder_contains_question -v  # ett enskilt test
+uv sync
+uv run uvicorn app.main:app --reload          # Swagger: http://localhost:8000/docs
+uv run pytest app/tests/ -v
+uv run python scripts/run_shot_classifier_eval.py [MODEL] [--lang en]
+uv run python scripts/run_experiments.py [MODEL]
+uv run python scripts/run_index_eval.py       # eval-agent för reflektionsindex
 ```
 
 ## Arkitektur
 
-Applikationen är ett FastAPI-API med tre lager:
+FastAPI-API med tre lager:
 
-**`app/main.py`** — registrerar routes och inkluderar `MODEL_NAME`-konstanten (`HuggingFaceTB/SmolLM2-135M-Instruct`).
+- **`app/main.py`** — routes, `MODEL_NAME`-konstant
+- **`app/data.py`** — in-memory state: dataset, användarstatistik, PGA-benchmarks
+- **`app/chain/`** — Runnable-kedja (`PromptBuilder | LLMRunner | ResponseParser`); varje steg har egna Pydantic-modeller
+- **`app/schemas.py`** — API-modeller (`UploadResponse`, `AskRequest`, `AskResponse`)
 
-**`app/data.py`** — globalt in-memory-state. Nyckelgrupper:
-- Dataset: `validate_and_store()` (CSV-validering + charsetdetektering), `store_dataset()`, `get_dataset()`, `clear_dataset()`, `get_stats()`
-- Användarstatistik: `store_user_stats()`, `get_user_stats()`, `_compute_user_stats()` (GIR%, fairway%, snittrundor)
-- PGA-benchmarks: `load_pga_benchmarks()`, `get_pga_benchmarks()` (laddar från CSV eller fallback)
-
-Testerna nollställer state via `clear_dataset()` i en `autouse`-fixture.
-
-**`app/chain/`** — Runnable-kedjan:
-- `runnable.py`: abstrakt `Runnable[I, O]` med `__or__`-operator och `RunnableSequence` för kedjning
-- `steps.py`: `PromptBuilder` (bygger golfcoach-prompt med användarstatistik vs PGA-benchmarks), `LLMRunner` (lazy-laddar SmolLM2), `ResponseParser` (strippar "Svar:"-markör) — varje steg har egna Pydantic-modeller för in- och utdata
-- `pipeline.py`: `oraklet = PromptBuilder() | LLMRunner() | ResponseParser()`
-
-**`app/schemas.py`** — Pydantic-modeller för API-gränssnittet: `UploadResponse`, `AskRequest`, `AskResponse`, `HealthResponse`.
+Tester nollställer state via `clear_dataset()` i en `autouse`-fixture.
 
 ## Domän
 
-Appen är en golf-coaching-assistent. Användaren laddar upp en CSV med sina golfronder, och LLM-kedjan jämför statistiken mot PGA Tour-benchmarks och ger råd på svenska.
+Golf-coaching-assistent. Användaren laddar upp en CSV med golfronder; LLM-kedjan jämför mot PGA Tour-benchmarks och ger råd.
 
 Förväntade CSV-kolumner: `date`, `course`, `score`, `fairways_hit`, `fairways_total`, `greens_in_regulation`, `putts`.
 
-## Experiment och modelljämförelse
+## Reflektion
 
-Två script jämför godtyckliga HuggingFace-modeller. Modellnamnet är första argument; utelämnas används SmolLM2 som default. Modeller utan chat-template hanteras automatiskt.
+`docs/reflektion.md` är över 1100 rader — läs den aldrig i sin helhet. Flöde:
 
-```bash
-# Slagtypsklassificering — parse-rate och accuracy mot 10 märkta yttranden
-uv run python scripts/run_shot_classifier_eval.py [MODEL] [--lang en]
+1. Läs `docs/reflektion_index.md` (~60 rader) — innehåller radnummer per sektion
+2. `Read offset=N limit=80` för den sektion du behöver
 
-# Latens och genomströmning — batch (Exp 1) och async (Exp 2)
-uv run python scripts/run_experiments.py [MODEL]
-```
-
-Resultat dokumenteras i `docs/reflektion.md` under respektive experiment.
+**Skrivregel:** varje åtgärd, designval och experimentresultat ska följas av **varför** — inte bara vad som gjordes, utan mekanismen bakom.
 
 ## Miljövariabler
 
-`.env` (får **inte** checkas in):
+`.env` (checkas **inte** in):
 ```
-HF_API_KEY=...   # valfritt — används om du kör via HuggingFace Inference API
+HF_API_KEY=...   # valfritt — HuggingFace Inference API
 ```
-Laddas i `app/config.py` via `python-dotenv`.

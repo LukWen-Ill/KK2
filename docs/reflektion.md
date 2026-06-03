@@ -1008,6 +1008,68 @@ Exp 9 är inte ett isolerat experiment — det är steget som gör att `/ai/ask`
 
 ---
 
+### Experiment 9 — Iteration 5 — Fine-tuning med pipeline-anpassad träningsdata (pågår)
+
+#### Problem med befintlig träningsdata
+
+Den befintliga träningsdatan (`data/chat_train.jsonl`, 108 ex.) genererades för den *gamla* analyskedjan med tre steg: `GoodStep`, `BadStep`, `TipStep`. Dessa steg producerar svenska prompt/completion-par som:
+
+```
+prompt:     "...Vad var bäst i spelarens runda? Nämn stat-värde och PGA Tour-snitt. Svar:"
+completion: "GIR 62% (PGA: 65.0%) — bra greensträffar relativt sett."
+```
+
+Den nuvarande pipeline (Iteration 4) har ett helt annat prompt-format på engelska och fler steg. Träningsdata som matchar gamla steg hjälper inte modellen att bli bättre på de faktiska anropen — det är som att öva på fel prov.
+
+#### Vad vi ändrade
+
+**Principiellt beslut:** Träningsdatan ska matcha exakt de prompt-strängar som `steps.py` skickar till modellen vid inferens. Varje typ av LLM-anrop i pipelinen tränas separat.
+
+De tre LLM-steg som kan fine-tunas (resten är deterministiska Python-steg):
+
+| Steg | Prompt-prefix | max\_new\_tokens | Problem att lösa |
+|---|---|---|---|
+| `WeaknessStep` | `"Golf stat: {stat} is {gap}.\nComplete in one short phrase..."` | 35 | Svag/generisk formulering |
+| `ImpactStep` | `"Weakness: ... Question: ...\nOne phrase connecting..."` | 35 | Kopplar ej svagheten till frågan |
+| `AskAnswerComposerStep` | `"Golf coach. ... Output JSON with stat, player_value, pga_value, advice:"` | 120 | `advice`-fältet nämner ej drill → 11/20 "Stats, inget drill" |
+
+#### Träningsdata — `generate_ask_training_data.py`
+
+Scriptet genererar tre typer av träningspar, alla på engelska:
+
+- **Typ A (WeaknessStep):** 4 stats × 10 spelarprofiler × 6 kompletteringar = **240 ex**
+- **Typ B (ImpactStep):** 4 stats × 10 profiler × 15 träningsfrågor = **600 ex**
+- **Typ C (ComposerStep):** 4 stats × 10 profiler × 4 advice-varianter = **160 ex**
+
+Stratifierad 80/20-split: **800 träning + 200 val**.
+
+Designprinciper direkt hämtade från Exp 8:
+- De 20 testfrågorna (`run_ask_eval.py::QUESTIONS`) är explicit exkluderade — inga läcker in i träningsdatan.
+- Advice-completions i Typ C innehåller alltid drill-relaterade ord (`drill`, `practice`, `yards`) — exakt vad som saknas i 11/20 nuvarande svar.
+- 10 varierade spelarprofiler (GIR 10–72%, putts 1.75–3.0) förhindrar att modellen memorerar en enskild spelares siffror.
+
+#### Träningskonfiguration
+
+Scriptet `run_chat_finetune.py` uppdaterat med:
+- Datakälla: `data/ask_train.jsonl` / `data/ask_val.jsonl`
+- Output: `models/smollm2-ask-lora/`
+- `MAX_LENGTH` höjd: 128 → 256 (ComposerStep-prompter är ~120–140 tokens)
+- LoRA: r=8, lora_alpha=16, target_modules="all-linear", 3 epoker
+
+#### Hypotes
+
+**Primär:** Typ C-träningen (ComposerStep) ska höja "Stats + drill (OK)" från **9/20 → ≥14/20**, eftersom modellen lär sig att inkludera drilltext i `advice`-fältet.
+
+**Sekundär:** Typ B-träningen (ImpactStep) ska minska att alla frågor besvaras identiskt — svar ska börja reflektera den ställda frågan, inte bara återupprepa worst-stat.
+
+**Riskfaktor:** SmolLM2-135M (135M parametrar) är en liten modell. Exp 8 visade +32 pp för klassificering med 160 ex; generering är svårare. Om accuracy inte förbättras med rätt träningsdata är slutsatsen att basmodellkapaciteten (Förslag C — Qwen3-0.6B) är flaskhalsen, inte datan.
+
+#### Resultat
+
+*(uppdateras efter att träning och eval är klara)*
+
+---
+
 ## 6. AI at the Edge — Lärdomar
 
 Projektet startade med att undersöka var LLM tillför värde i ett golfsystem. Det ledde till en hybridarkitektur som råkar vara exakt det mönster som edge AI-forskning och industri konvergerat mot 2025–2026.
@@ -1056,6 +1118,16 @@ Det är det klassiska edge AI-mönstret: **liten modell + domänspecifik fine-tu
 ### ExecuTorch för faktisk mobildeployment
 
 Om appen ska leva på telefonen (rimligt — spelaren är på banan) är Meta ExecuTorch (1.0 GA oktober 2025) produktionsklart för iOS och Android med 50 KB base runtime. Det exporterar Llama 3.2 nativt via `torch.export()` utan ONNX-konvertering och stödjer Apple Core ML, Qualcomm NPU och Arm XNNPACK. Relevant om projektet expanderar till mobilapp; överkurs för nuvarande API-struktur.
+
+### RAG-indexering av projektdokumentation
+
+Reflektionsdokumentet växte till 1 162 rader under projektets gång — för stort för att läsas in i ett kontextfönster i sin helhet. Det är exakt samma problem som edge AI löser för inferens: du kan inte ladda hela modellen i realtidsminnet, så du laddar bara de vikter som behövs för uppgiften. Lösningen här är densamma i princip: ett kompakt index ersätter full inläsning.
+
+**Implementationen** (`docs/reflektion_index.md`) är en 60-raderstabelle med sektionsetikett och startrad för varje experiment och sektion. En ny AI-session läser indexet först, identifierar relevant rad N, och hämtar sedan enbart den sektionen via `Read offset=N limit=80`. Det är RAG utan vektordatabas — indexet är tillräckligt strukturerat för att radnummerbaserad uppslagning räcker.
+
+**Eval-agenten** (`scripts/run_index_eval.py`) testar om indexet faktiskt duger. Den kör ett tre-stegs flöde: SmolLM2 läser indexet och väljer sektion (navigate), kod extraherar sektionen (retrieve), SmolLM2 svarar på frågan (answer). SmolLM2 används medvetet som stresstest — om en 135M-modell kan navigera rätt utan tool use är indexet tillräckligt tydligt för vilken AI-klient som helst. Mätpunkterna är navigate accuracy (hittade modellen rätt sektion?), answer accuracy med index vs utan (baseline), och antal lästa rader per fråga.
+
+Kopplingen till hybridarkitekturens princip är direkt: deterministisk kod (radnummeruppslag) hanterar det enkla, och LLM anropas enbart för genuint tvetydiga fall — precis som `SemanticShotClassifier` täcker 90 % av yttrandena och SmolLM2 aktiveras bara som fallback.
 
 ### Sammanfattning
 
